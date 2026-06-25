@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presto Dashboard & Chat</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background-color: #f4f6f9; color: #333; }
+        .header { background-color: #ff6b00; color: white; padding: 15px; text-align: center; font-size: 24px; font-weight: bold; }
+        .container { display: flex; flex-wrap: wrap; padding: 20px; gap: 20px; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex: 1; min-width: 280px; }
+        .stat { font-size: 36px; font-weight: bold; color: #ff6b00; margin-top: 10px; }
+        .chat-box { background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); width: 100%; max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; height: 400px; }
+        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; border-bottom: 1px solid #ddd; }
+        .message { margin-bottom: 10px; background: #e1ffeb; padding: 8px 12px; border-radius: 8px; width: fit-content; }
+        .chat-input { display: flex; padding: 10px; gap: 10px; }
+        .chat-input input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        .chat-input button { background: #ff6b00; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="header">لوحة تحكم وتطبيق موظفي بريستو</div>
+
+    <div class="container">
+        <div class="card">
+            <h3>إجمالي الموظفين</h3>
+            <div class="stat">12</div>
+        </div>
+        <div class="card">
+            <h3>الطلبات النشطة اليوم</h3>
+            <div class="stat">85</div>
+        </div>
+    </div>
+
+    <div class="chat-box">
+        <div class="chat-messages" id="chatMessages">
+            <div class="message"><strong>محمد:</strong> أهلاً بفريق بريستو، تم إطلاق لوحة التحكم بنجاح! 🎉</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="msgInput" placeholder="اكتب رسالتك هنا...">
+            <button onclick="sendMessage()">إرسال</button>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            var input = document.getElementById('msgInput');
+            var text = input.value.trim();
+            if(text !== "") {
+                var msgDiv = document.createElement('div');
+                msgDiv.className = 'message';
+                msgDiv.innerHTML = '<strong>أنت:</strong> ' + text;
+                document.getElementById('chatMessages').appendChild(msgDiv);
+                input.value = "";
+                var chatContainer = document.getElementById('chatMessages');
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+        }
+    </script>
+</body>
+</html>
