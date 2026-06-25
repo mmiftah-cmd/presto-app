@@ -92,4 +92,140 @@
                 <h2>بريستو<span>.HR</span></h2>
             </div>
             <div class="menu-item active" id="menu-employees" onclick="switchPage('employees')"><i class="fa-solid fa-users-gear"></i> إدارة شؤون الموظفين</div>
-            <div class="menu-item" id="menu-dashboard" onclick
+            <div class="menu-item" id="menu-dashboard" onclick="switchPage('dashboard')"><i class="fa-solid fa-chart-pie"></i> لوحة التحكم العالمية 🔒</div>
+            <div class="menu-item" id="menu-kpi" onclick="switchPage('kpi')"><i class="fa-solid fa-gauge-high"></i> مؤشرات الأداء KPI</div>
+            <div class="menu-item" id="menu-calendar" onclick="switchPage('calendar')"><i class="fa-solid fa-calendar-days"></i> التقويم وجدول الإجازات</div>
+        </div>
+
+        <div class="main-content">
+            <div class="top-bar">
+                <div style="font-weight: 700; font-size: 20px; color: var(--sidebar-bg);" id="topBarTitle"><i class="fa-solid fa-users-gear"></i> إدارة شؤون الموظفين</div>
+                <button class="lock-btn" id="lockDashboardBtn" onclick="lockDashboard()" style="display: none;"><i class="fa-solid fa-lock"></i> قفل اللوحة الإحصائية</button>
+            </div>
+
+            <div id="page-dashboard" class="page-body">
+                <div id="dashboardAuthScreen" class="dashboard-lock">
+                    <i class="fa-solid fa-shield-halved" style="font-size: 48px; color: var(--primary-color);"></i>
+                    <h2>قسم الإدارة العامة محمي</h2>
+                    <p>الرجاء إدخال الكود السري الخاص بالمدير لاستعراض الرسوم البيانية</p>
+                    <input type="password" id="dashboardSecretCode" placeholder="أدخل كود المدير السري">
+                    <button onclick="unlockDashboard()">فتح القسم الإحصائي</button>
+                    <p id="authError" style="color: red; display: none; font-weight: bold; margin-top: 10px;">⚠️ الكود السري غير صحيح!</p>
+                </div>
+
+                <div id="dashboardRealContent" style="display: none;">
+                    <div class="container">
+                        <div class="card prime"><h3>إجمالي القوة العاملة</h3><div class="stat"><span id="statTotalEmp">0</span><i class="fa-solid fa-users"></i></div></div>
+                        <div class="card success"><h3>متوسط الأداء العام للمنظومة</h3><div class="stat"><span id="statAverageKPI">0%</span><i class="fa-solid fa-bullseye"></i></div></div>
+                        <div class="card"><h3>طلبات الإجازات النشطة</h3><div class="stat"><span id="statActiveEvents">0</span><i class="fa-solid fa-plane-departure"></i></div></div>
+                    </div>
+
+                    <div class="charts-container">
+                        <div class="chart-card">
+                            <h3><i class="fa-solid fa-chart-bar"></i> تحليل مقارنة الـ KPI للموظفين</h3>
+                            <canvas id="kpiBarChart"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <h3><i class="fa-solid fa-chart-line"></i> توزيع الكفاءات ومستويات الأداء</h3>
+                            <canvas id="kpiPieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-employees" class="page-body active-page">
+                <div class="grid-split">
+                    <div class="form-box">
+                        <h3><i class="fa-solid fa-user-plus"></i> إنشاء ملف موظف رقمي جديد</h3>
+                        <div class="form-group">
+                            <input type="text" id="empID" placeholder="الرقم الوظيفي (PRESTO-117)">
+                            <input type="text" id="empName" placeholder="الاسم الكامل للموظف">
+                            <input type="email" id="empEmail" placeholder="البريد الإلكتروني الرسمي">
+                            <input type="date" id="empBirth" placeholder="تاريخ الميلاد">
+                            <select id="empDept">
+                                <option value="">اختر الإدارة المخصصة...</option>
+                                <option value="العمليات واللوجستيات">العمليات واللوجستيات</option>
+                                <option value="الدعم الفني والتقني">الدعم الفني والتقني</option>
+                                <option value="التسويق والمبيعات">التسويق والمبيعات</option>
+                                <option value="الموارد البشرية">الموارد البشرية</option>
+                            </select>
+                            <button onclick="registerEmployee()"><i class="fa-solid fa-cloud-arrow-up"></i> حفظ الملف وتثبيته</button>
+                        </div>
+                    </div>
+                    <div class="card prime" style="margin-bottom:0;">
+                        <h3>💡 حوكمة البيانات المفتوحة</h3>
+                        <p style="line-height: 1.6; color: #555;">لقد تم تحديث النظام والمحرك بالكامل لإلزام المتصفح بعرض قائمة الـ 16 موظفاً الجدد باللغة العربية مع أرقامهم الوظيفية تلقائياً وبدون أي تأخير.</p>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <h3><i class="fa-solid fa-list-check"></i> قاعدة بيانات الموظفين الحالية (شاملة الـ 16 موظفاً)</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>الرقم الوظيفي</th>
+                                <th>الاسم الكامل</th>
+                                <th>الإيميل</th>
+                                <th>تاريخ الميلاد</th>
+                                <th>الإدارة</th>
+                                <th>إجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="employeesTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="page-kpi" class="page-body">
+                <div class="grid-split">
+                    <div class="form-box">
+                        <h3><i class="fa-solid fa-sliders"></i> تحديث وتعديل الـ KPI للموظف</h3>
+                        <div class="form-group">
+                            <select id="kpiEmployeeSelect" onchange="loadEmployeeKPIData()"><option value="">اختر الموظف لتحديث أدائه...</option></select>
+                            <input type="number" id="kpiTarget" min="1" max="100" placeholder="المستهدف المطلوب % (مثال: 100)">
+                            <input type="number" id="kpiActual" min="0" max="100" placeholder="المحقق الفعلي الحالي % (مثال: 85)">
+                            <button onclick="updateEmployeeKPI()" style="background-color: var(--success-color);"><i class="fa-solid fa-square-check"></i> تحديث ورسم البيانات فوراً</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <h3><i class="fa-solid fa-ranking-star"></i> شاشة مقارنة مستويات تقييم الـ KPI</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>الموظف</th>
+                                <th>المستهدف</th>
+                                <th>المحقق الفعلي</th>
+                                <th>نسبة الإنجاز</th>
+                                <th>مستوى الكفاءة</th>
+                            </tr>
+                        </thead>
+                        <tbody id="kpiTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="page-calendar" class="page-body">
+                <div class="form-box" style="max-width: 500px; margin-bottom: 25px;">
+                    <h3><i class="fa-solid fa-calendar-plus"></i> جدولة إجازة موظف على الخريطة</h3>
+                    <div class="form-group" style="flex-direction: row; flex-wrap: wrap;">
+                        <select id="calEmployeeSelect" style="flex: 1; min-width: 150px;"><option value="">اختر الموظف...</option></select>
+                        <input type="number" id="calDayInput" min="1" max="30" placeholder="يوم الشَهر (1-30)" style="width: 100px;">
+                        <button onclick="addCalendarEvent()" style="padding: 12px 20px;"><i class="fa-solid fa-thumbtack"></i> تثبيت بالتقويم</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="calendar-grid" id="globalCalendarGrid"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        let isDashboardUnlocked = false;
+
+        // القائمة الرسمية المحدثة
+        let defaultPrestoStaff = {
+            "PRESTO-101": { id: "PRESTO-101", name: "بثينة البورواي", email: "buthaina@prestoeat.com",
