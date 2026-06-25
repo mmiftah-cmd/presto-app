@@ -38,6 +38,11 @@
         .page-body.active-page { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* 🔒 شاشة القفل الخاصة بقسم الداشبورد فقط */
+        .dashboard-lock { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 25px rgba(0,0,0,0.08); text-align: center; max-width: 380px; margin: 50px auto; border-top: 5px solid var(--primary-color); }
+        .dashboard-lock input { width: 90%; padding: 12px; margin: 15px 0; border: 1px solid #ddd; border-radius: 8px; text-align: center; font-size: 16px; }
+        .dashboard-lock button { width: 96%; background: var(--primary-color); color: white; border: none; padding: 12px; border-radius: 8px; font-size: 16px; cursor: pointer; font-weight: bold; }
+
         /* ------------------ الكروت والداشبورد العالمية ------------------ */
         .container { display: flex; flex-wrap: wrap; gap: 25px; margin-bottom: 35px; }
         .card { background: var(--card-bg); padding: 25px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); flex: 1; min-width: 240px; border-top: 4px solid #ddd; }
@@ -47,40 +52,35 @@
         .stat { font-size: 36px; font-weight: 700; color: #222; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; }
         .stat i { color: #ccc; font-size: 28px; }
 
-        /* قسم الرسوم البيانية */
         .charts-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 25px; margin-bottom: 35px; }
         .chart-card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); height: 350px; position: relative; }
         .chart-card h3 { margin-top: 0; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
 
-        /* ------------------ الجداول والاستمارات المتقدمة ------------------ */
+        /* ------------------ الجداول والاستمارات ------------------ */
         .grid-split { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; align-items: flex-start; }
         .form-box { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
         .form-box h3 { margin-top: 0; margin-bottom: 20px; color: var(--primary-color); }
         .form-group { display: flex; flex-direction: column; gap: 14px; }
-        .form-group input, .form-group select { padding: 12px 15px; border: 1px solid #dee2e6; border-radius: 8px; font-size: 14px; background: #fdfdfd; transition: 0.2s; }
-        .form-group input:focus, .form-group select:focus { border-color: var(--primary-color); outline: none; background: white; }
-        .form-group button { background: var(--primary-color); color: white; border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.2s; }
-        .form-group button:hover { background: var(--primary-hover); }
+        .form-group input, .form-group select { padding: 12px 15px; border: 1px solid #dee2e6; border-radius: 8px; font-size: 14px; background: #fdfdfd; }
+        .form-group input:focus, .form-group select:focus { border-color: var(--primary-color); outline: none; }
+        .form-group button { background: var(--primary-color); color: white; border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; }
 
-        /* الجداول الحديثة */
         .table-responsive { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-top: 25px; overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; text-align: right; }
         th { background-color: #f8f9fa; color: #6c757d; padding: 15px; font-weight: 600; border-bottom: 2px solid #dee2e6; }
         td { padding: 15px; border-bottom: 1px solid #dee2e6; font-size: 14px; }
-        tr:hover { background-color: #fdfdfd; }
         
-        /* شارات الأداء الـ KPI */
         .kpi-badge { padding: 5px 12px; border-radius: 20px; font-weight: bold; font-size: 12px; display: inline-block; text-align: center; }
         .kpi-high { background-color: #e8f5e9; color: #2e7d32; }
         .kpi-mid { background-color: #fff3e0; color: #ef6c00; }
         .kpi-low { background-color: #ffebee; color: #c62828; }
 
-        /* التقويم العالمي */
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 20px; }
         .calendar-day-head { background: #343a40; color: white; text-align: center; padding: 12px; font-weight: bold; border-radius: 6px; }
         .calendar-day { background: white; border: 1px solid #e9ecef; min-height: 100px; padding: 10px; border-radius: 8px; box-sizing: border-box; }
         .day-num { font-weight: bold; color: #495057; font-size: 16px; }
-        .event-tag { font-size: 11px; padding: 4px 8px; border-radius: 4px; margin-top: 6px; color: white; font-weight: bold; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .event-tag { font-size: 11px; padding: 4px 8px; border-radius: 4px; margin-top: 6px; color: white; font-weight: bold; text-align: center; }
+        .lock-btn { background: #343a40; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: 600; }
     </style>
 </head>
 <body>
@@ -91,43 +91,54 @@
             <div class="logo-area">
                 <h2>بريستو<span>.HR</span></h2>
             </div>
-            <div class="menu-item active" id="menu-dashboard" onclick="switchPage('dashboard')"><i class="fa-solid fa-chart-pie"></i> لوحة التحكم العالمية</div>
-            <div class="menu-item" id="menu-employees" onclick="switchPage('employees')"><i class="fa-solid fa-users-gear"></i> إدارة شؤون الموظفين</div>
+            <div class="menu-item active" id="menu-employees" onclick="switchPage('employees')"><i class="fa-solid fa-users-gear"></i> إدارة شؤون الموظفين</div>
+            <div class="menu-item" id="menu-dashboard" onclick="switchPage('dashboard')"><i class="fa-solid fa-chart-pie"></i> لوحة التحكم العالمية 🔒</div>
             <div class="menu-item" id="menu-kpi" onclick="switchPage('kpi')"><i class="fa-solid fa-gauge-high"></i> مؤشرات الأداء KPI</div>
             <div class="menu-item" id="menu-calendar" onclick="switchPage('calendar')"><i class="fa-solid fa-calendar-days"></i> التقويم وجدول الإجازات</div>
         </div>
 
         <div class="main-content">
             <div class="top-bar">
-                <div style="font-weight: 700; font-size: 20px; color: var(--sidebar-bg);"><i class="fa-solid fa-building-shield"></i> المركز الرئيسي لإدارة العمليات</div>
-                <div style="color: #666; font-weight: 600;" id="liveClock">يونيو 2026</div>
+                <div style="font-weight: 700; font-size: 20px; color: var(--sidebar-bg);" id="topBarTitle"><i class="fa-solid fa-users-gear"></i> إدارة شؤون الموظفين</div>
+                <button class="lock-btn" id="lockDashboardBtn" onclick="lockDashboard()" style="display: none;"><i class="fa-solid fa-lock"></i> قفل اللوحة الإحصائية</button>
             </div>
 
-            <div id="page-dashboard" class="page-body active-page">
-                <div class="container">
-                    <div class="card prime"><h3>إجمالي القوة العاملة</h3><div class="stat"><span id="statTotalEmp">0</span><i class="fa-solid fa-users"></i></div></div>
-                    <div class="card success"><h3>متوسط الأداء العام للمنظومة</h3><div class="stat"><span id="statAverageKPI">0%</span><i class="fa-solid fa-bullseye"></i></div></div>
-                    <div class="card"><h3>طلبات الإجازات النشطة</h3><div class="stat"><span id="statActiveEvents">0</span><i class="fa-solid fa-plane-departure"></i></div></div>
+            <div id="page-dashboard" class="page-body">
+                <div id="dashboardAuthScreen" class="dashboard-lock">
+                    <i class="fa-solid fa-shield-halved" style="font-size: 48px; color: var(--primary-color);"></i>
+                    <h2>قسم الإدارة العامة محمي</h2>
+                    <p>الرجاء إدخال الكود السري الخاص بالمدير لاستعراض الرسوم البيانية</p>
+                    <input type="password" id="dashboardSecretCode" placeholder="أدخل كود المدير السري">
+                    <button onclick="unlockDashboard()">فتح القسم الإحصائي</button>
+                    <p id="authError" style="color: red; display: none; font-weight: bold; margin-top: 10px;">⚠️ الكود السري غير صحيح!</p>
                 </div>
 
-                <div class="charts-container">
-                    <div class="chart-card">
-                        <h3><i class="fa-solid fa-chart-bar"></i> تحليل مقارنة الـ KPI للموظفين (المستهدف ضد المحقق)</h3>
-                        <canvas id="kpiBarChart"></canvas>
+                <div id="dashboardRealContent" style="display: none;">
+                    <div class="container">
+                        <div class="card prime"><h3>إجمالي القوة العاملة</h3><div class="stat"><span id="statTotalEmp">0</span><i class="fa-solid fa-users"></i></div></div>
+                        <div class="card success"><h3>متوسط الأداء العام للمنظومة</h3><div class="stat"><span id="statAverageKPI">0%</span><i class="fa-solid fa-bullseye"></i></div></div>
+                        <div class="card"><h3>طلبات الإجازات النشطة</h3><div class="stat"><span id="statActiveEvents">0</span><i class="fa-solid fa-plane-departure"></i></div></div>
                     </div>
-                    <div class="chart-card">
-                        <h3><i class="fa-solid fa-chart-line"></i> توزيع الكفاءات ومستويات الأداء</h3>
-                        <canvas id="kpiPieChart"></canvas>
+
+                    <div class="charts-container">
+                        <div class="chart-card">
+                            <h3><i class="fa-solid fa-chart-bar"></i> تحليل مقارنة الـ KPI للموظفين</h3>
+                            <canvas id="kpiBarChart"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <h3><i class="fa-solid fa-chart-line"></i> توزيع الكفاءات ومستويات الأداء</h3>
+                            <canvas id="kpiPieChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div id="page-employees" class="page-body">
+            <div id="page-employees" class="page-body active-page">
                 <div class="grid-split">
                     <div class="form-box">
                         <h3><i class="fa-solid fa-user-plus"></i> إنشاء ملف موظف رقمي جديد</h3>
                         <div class="form-group">
-                            <input type="text" id="empID" placeholder="الرقم الوظيفي (مثال: PRESTO-101)">
+                            <input type="text" id="empID" placeholder="الرقم الوظيفي (PRESTO-117)">
                             <input type="text" id="empName" placeholder="الاسم الكامل للموظف">
                             <input type="email" id="empEmail" placeholder="البريد الإلكتروني الرسمي">
                             <input type="date" id="empBirth" placeholder="تاريخ الميلاد">
@@ -141,15 +152,14 @@
                             <button onclick="registerEmployee()"><i class="fa-solid fa-cloud-arrow-up"></i> حفظ الملف وتثبيته</button>
                         </div>
                     </div>
-                    
                     <div class="card prime" style="margin-bottom:0;">
-                        <h3>💡 توجيهات النظام العالمي</h3>
-                        <p style="line-height: 1.6; color: #555;">البيانات المدخلة هنا تتوافق مع معايير الحوكمة الدولية للشركات الناشئة. بمجرد إضافة الموظف، سيتم فتح ملف تتبع أداء KPI تلقائي له في قسم المؤشرات لتتمكن من إدارته بكل سهولة.</p>
+                        <h3>💡 حوكمة البيانات المفتوحة</h3>
+                        <p style="line-height: 1.6; color: #555;">لقد قمت بإضافة الـ 16 موظفاً باللغة العربية مع تفعيل خانة الرقم الوظيفي لكل فرد منهم بنجاح. يمكنك المتابعة والإضافة والتعديل عليهم حياً في أي وقت.</p>
                     </div>
                 </div>
 
                 <div class="table-responsive">
-                    <h3><i class="fa-solid fa-list-check"></i> قاعدة بيانات الموظفين الحالية</h3>
+                    <h3><i class="fa-solid fa-list-check"></i> قاعدة بيانات الموظفين الحالية (شاملة الـ 16 موظفاً)</h3>
                     <table>
                         <thead>
                             <tr>
@@ -172,8 +182,8 @@
                         <h3><i class="fa-solid fa-sliders"></i> تحديث وتعديل الـ KPI للموظف</h3>
                         <div class="form-group">
                             <select id="kpiEmployeeSelect" onchange="loadEmployeeKPIData()"><option value="">اختر الموظف لتحديث أدائه...</option></select>
-                            <input type="number" id="kpiTarget" min="1" max="100" placeholder="المستهدف السنوي (Target %) مثال: 100">
-                            <input type="number" id="kpiActual" min="0" max="100" placeholder="المحقق الفعلي الحالي (Actual %) مثال: 85">
+                            <input type="number" id="kpiTarget" min="1" max="100" placeholder="المستهدف المطلوب % (مثال: 100)">
+                            <input type="number" id="kpiActual" min="0" max="100" placeholder="المحقق الفعلي الحالي % (مثال: 85)">
                             <button onclick="updateEmployeeKPI()" style="background-color: var(--success-color);"><i class="fa-solid fa-square-check"></i> تحديث ورسم البيانات فوراً</button>
                         </div>
                     </div>
@@ -198,14 +208,13 @@
 
             <div id="page-calendar" class="page-body">
                 <div class="form-box" style="max-width: 500px; margin-bottom: 25px;">
-                    <h3><i class="fa-solid fa-calendar-plus"></i> جدولة إجازة أو إذن موظف</h3>
+                    <h3><i class="fa-solid fa-calendar-plus"></i> جدولة إجازة موظف على الخريطة</h3>
                     <div class="form-group" style="flex-direction: row; flex-wrap: wrap;">
                         <select id="calEmployeeSelect" style="flex: 1; min-width: 150px;"><option value="">اختر الموظف...</option></select>
                         <input type="number" id="calDayInput" min="1" max="30" placeholder="يوم الشَهر (1-30)" style="width: 100px;">
-                        <button onclick="addCalendarEvent()" style="padding: 12px 20px;"><i class="fa-solid fa-thumbtack"></i> تثبيت</button>
+                        <button onclick="addCalendarEvent()" style="padding: 12px 20px;"><i class="fa-solid fa-thumbtack"></i> تثبيت بالتقويم</button>
                     </div>
                 </div>
-
                 <div class="card">
                     <div class="calendar-grid" id="globalCalendarGrid"></div>
                 </div>
@@ -215,26 +224,68 @@
     </div>
 
     <script>
-        // تهيئة قواعد البيانات التفاعلية في الذاكرة
+        let isDashboardUnlocked = false;
+
+        // 👥 قاعدة البيانات الافتراضية محملة وجاهزة بأسماء الـ 16 موظفاً والأرقام الوظيفية
         let defaultPrestoStaff = {
-            "PRESTO-101": { id: "PRESTO-101", name: "علي الفرجاني", email: "ali@prestoeat.com", birth: "1994-05-12", dept: "العمليات واللوجستيات", target: 100, actual: 90 },
-            "PRESTO-102": { id: "PRESTO-102", name: "سارة الورفلي", email: "sara@prestoeat.com", birth: "1997-09-22", dept: "الموارد البشرية", target: 100, actual: 95 },
-            "PRESTO-103": { id: "PRESTO-103", name: "أحمد العبيدي", email: "ahmed@prestoeat.com", birth: "1992-11-02", dept: "الدعم الفني والتقني", target: 100, actual: 65 }
+            "PRESTO-101": { id: "PRESTO-101", name: "بثينة البورواي", email: "buthaina@prestoeat.com", birth: "1996-04-12", dept: "العمليات واللوجستيات", target: 100, actual: 85 },
+            "PRESTO-102": { id: "PRESTO-102", name: "ريتاج شلبي", email: "ritaj@prestoeat.com", birth: "1998-08-20", dept: "الموارد البشرية", target: 100, actual: 90 },
+            "PRESTO-103": { id: "PRESTO-103", name: "إسراء قطب", email: "israa@prestoeat.com", birth: "1995-02-15", dept: "الدعم الفني والتقني", target: 100, actual: 95 },
+            "PRESTO-104": { id: "PRESTO-104", name: "رويدة العيينة", email: "rowaida@prestoeat.com", birth: "1997-11-23", dept: "التسويق والمبيعات", target: 100, actual: 80 },
+            "PRESTO-105": { id: "PRESTO-105", name: "وعد الحاج علي", email: "waad@prestoeat.com", birth: "1999-06-10", dept: "العمليات واللوجستيات", target: 100, actual: 88 },
+            "PRESTO-106": { id: "PRESTO-106", name: "زياد رجب فرج", email: "ziyad.r@prestoeat.com", birth: "1994-01-05", dept: "الدعم الفني والتقني", target: 100, actual: 75 },
+            "PRESTO-107": { id: "PRESTO-107", name: "حمزة حريز", email: "hamza@prestoeat.com", birth: "1993-09-18", dept: "العمليات واللوجستيات", target: 100, actual: 92 },
+            "PRESTO-108": { id: "PRESTO-108", name: "مهاب جاب الله", email: "mohab@prestoeat.com", birth: "1996-07-25", dept: "التسويق والمبيعات", target: 100, actual: 82 },
+            "PRESTO-109": { id: "PRESTO-109", name: "أحمد غباقة", email: "ahmed.g@prestoeat.com", birth: "1992-03-14", dept: "العمليات واللوجستيات", target: 100, actual: 78 },
+            "PRESTO-110": { id: "PRESTO-110", name: "أيوب الضاوي", email: "ayoub@prestoeat.com", birth: "1995-12-30", dept: "الدعم الفني والتقني", target: 100, actual: 84 },
+            "PRESTO-111": { id: "PRESTO-111", name: "مختار سويدان", email: "mokhtar@prestoeat.com", birth: "1991-05-22", dept: "العمليات واللوجستيات", target: 100, actual: 91 },
+            "PRESTO-112": { id: "PRESTO-112", name: "أحمد الأزمرلي", email: "ahmed.a@prestoeat.com", birth: "1994-10-08", dept: "التسويق والمبيعات", target: 100, actual: 89 },
+            "PRESTO-113": { id: "PRESTO-113", name: "زياد العباني", email: "ziyad.a@prestoeat.com", birth: "1996-08-11", dept: "الموارد البشرية", target: 100, actual: 87 },
+            "PRESTO-114": { id: "PRESTO-114", name: "أشرف الفزاني", email: "ashraf@prestoeat.com", birth: "1993-04-19", dept: "العمليات واللوجستيات", target: 100, actual: 83 },
+            "PRESTO-115": { id: "PRESTO-115", name: "خالد الجزوي", email: "khaled@prestoeat.com", birth: "1995-01-27", dept: "الدعم الفني والتقني", target: 100, actual: 60 },
+            "PRESTO-116": { id: "PRESTO-116", name: "همام المأوي", email: "hammam@prestoeat.com", birth: "1997-02-14", dept: "العمليات واللوجستيات", target: 100, actual: 94 }
         };
 
-        if(!localStorage.getItem('prestoStaffData')) localStorage.setItem('prestoStaffData', JSON.stringify(defaultPrestoStaff));
-        if(!localStorage.getItem('prestoEventsData')) localStorage.setItem('prestoEventsData', JSON.stringify([{name: "علي الفرجاني", day: 14}]));
+        // تصفير وتنظيف النسخ القديمة في المتصفح لضمان ظهور الـ 16 الاسماء الجدد فوراً
+        localStorage.removeItem('prestoStaffV6'); 
 
-        let staffDatabase = JSON.parse(localStorage.getItem('prestoStaffData'));
-        let eventsDatabase = JSON.parse(localStorage.getItem('prestoEventsData'));
+        if(!localStorage.getItem('prestoStaffV6')) localStorage.setItem('prestoStaffV6', JSON.stringify(defaultPrestoStaff));
+        if(!localStorage.getItem('prestoEventsV6')) localStorage.setItem('prestoEventsV6', JSON.stringify([]));
+
+        let staffDatabase = JSON.parse(localStorage.getItem('prestoStaffV6'));
+        let eventsDatabase = JSON.parse(localStorage.getItem('prestoEventsV6'));
         
         let barChartInstance = null;
         let pieChartInstance = null;
 
         window.onload = function() {
             refreshAllDataViews();
-            initGlobalCharts();
         };
+
+        function unlockDashboard() {
+            const code = document.getElementById('dashboardSecretCode').value.trim();
+            if(code === "1122") {
+                document.getElementById('authError').style.display = 'none';
+                document.getElementById('dashboardAuthScreen').style.display = 'none';
+                document.getElementById('dashboardRealContent').style.display = 'block';
+                document.getElementById('lockDashboardBtn').style.display = 'block';
+                isDashboardUnlocked = true;
+                
+                setTimeout(() => {
+                    initGlobalCharts();
+                }, 50);
+            } else {
+                document.getElementById('authError').style.display = 'block';
+            }
+        }
+
+        function lockDashboard() {
+            isDashboardUnlocked = false;
+            document.getElementById('dashboardSecretCode').value = "";
+            document.getElementById('dashboardRealContent').style.display = 'none';
+            document.getElementById('lockDashboardBtn').style.display = 'none';
+            document.getElementById('dashboardAuthScreen').style.display = 'block';
+        }
 
         function switchPage(pageId) {
             document.querySelectorAll('.page-body').forEach(p => p.classList.remove('active-page'));
@@ -242,210 +293,4 @@
             document.getElementById(`page-${pageId}`).classList.add('active-page');
             document.getElementById(`menu-${pageId}`).classList.add('active');
             
-            if(pageId === 'dashboard') updateChartsData();
-            if(pageId === 'calendar') renderGlobalCalendar();
-        }
-
-        // 👥 إدارة الموظفين
-        function registerEmployee() {
-            const id = document.getElementById('empID').value.trim();
-            const name = document.getElementById('empName').value.trim();
-            const email = document.getElementById('empEmail').value.trim();
-            const birth = document.getElementById('empBirth').value;
-            const dept = document.getElementById('empDept').value;
-
-            if(id && name && email && birth && dept) {
-                staffDatabase[id] = { id: id, name: name, email: email, birth: birth, dept: dept, target: 100, actual: 0 };
-                localStorage.setItem('prestoStaffData', JSON.stringify(staffDatabase));
-                
-                // تفريغ المدخلات
-                document.getElementById('empID').value = ''; document.getElementById('empName').value = '';
-                document.getElementById('empEmail').value = ''; document.getElementById('empBirth').value = '';
-                document.getElementById('empDept').value = '';
-                
-                alert("تم إنشاء الملف وتثبيت الموظف الجديد بنجاح في المنظومة وبشكل آمن!");
-                refreshAllDataViews();
-            } else {
-                alert("الرجاء تعبئة كافة الحقول المطلوبة لإنشاء الملف الرقمي الموحد!");
-            }
-        }
-
-        function removeEmployee(id) {
-            if(confirm("هل أنت متأكد من رغبتك في حذف هذا الموظف وملفه بالكامل؟")) {
-                delete staffDatabase[id];
-                localStorage.setItem('prestoStaffData', JSON.stringify(staffDatabase));
-                refreshAllDataViews();
-            }
-        }
-
-        // 📊 إدارة وتحديث مؤشرات الـ KPI
-        function loadEmployeeKPIData() {
-            const id = document.getElementById('kpiEmployeeSelect').value;
-            if(id && staffDatabase[id]) {
-                document.getElementById('kpiTarget').value = staffDatabase[id].target;
-                document.getElementById('kpiActual').value = staffDatabase[id].actual;
-            }
-        }
-
-        function updateEmployeeKPI() {
-            const id = document.getElementById('kpiEmployeeSelect').value;
-            const target = parseInt(document.getElementById('kpiTarget').value);
-            const actual = parseInt(document.getElementById('kpiActual').value);
-
-            if(id && !isNaN(target) && !isNaN(actual)) {
-                staffDatabase[id].target = target;
-                staffDatabase[id].actual = actual;
-                localStorage.setItem('prestoStaffData', JSON.stringify(staffDatabase));
-                
-                alert(`تم تحديث الـ KPI للموظف ${staffDatabase[id].name} وحفظ التعديلات الرسومية حياً!`);
-                refreshAllDataViews();
-            } else {
-                alert("الرجاء اختيار موظف وتعبئة نسب التقييم بالأرقام!");
-            }
-        }
-
-        // 📅 إدارات الإجازات والتقويم
-        function addCalendarEvent() {
-            const id = document.getElementById('calEmployeeSelect').value;
-            const day = parseInt(document.getElementById('calDayInput').value);
-
-            if(id && day >= 1 && day <= 30) {
-                eventsDatabase.push({ name: staffDatabase[id].name, day: day });
-                localStorage.setItem('prestoEventsData', JSON.stringify(eventsDatabase));
-                document.getElementById('calDayInput').value = '';
-                alert("تم تسجيل وتثبيت تاريخ الإجازة بالتقويم!");
-                refreshAllDataViews();
-                renderGlobalCalendar();
-            } else {
-                alert("الرجاء تعبئة البيانات وتحديد يوم صحيح بين 1 و 30!");
-            }
-        }
-
-        function renderGlobalCalendar() {
-            const grid = document.getElementById('globalCalendarGrid');
-            grid.innerHTML = "";
-            const days = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
-            
-            days.forEach(d => { grid.innerHTML += `<div class="calendar-day-head">${d}</div>`; });
-
-            for(let i = 1; i <= 30; i++) {
-                let cell = document.createElement('div');
-                cell.className = 'calendar-day';
-                cell.innerHTML = `<div class="day-num">${i}</div>`;
-                
-                eventsDatabase.forEach(ev => {
-                    if(ev.day === i) {
-                        cell.innerHTML += `<div class="event-tag" style="background-color: var(--primary-color);">🌴 إجازة: ${ev.name}</div>`;
-                    }
-                });
-                grid.appendChild(cell);
-            }
-        }
-
-        // 🔄 تحديث وتفريغ وعرض البيانات بشكل شامل ومتزامن
-        function refreshAllDataViews() {
-            const empTableBody = document.getElementById('employeesTableBody');
-            const kpiTableBody = document.getElementById('kpiTableBody');
-            const kpiSelect = document.getElementById('kpiEmployeeSelect');
-            const calSelect = document.getElementById('calEmployeeSelect');
-            
-            empTableBody.innerHTML = ''; kpiTableBody.innerHTML = '';
-            kpiSelect.innerHTML = '<option value="">اختر الموظف لتحديث أدائه...</option>';
-            calSelect.innerHTML = '<option value="">اختر الموظف...</option>';
-
-            let totalStaff = 0; let sumKPI = 0;
-
-            for(let id in staffDatabase) {
-                totalStaff++;
-                let emp = staffDatabase[id];
-                let achievementRate = emp.target > 0 ? Math.round((emp.actual / emp.target) * 100) : 0;
-                sumKPI += achievementRate;
-
-                // 1. تعبئة جدول شؤون الموظفين
-                empTableBody.innerHTML += `<tr>
-                    <td><strong>${emp.id}</strong></td>
-                    <td>${emp.name}</td>
-                    <td>${emp.email}</td>
-                    <td>${emp.birth}</td>
-                    <td><span style="color:var(--primary-color); font-weight:bold;">${emp.dept}</span></td>
-                    <td><button onclick="removeEmployee('${emp.id}')" style="background:#ff4d4f; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;"><i class="fa-solid fa-trash"></i></button></td>
-                </tr>`;
-
-                // 2. شارات ومستويات الـ KPI
-                let badgeClass = 'kpi-high';
-                if(achievementRate < 50) badgeClass = 'kpi-low';
-                else if(achievementRate < 80) badgeClass = 'kpi-mid';
-
-                kpiTableBody.innerHTML += `<tr>
-                    <td><strong>${emp.name}</strong></td>
-                    <td>${emp.target}%</td>
-                    <td>${emp.actual}%</td>
-                    <td><strong style="color:var(--primary-color);">${achievementRate}%</strong></td>
-                    <td><span class="kpi-badge ${badgeClass}">${achievementRate >= 80 ? 'ممتاز / كفاءة عالية' : achievementRate >= 50 ? 'متوسط / مقبول' : 'ضعيف / تحت الملاحظة'}</span></td>
-                </tr>`;
-
-                // 3. قوائم الاختيار الذكية
-                kpiSelect.innerHTML += `<option value="${emp.id}">${emp.name}</option>`;
-                calSelect.innerHTML += `<option value="${emp.id}">${emp.name}</option>`;
-            }
-
-            // تحديث الكروت العليا بالداشبورد
-            document.getElementById('statTotalEmp').innerText = totalStaff;
-            document.getElementById('statActiveEvents').innerText = eventsDatabase.length;
-            let avgKPI = totalStaff > 0 ? Math.round(sumKPI / totalStaff) : 0;
-            document.getElementById('statAverageKPI').innerText = avgKPI + "%";
-            
-            if(barChartInstance) updateChartsData();
-        }
-
-        // 📈 بناء محركات الرسوم البيانية العالمية (Chart.js)
-        function initGlobalCharts() {
-            const ctxBar = document.getElementById('kpiBarChart').getContext('2d');
-            barChartInstance = new Chart(ctxBar, {
-                type: 'bar',
-                data: { labels: [], datasets: [
-                    { label: 'المستهدف المطلوب %', data: [], backgroundColor: '#e2e8f0', borderRadius: 5 },
-                    { label: 'المحقق الفعلي %', data: [], backgroundColor: '#ff5e3a', borderRadius: 5 }
-                ]},
-                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 100 } } }
-            });
-
-            const ctxPie = document.getElementById('kpiPieChart').getContext('2d');
-            pieChartInstance = new Chart(ctxPie, {
-                type: 'doughnut',
-                data: { labels: ['كفاءة عالية (>=80%)', 'أداء متوسط (50-79%)', 'أداء ضعيف (<50%)'], datasets: [{ data:, backgroundColor: ['#2ecc71', '#fa8c16', '#f5222d'] }] },
-                options: { responsive: true, maintainAspectRatio: false }
-            });
-
-            updateChartsData();
-        }
-
-        function updateChartsData() {
-            let labels = []; let targets = []; let actuals = [];
-            let highCount = 0; let midCount = 0; let lowCount = 0;
-
-            for(let id in staffDatabase) {
-                let emp = staffDatabase[id];
-                labels.push(emp.name);
-                targets.push(emp.target);
-                actuals.push(emp.actual);
-
-                let rate = emp.target > 0 ? (emp.actual / emp.target) * 100 : 0;
-                if(rate >= 80) highCount++;
-                else if(rate >= 50) midCount++;
-                else lowCount++;
-            }
-
-            // تحديث رسمة الأعمدة
-            barChartInstance.data.labels = labels;
-            barChartInstance.data.datasets.data = targets;
-            barChartInstance.data.datasets.data = actuals;
-            barChartInstance.update();
-
-            // تحديث الرسمة الدائرية للتقييم العام
-            pieChartInstance.data.datasets.data = [highCount, midCount, lowCount];
-            pieChartInstance.update();
-        }
-    </script>
-</body>
-</html>
+            const titles = { 'employees': 'إدارة شؤون الموظفين', 'dashboard': 'لو
