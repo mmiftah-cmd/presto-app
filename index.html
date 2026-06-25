@@ -79,7 +79,7 @@
             "sara": { code: "2022", role: "employee", name: "sara الورفلي", orders: "35 طلب" }
         };
 
-        // تحميل البيانات من ذاكرة المتصفح LocalStorage لتجنب فقدانها عند التحديث
+        // تحميل البيانات من الذاكرة
         if(!localStorage.getItem('usersDB')) {
             localStorage.setItem('usersDB', JSON.stringify(defaultUsers));
         }
@@ -106,4 +106,57 @@
                 } else {
                     document.getElementById('adminDashboard').style.display = 'none';
                     document.getElementById('employeeDashboard').style.display = 'block';
-                    document.getElementById('empOrders').innerText
+                    document.getElementById('empOrders').innerText = currentUser.orders || "0 طلب";
+                }
+            } else {
+                errorMsg.style.display = 'block';
+            }
+        }
+
+        function addNewEmployee() {
+            const username = document.getElementById('newUsername').value.trim().toLowerCase();
+            const fullName = document.getElementById('newFullName').value.trim();
+            const code = document.getElementById('newCode').value.trim();
+
+            if(username && fullName && code) {
+                usersDatabase[username] = {
+                    code: code,
+                    role: "employee",
+                    name: fullName,
+                    orders: "0 طلب"
+                };
+                
+                localStorage.setItem('usersDB', JSON.stringify(usersDatabase));
+                updateAdminView();
+                
+                document.getElementById('newUsername').value = "";
+                document.getElementById('newFullName').value = "";
+                document.getElementById('newCode').value = "";
+                alert("تم إضافة الموظف " + fullName + " بنجاح!");
+            } else {
+                alert("الرجاء ملء كافة الحقول!");
+            }
+        }
+
+        function updateAdminView() {
+            const totalKeys = Object.keys(usersDatabase).length;
+            document.getElementById('totalEmpCount').innerText = totalKeys;
+
+            const empList = document.getElementById('empList');
+            empList.innerHTML = "";
+            for (let key in usersDatabase) {
+                let li = document.createElement('li');
+                li.innerHTML = `<span><strong>${usersDatabase[key].name}</strong> (كود: ${usersDatabase[key].code})</span> <span>[${usersDatabase[key].role}]</span>`;
+                empList.appendChild(li);
+            }
+        }
+
+        function logout() {
+            document.getElementById('usernameInput').value = "";
+            document.getElementById('codeInput').value = "";
+            document.getElementById('loginScreen').style.display = 'block';
+            document.getElementById('appContent').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
