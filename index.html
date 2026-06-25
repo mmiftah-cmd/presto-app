@@ -22,7 +22,7 @@
         .app-wrapper { display: flex; width: 100%; height: 100vh; }
 
         /* ------------------ القائمة الجانبية الفاخرة ------------------ */
-        .sidebar { width: 280px; background-color: var(--sidebar-bg); color: #a2aab2; display: flex; flex-direction: column; padding: 25px 0; box-shrink: 0; transition: 0.3s; }
+        .sidebar { width: 280px; background-color: var(--sidebar-bg); color: #a2aab2; display: flex; flex-direction: column; padding: 25px 0; flex-shrink: 0; transition: 0.3s; }
         .logo-area { text-align: center; padding-bottom: 25px; border-bottom: 1px solid #2d373f; margin-bottom: 20px; }
         .logo-area h2 { color: white; margin: 0; font-size: 24px; letter-spacing: 1px; }
         .logo-area span { color: var(--primary-color); }
@@ -154,7 +154,8 @@
                     </div>
                     <div class="card prime" style="margin-bottom:0;">
                         <h3>💡 حوكمة البيانات المفتوحة</h3>
-                        <p style="line-height: 1.6; color: #555;">لقد تم تحديث النظام والمحرك بالكامل لإلزام المتصفح بعرض قائمة الـ 16 موظفاً الجدد باللغة العربية مع أرقامهم الوظيفية تلقائياً وبدون أي تأخير.</p>
+                        <p style="line-height: 1.6; color: #555;">النظام الآن مبرمج بشكل ديناميكي كامل لحفظ أي مدخلات جديدة فوراً دون قيود، مع استقرار قائمة الـ 16 موظفاً الأساسيين.</p>
+                        <button onclick="clearAndResetAll()" style="background:#ff4d4f; color:white; border:none; padding:8px 12px; border-radius:6px; cursor:pointer; font-weight:bold; margin-top:5px; font-size:12px;"><i class="fa-solid fa-trash-can"></i> تهيئة وتصفير قاعدة البيانات بالكامل</button>
                     </div>
                 </div>
 
@@ -226,6 +227,17 @@
     <script>
         let isDashboardUnlocked = false;
 
-        // القائمة الرسمية المحدثة
+        // 👥 القائمة الـ 16 المدمجة افتراضياً بالكامل
         let defaultPrestoStaff = {
-            "PRESTO-101": { id: "PRESTO-101", name: "بثينة البورواي", email: "buthaina@prestoeat.com",
+            "PRESTO-101": { id: "PRESTO-101", name: "بثينة البورواي", email: "buthaina@prestoeat.com", birth: "1996-04-12", dept: "العمليات واللوجستيات", target: 100, actual: 85 },
+            "PRESTO-102": { id: "PRESTO-102", name: "ريتاج شلبي", email: "ritaj@prestoeat.com", birth: "1998-08-20", dept: "الموارد البشرية", target: 100, actual: 90 },
+            "PRESTO-103": { id: "PRESTO-103", name: "إسراء قطب", email: "israa@prestoeat.com", birth: "1995-02-15", dept: "الدعم الفني والتقني", target: 100, actual: 95 },
+            "PRESTO-104": { id: "PRESTO-104", name: "رويدة العيينة", email: "rowaida@prestoeat.com", birth: "1997-11-23", dept: "التسويق والمبيعات", target: 100, actual: 80 },
+            "PRESTO-105": { id: "PRESTO-105", name: "وعد الحاج علي", email: "waad@prestoeat.com", birth: "1999-06-10", dept: "العمليات واللوجستيات", target: 100, actual: 88 },
+            "PRESTO-106": { id: "PRESTO-106", name: "زياد رجب فرج", email: "ziyad.r@prestoeat.com", birth: "1994-01-05", dept: "الدعم الفني والتقني", target: 100, actual: 75 },
+            "PRESTO-107": { id: "PRESTO-107", name: "حمزة حريز", email: "hamza@prestoeat.com", birth: "1993-09-18", dept: "العمليات واللوجستيات", target: 100, actual: 92 },
+            "PRESTO-108": { id: "PRESTO-108", name: "مهاب جاب الله", email: "mohab@prestoeat.com", birth: "1996-07-25", dept: "التسويق والمبيعات", target: 100, actual: 82 },
+            "PRESTO-109": { id: "PRESTO-109", name: "أحمد غباقة", email: "ahmed.g@prestoeat.com", birth: "1992-03-14", dept: "العمليات واللوجستيات", target: 100, actual: 78 },
+            "PRESTO-110": { id: "PRESTO-110", name: "أيوب الضاوي", email: "ayoub@prestoeat.com", birth: "1995-12-30", dept: "الدعم الفني والتقني", target: 100, actual: 84 },
+            "PRESTO-111": { id: "PRESTO-111", name: "مختار سويدان", email: "mokhtar@prestoeat.com", birth: "1991-05-22", dept: "العمليات واللوجستيات", target: 100, actual: 91 },
+            "PRESTO-112": { id: "PRESTO-112", name: "أحمد الأزمرلي", email: "ahmed.a@prestoeat.com", birth: "1994-10-08", dept: "التسويق والمبيعات", target: 100, actual
