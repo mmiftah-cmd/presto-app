@@ -1,1 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم الموظف الاحترافية</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 font-sans">
 
+    <div class="flex h-screen overflow-hidden">
+        
+        <div class="w-64 bg-slate-900 text-white flex flex-col justify-between p-4">
+            <div>
+                <div class="flex items-center space-x-reverse space-x-2 pb-6 mb-6 border-b border-slate-700">
+                    <i class="fa-solid fa-chart-pie text-2xl text-blue-400"></i>
+                    <span class="text-xl font-bold tracking-wide">نظام الموظفين</span>
+                </div>
+                <nav class="space-y-2">
+                    <a href="#" class="flex items-center space-x-reverse space-x-3 px-4 py-2.5 rounded-lg bg-blue-600 text-white transition">
+                        <i class="fa-solid fa-house w-5"></i>
+                        <span>الرئيسية</span>
+                    </a>
+                    <a href="#" class="flex items-center space-x-reverse space-x-3 px-4 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition">
+                        <i class="fa-solid fa-user-clock w-5"></i>
+                        <span>الحضور والغياب</span>
+                    </a>
+                    <a href="#" class="flex items-center space-x-reverse space-x-3 px-4 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition">
+                        <i class="fa-solid fa-calendar-check w-5"></i>
+                        <span>طلب إجازة</span>
+                    </a>
+                    <a href="#" class="flex items-center space-x-reverse space-x-3 px-4 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition">
+                        <i class="fa-solid fa-file-invoice-dollar w-5"></i>
+                        <span>الرواتب والمستندات</span>
+                    </a>
+                </nav>
+            </div>
+            <div class="pt-4 border-t border-slate-700">
+                <a href="#" class="flex items-center space-x-reverse space-x-3 px-4 py-2.5 rounded-lg text-red-400 hover:bg-red-950/30 transition">
+                    <i class="fa-solid fa-right-from-bracket w-5"></i>
+                    <span>تسجيل الخروج</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="flex-1 flex flex-col overflow-y-auto">
+            
+            <header class="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-6">
+                <div class="flex items-center space-x-reverse space-x-4">
+                    <h1 class="text-xl font-semibold text-gray-800">أهلاً بك، أحمد علي</h1>
+                </div>
+                <div class="flex items-center space-x-reverse space-x-4">
+                    <button class="relative text-gray-500 hover:text-gray-700">
+                        <i class="fa-solid fa-bell text-xl"></i>
+                        <span class="absolute -top-1 -left-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">3</span>
+                    </button>
+                    <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">
+                        أع
+                    </div>
+                </div>
+            </header>
+
+            <main class="p-6 space-y-6">
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-xs flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">ساعات العمل هذا الشهر</p>
+                            <p class="text-2xl font-bold text-gray-900 mt-1">160 ساعة</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+                            <i class="fa-solid fa-clock text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-xs flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">رصيد الإجازات المتبقي</p>
+                            <p class="text-2xl font-bold text-gray-900 mt-1">14 يوم</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-lg bg-green-50 flex items-center justify-center text-green-600">
+                            <i class="fa-solid fa-umbrella-beach text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-xs flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">المهام المعلقة</p>
+                            <p class="text-2xl font-bold text-gray-900 mt-1">5 مهام</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600">
+                            <i class="fa-solid fa-list-check text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl border border-gray-200 shadow-xs overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                        <h2 class="text-lg font-bold text-gray-800">المهام الحالية الموكلة إليك</h2>
+                        <span class="text-sm text-blue-600 font-medium cursor-pointer hover:underline">عرض الكل</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-right">
+                            <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider border-b border-gray-200">
+                                <tr>
+                                    <th class="px-6 py-3">اسم المهمة</th>
+                                    <th class="px-6 py-3">تاريخ التسليم</th>
+                                    <th class="px-6 py-3">الحالة</th>
+                                    <th class="px-6 py-3">الأولوية</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 text-sm text-gray-700">
+                                <tr>
+                                    <td class="px-6 py-4 font-medium text-gray-900">تحديث تقرير المبيعات السنوي</td>
+                                    <td class="px-6 py-4">30 يونيو 2026</td>
+                                    <td class="px-6 py-4"><span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-amber-100 text-amber-800">قيد التنفيذ</span></td>
+                                    <td class="px-6 py-4 text-red-600 font-bold">عالية</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-medium text-gray-900">مراجعة كود تطبيق النظام الجديد</td>
+                                    <td class="px-6 py-4">05 يوليو 2026</td>
+                                    <td class="px-6 py-4"><span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">جديدة</span></td>
+                                    <td class="px-6 py-4 text-amber-600 font-bold">متوسطة</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+</body>
+</html>
