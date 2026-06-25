@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة تحكم مع قائمة جانبية ذكية</title>
+    <title>لوحة تحكم بالمظهر البرتقالي الفخم</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -16,7 +16,7 @@
             font-family: 'Cairo', sans-serif !important;
         }
 
-        /* تأثير الحركة الخاص بآبل لجميع الحركات */
+        /* تأثير الحركة الفيزيائي الخاص بآبل لجميع الحركات */
         .ios-transition {
             transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
@@ -35,7 +35,7 @@
             display: inline-block;
         }
 
-        /* إخفاء الصفحات الافتراضي */
+        /* إخفاء الصفحات الافتراضي بالاعتماد على الأوباسيتي والأنميشن */
         .page-content {
             opacity: 0;
             transform: translateY(15px);
@@ -55,27 +55,27 @@
         <div class="sidebar-container w-20 hover:w-64 bg-slate-900 text-white flex flex-col justify-between p-4 relative z-20 shrink-0 ios-transition">
             <div>
                 <div class="flex items-center space-x-reverse space-x-3 pb-6 mb-6 border-b border-slate-700 overflow-hidden h-14">
-                    <i class="fa-solid fa-chart-pie text-2xl text-blue-400 min-w-[32px] text-center"></i>
+                    <i class="fa-solid fa-chart-pie text-2xl text-orange-500 min-w-[32px] text-center"></i>
                     <span class="sidebar-text text-xl font-bold tracking-wide">نظام الموظفين</span>
                 </div>
                 
                 <div class="relative" id="sidebar-nav">
-                    <div id="active-bg" class="absolute right-0 top-0 w-full h-[48px] bg-blue-600 rounded-lg ios-transition z-0" style="transform: translateY(0px);"></div>
+                    <div id="active-bg" class="absolute right-0 top-0 w-full h-[48px] bg-orange-500 rounded-2xl ios-transition z-0 shadow-lg shadow-orange-500/20" style="transform: translateY(0px);"></div>
                     
                     <nav class="space-y-1 relative z-10">
-                        <button onclick="switchPage('home', this, 0)" class="w-full flex items-center space-x-reverse space-x-3 px-3 h-12 text-white ios-transition text-right font-medium cursor-pointer rounded-lg overflow-hidden">
+                        <button onclick="switchPage('home', this, 0)" class="w-full flex items-center space-x-reverse space-x-3 px-3 h-12 text-white ios-transition text-right font-medium cursor-pointer rounded-2xl overflow-hidden">
                             <i class="fa-solid fa-house text-lg min-w-[32px] text-center"></i>
                             <span class="sidebar-text">الرئيسية</span>
                         </button>
-                        <button onclick="switchPage('attendance', this, 1)" class="w-full flex items-center space-x-reverse space-x-3 px-3 h-12 text-slate-400 hover:text-white ios-transition text-right font-medium cursor-pointer rounded-lg overflow-hidden">
+                        <button onclick="switchPage('attendance', this, 1)" class="w-full flex items-center space-x-reverse space-x-3 px-3 h-12 text-slate-400 hover:text-white ios-transition text-right font-medium cursor-pointer rounded-2xl overflow-hidden">
                             <i class="fa-solid fa-user-clock text-lg min-w-[32px] text-center"></i>
                             <span class="sidebar-text">الحضور والغياب</span>
                         </button>
-                        <button onclick="switchPage('leave', this, 2)" class="w-full flex items-center space-x-reverse space-x-3 px-3 h-12 text-slate-400 hover:text-white ios-transition text-right font-medium cursor-pointer rounded-lg overflow-hidden">
+                        <button onclick="switchPage('leave', this, 2)" class="w-full flex items-center space-x-reverse space-x-3 px-3 h-12 text-slate-400 hover:text-white ios-transition text-right font-medium cursor-pointer rounded-2xl overflow-hidden">
                             <i class="fa-solid fa-calendar-check text-lg min-w-[32px] text-center"></i>
                             <span class="sidebar-text">طلب إجازة</span>
                         </button>
-                        <button onclick="switchPage('salary', this, 3)" class="w-full flex items-center space-x-reverse space-x-3 px-3 h-12 text-slate-400 hover:text-white ios-transition text-right font-medium cursor-pointer rounded-lg overflow-hidden">
+                        <button onclick="switchPage('salary', this, 3)" class="w-full flex items-center space-x-reverse space-x-3 px-3 h-12 text-slate-400 hover:text-white ios-transition text-right font-medium cursor-pointer rounded-2xl overflow-hidden">
                             <i class="fa-solid fa-file-invoice-dollar text-lg min-w-[32px] text-center"></i>
                             <span class="sidebar-text">الرواتب والمستندات</span>
                         </button>
@@ -84,7 +84,7 @@
             </div>
             
             <div class="pt-4 border-t border-slate-700 overflow-hidden">
-                <a href="#" class="flex items-center space-x-reverse space-x-3 px-3 py-2.5 rounded-lg text-red-400 hover:bg-red-950/30 transition">
+                <a href="#" class="flex items-center space-x-reverse space-x-3 px-3 py-2.5 rounded-2xl text-red-400 hover:bg-red-950/30 transition">
                     <i class="fa-solid fa-right-from-bracket text-lg min-w-[32px] text-center"></i>
                     <span class="sidebar-text">تسجيل الخروج</span>
                 </a>
@@ -102,7 +102,7 @@
                         <i class="fa-solid fa-bell text-xl"></i>
                         <span class="absolute -top-1 -left-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">3</span>
                     </button>
-                    <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">أع</div>
+                    <div class="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold">أع</div>
                 </div>
             </header>
 
@@ -115,7 +115,7 @@
                                 <p class="text-sm font-medium text-gray-500">ساعات العمل هذا الشهر</p>
                                 <p class="text-2xl font-bold text-gray-900 mt-1">160 ساعة</p>
                             </div>
-                            <div class="w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600"><i class="fa-solid fa-clock text-xl"></i></div>
+                            <div class="w-12 h-12 rounded-lg bg-orange-50 flex items-center justify-center text-orange-600"><i class="fa-solid fa-clock text-xl"></i></div>
                         </div>
                         <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-xs flex items-center justify-between">
                             <div>
@@ -140,7 +140,7 @@
                             <h2 class="text-xl font-bold text-gray-800">تسجيل الحضور اليومي</h2>
                         </div>
                         <div class="flex space-x-reverse space-x-3">
-                            <button class="bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-lg font-semibold transition cursor-pointer">تسجيل دخول</button>
+                            <button class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2.5 rounded-xl font-semibold transition cursor-pointer">تسجيل دخول</button>
                         </div>
                     </div>
                 </div>
