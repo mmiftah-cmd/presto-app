@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام موظفي بريستو - إدارة الموظفين</title>
+    <title>بوابة موظفي بريستو</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 0; background-color: #f4f6f9; color: #333; }
         .header { background-color: #ff6b00; color: white; padding: 15px; text-align: center; font-size: 24px; font-weight: bold; }
@@ -12,12 +12,13 @@
         .login-container button { width: 95%; background: #ff6b00; color: white; border: none; padding: 12px; border-radius: 4px; font-size: 16px; cursor: pointer; font-weight: bold; }
         .app-content { display: none; padding: 20px; }
         .container { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px; }
-        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex: 1; min-width: 250px; }
-        .stat { font-size: 36px; font-weight: bold; color: #ff6b00; margin-top: 10px; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex: 1; min-width: 220px; position: relative; }
+        .card h3 { margin: 0; font-size: 16px; color: #666; }
+        .stat { font-size: 36px; font-weight: bold; color: #333; margin-top: 10px; text-align: left; }
         .welcome-msg { font-size: 20px; margin-bottom: 20px; font-weight: bold; color: #222; }
         .logout-btn { background: #333; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; float: left; }
         
-        /* تصميم نموذج إضافة الموظفين */
+        /* نموذج الإدارة */
         .form-group { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
         .form-group input { padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; }
         .form-group button { background: #4CAF50; color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
@@ -31,7 +32,7 @@
 
     <div class="login-container" id="loginScreen">
         <h3>تسجيل الدخول للمنظومة</h3>
-        <input type="text" id="usernameInput" placeholder="اسم المستخدم اللاتيني (مثال: ahmed)">
+        <input type="text" id="usernameInput" placeholder="اسم المستخدم (مثال: mohamed)">
         <input type="password" id="codeInput" placeholder="كود الدخول السري">
         <button onclick="login()">دخول</button>
         <p id="loginError" style="color: red; margin-top: 10px; display: none;">الاسم أو الكود غير صحيح!</p>
@@ -42,49 +43,60 @@
         <div class="welcome-msg" id="welcomeMessage">مرحباً بك</div>
 
         <div id="adminDashboard" style="display: none;">
-            <h3 style="color: #ff6b00;">🔧 لوحة تحكم الإدارة العامة</h3>
+            <h3 style="color: #ff6b00; margin-bottom: 20px;">🔧 لوحة تحكم الإدارة العامة</h3>
+            
             <div class="container">
-                <div class="card"><h3>إجمالي الموظفين</h3><div class="stat" id="totalEmpCount">3</div></div>
-                <div class="card"><h3>إجمالي طلبات الشركة اليوم</h3><div class="stat">540 طلب</div></div>
+                <div class="card">
+                    <h3>إجمالي الموظفين</h3>
+                    <div class="stat" id="cardTotalEmp">-</div>
+                </div>
+                <div class="card">
+                    <h3>المتواجدين الآن</h3>
+                    <div class="stat" id="cardActiveEmp">-</div>
+                </div>
+                <div class="card">
+                    <h3>طلبات الأذونات</h3>
+                    <div class="stat" id="cardPermissions">-</div>
+                </div>
+                <div class="card">
+                    <h3>طلبات الإجازة</h3>
+                    <div class="stat" id="cardLeaves">-</div>
+                </div>
             </div>
 
-            <div class="card" style="max-width: 500px; margin-top: 20px;">
-                <h3>➕ إضافة موظف جديد للمنظومة</h3>
+            <div class="card" style="max-width: 500px; margin-top: 30px;">
+                <h3>➕ إضافة موظف جديد وتعيين الكود</h3>
                 <div class="form-group">
                     <input type="text" id="newUsername" placeholder="اسم الدخول باللاتيني (مثال: ali)">
-                    <input type="text" id="newFullName" placeholder="الاسم الكامل للموظف (مثال: علي الفرجاني)">
-                    <input type="password" id="newCode" placeholder="كود الدخول السري للموظف">
+                    <input type="text" id="newFullName" placeholder="الاسم الكامل للموظف">
+                    <input type="password" id="newCode" placeholder="كود الدخول السري">
                     <button onclick="addNewEmployee()">حفظ الموظف في النظام</button>
                 </div>
-                <h4 style="margin-top: 20px;">👥 الموظفون الحاليون:</h4>
+                <h4 style="margin-top: 20px;">👥 الموظفون المسجلون حالياً:</h4>
                 <ul class="employee-list" id="empList"></ul>
             </div>
         </div>
 
         <div id="employeeDashboard" style="display: none;">
-            <h3 style="color: #4CAF50;">📊 الإحصائيات الفردية لملفك</h3>
+            <h3 style="color: #4CAF50;">📊 لوحة الموظف الفردية</h3>
             <div class="container">
-                <div class="card"><h3>طلباتك المكتملة اليوم</h3><div class="stat" id="empOrders">0</div></div>
-                <div class="card"><h3>ساعات العمل المسجلة</h3><div class="stat" id="empHours">8 ساعات</div></div>
-                <div class="card"><h3>تقييمك الحالي</h3><div class="stat" id="empRating">5.0</div></div>
+                <div class="card"><h3>حالة الدوام اليوم</h3><div class="stat">-</div></div>
+                <div class="card"><h3>الطلبات المسندة إليك</h3><div class="stat">-</div></div>
             </div>
         </div>
     </div>
 
     <script>
-        // قاعدة البيانات الافتراضية
+        // حساب الإدارة الافتراضي
         let defaultUsers = {
-            "mohamed": { code: "1122", role: "admin", name: "محمد بن مفتاح (المدير)" },
-            "ahmed": { code: "2021", role: "employee", name: "أحمد العبيدي", orders: "42 طلب" },
-            "sara": { code: "2022", role: "employee", name: "sara الورفلي", orders: "35 طلب" }
+            "mohamed": { code: "1122", role: "admin", name: "محمد بن مفتاح (المدير)" }
         };
 
-        // تحميل البيانات من الذاكرة
-        if(!localStorage.getItem('usersDB')) {
-            localStorage.setItem('usersDB', JSON.stringify(defaultUsers));
+        if(!localStorage.getItem('prestoUsersDB')) {
+            localStorage.setItem('prestoUsersDB', JSON.stringify(defaultUsers));
         }
         
-        let usersDatabase = JSON.parse(localStorage.getItem('usersDB'));
+        let usersDatabase = JSON.parse(localStorage.getItem('prestoUsersDB'));
 
         function login() {
             const user = document.getElementById('usernameInput').value.trim().toLowerCase();
@@ -102,11 +114,10 @@
                 if (currentUser.role === 'admin') {
                     document.getElementById('adminDashboard').style.display = 'block';
                     document.getElementById('employeeDashboard').style.display = 'none';
-                    updateAdminView();
+                    showEmployees();
                 } else {
                     document.getElementById('adminDashboard').style.display = 'none';
                     document.getElementById('employeeDashboard').style.display = 'block';
-                    document.getElementById('empOrders').innerText = currentUser.orders || "0 طلب";
                 }
             } else {
                 errorMsg.style.display = 'block';
@@ -122,32 +133,30 @@
                 usersDatabase[username] = {
                     code: code,
                     role: "employee",
-                    name: fullName,
-                    orders: "0 طلب"
+                    name: fullName
                 };
                 
-                localStorage.setItem('usersDB', JSON.stringify(usersDatabase));
-                updateAdminView();
+                localStorage.setItem('prestoUsersDB', JSON.stringify(usersDatabase));
+                showEmployees();
                 
                 document.getElementById('newUsername').value = "";
                 document.getElementById('newFullName').value = "";
                 document.getElementById('newCode').value = "";
-                alert("تم إضافة الموظف " + fullName + " بنجاح!");
+                alert("تم تسجيل الموظف بنجاح!");
             } else {
-                alert("الرجاء ملء كافة الحقول!");
+                alert("الرجاء إدخال كافة الحقول!");
             }
         }
 
-        function updateAdminView() {
-            const totalKeys = Object.keys(usersDatabase).length;
-            document.getElementById('totalEmpCount').innerText = totalKeys;
-
+        function showEmployees() {
             const empList = document.getElementById('empList');
             empList.innerHTML = "";
             for (let key in usersDatabase) {
-                let li = document.createElement('li');
-                li.innerHTML = `<span><strong>${usersDatabase[key].name}</strong> (كود: ${usersDatabase[key].code})</span> <span>[${usersDatabase[key].role}]</span>`;
-                empList.appendChild(li);
+                if(usersDatabase[key].role !== 'admin') {
+                    let li = document.createElement('li');
+                    li.innerHTML = `<span><strong>${usersDatabase[key].name}</strong> (اسم المستخدم: ${key})</span> <span>كود السر: [ ${usersDatabase[key].code} ]</span>`;
+                    empList.appendChild(li);
+                }
             }
         }
 
