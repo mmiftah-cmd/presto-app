@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام موظفي بريستو المطور</title>
+    <title>نظام موظفي بريستو - إدارة الموظفين</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 0; background-color: #f4f6f9; color: #333; }
         .header { background-color: #ff6b00; color: white; padding: 15px; text-align: center; font-size: 24px; font-weight: bold; }
@@ -16,6 +16,13 @@
         .stat { font-size: 36px; font-weight: bold; color: #ff6b00; margin-top: 10px; }
         .welcome-msg { font-size: 20px; margin-bottom: 20px; font-weight: bold; color: #222; }
         .logout-btn { background: #333; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; float: left; }
+        
+        /* تصميم نموذج إضافة الموظفين */
+        .form-group { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+        .form-group input { padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; }
+        .form-group button { background: #4CAF50; color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .employee-list { margin-top: 15px; padding: 0; list-style: none; }
+        .employee-list li { background: #eee; padding: 10px; margin-bottom: 5px; border-radius: 4px; display: flex; justify-content: space-between; }
     </style>
 </head>
 <body>
@@ -24,7 +31,7 @@
 
     <div class="login-container" id="loginScreen">
         <h3>تسجيل الدخول للمنظومة</h3>
-        <input type="text" id="usernameInput" placeholder="اسم المستخدم">
+        <input type="text" id="usernameInput" placeholder="اسم المستخدم اللاتيني (مثال: ahmed)">
         <input type="password" id="codeInput" placeholder="كود الدخول السري">
         <button onclick="login()">دخول</button>
         <p id="loginError" style="color: red; margin-top: 10px; display: none;">الاسم أو الكود غير صحيح!</p>
@@ -37,9 +44,20 @@
         <div id="adminDashboard" style="display: none;">
             <h3 style="color: #ff6b00;">🔧 لوحة تحكم الإدارة العامة</h3>
             <div class="container">
-                <div class="card"><h3>إجمالي موظفي الشركة</h3><div class="stat">12</div></div>
+                <div class="card"><h3>إجمالي الموظفين</h3><div class="stat" id="totalEmpCount">3</div></div>
                 <div class="card"><h3>إجمالي طلبات الشركة اليوم</h3><div class="stat">540 طلب</div></div>
-                <div class="card"><h3>أداء النظام العام</h3><div class="stat">98%</div></div>
+            </div>
+
+            <div class="card" style="max-width: 500px; margin-top: 20px;">
+                <h3>➕ إضافة موظف جديد للمنظومة</h3>
+                <div class="form-group">
+                    <input type="text" id="newUsername" placeholder="اسم الدخول باللاتيني (مثال: ali)">
+                    <input type="text" id="newFullName" placeholder="الاسم الكامل للموظف (مثال: علي الفرجاني)">
+                    <input type="password" id="newCode" placeholder="كود الدخول السري للموظف">
+                    <button onclick="addNewEmployee()">حفظ الموظف في النظام</button>
+                </div>
+                <h4 style="margin-top: 20px;">👥 الموظفون الحاليون:</h4>
+                <ul class="employee-list" id="empList"></ul>
             </div>
         </div>
 
@@ -47,19 +65,26 @@
             <h3 style="color: #4CAF50;">📊 الإحصائيات الفردية لملفك</h3>
             <div class="container">
                 <div class="card"><h3>طلباتك المكتملة اليوم</h3><div class="stat" id="empOrders">0</div></div>
-                <div class="card"><h3>ساعات العمل المسجلة</h3><div class="stat" id="empHours">0</div></div>
+                <div class="card"><h3>ساعات العمل المسجلة</h3><div class="stat" id="empHours">8 ساعات</div></div>
                 <div class="card"><h3>تقييمك الحالي</h3><div class="stat" id="empRating">5.0</div></div>
             </div>
         </div>
     </div>
 
     <script>
-        // قاعدة بيانات الموظفين والأكواد (يمكنك تعديلها وزيادتها كما تحب)
-        const usersDatabase = {
+        // قاعدة البيانات الافتراضية
+        let defaultUsers = {
             "mohamed": { code: "1122", role: "admin", name: "محمد بن مفتاح (المدير)" },
-            "ahmed": { code: "2021", role: "employee", name: "أحمد العبيدي", orders: "42 طلب", hours: "8 ساعات", rating: "4.8" },
-            "sara": { code: "2022", role: "employee", name: "سارة الورفلي", orders: "35 طلب", hours: "7 ساعات", rating: "4.9" }
+            "ahmed": { code: "2021", role: "employee", name: "أحمد العبيدي", orders: "42 طلب" },
+            "sara": { code: "2022", role: "employee", name: "sara الورفلي", orders: "35 طلب" }
         };
+
+        // تحميل البيانات من ذاكرة المتصفح LocalStorage لتجنب فقدانها عند التحديث
+        if(!localStorage.getItem('usersDB')) {
+            localStorage.setItem('usersDB', JSON.stringify(defaultUsers));
+        }
+        
+        let usersDatabase = JSON.parse(localStorage.getItem('usersDB'));
 
         function login() {
             const user = document.getElementById('usernameInput').value.trim().toLowerCase();
@@ -77,25 +102,8 @@
                 if (currentUser.role === 'admin') {
                     document.getElementById('adminDashboard').style.display = 'block';
                     document.getElementById('employeeDashboard').style.display = 'none';
+                    updateAdminView();
                 } else {
                     document.getElementById('adminDashboard').style.display = 'none';
                     document.getElementById('employeeDashboard').style.display = 'block';
-                    // تعبئة بيانات الموظف الخاص به فقط
-                    document.getElementById('empOrders').innerText = currentUser.orders;
-                    document.getElementById('empHours').innerText = currentUser.hours;
-                    document.getElementById('empRating').innerText = currentUser.rating;
-                }
-            } else {
-                errorMsg.style.display = 'block';
-            }
-        }
-
-        function logout() {
-            document.getElementById('usernameInput').value = "";
-            document.getElementById('codeInput').value = "";
-            document.getElementById('loginScreen').style.display = 'block';
-            document.getElementById('appContent').style.display = 'none';
-        }
-    </script>
-</body>
-</html>
+                    document.getElementById('empOrders').innerText
