@@ -3,59 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Presto Dashboard & Chat</title>
+    <title>نظام موظفي بريستو المطور</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 0; background-color: #f4f6f9; color: #333; }
         .header { background-color: #ff6b00; color: white; padding: 15px; text-align: center; font-size: 24px; font-weight: bold; }
-        .container { display: flex; flex-wrap: wrap; padding: 20px; gap: 20px; }
-        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex: 1; min-width: 280px; }
+        .login-container { max-width: 400px; margin: 100px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; }
+        .login-container input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; text-align: center; font-size: 16px; }
+        .login-container button { width: 95%; background: #ff6b00; color: white; border: none; padding: 12px; border-radius: 4px; font-size: 16px; cursor: pointer; font-weight: bold; }
+        .app-content { display: none; padding: 20px; }
+        .container { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex: 1; min-width: 250px; }
         .stat { font-size: 36px; font-weight: bold; color: #ff6b00; margin-top: 10px; }
-        .chat-box { background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); width: 100%; max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; height: 400px; }
-        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; border-bottom: 1px solid #ddd; }
-        .message { margin-bottom: 10px; background: #e1ffeb; padding: 8px 12px; border-radius: 8px; width: fit-content; }
-        .chat-input { display: flex; padding: 10px; gap: 10px; }
-        .chat-input input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
-        .chat-input button { background: #ff6b00; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+        .welcome-msg { font-size: 20px; margin-bottom: 20px; font-weight: bold; color: #222; }
+        .logout-btn { background: #333; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; float: left; }
     </style>
 </head>
 <body>
 
-    <div class="header">لوحة تحكم وتطبيق موظفي بريستو</div>
+    <div class="header">بوابة موظفي بريستو ايت</div>
 
-    <div class="container">
-        <div class="card">
-            <h3>إجمالي الموظفين</h3>
-            <div class="stat">12</div>
-        </div>
-        <div class="card">
-            <h3>الطلبات النشطة اليوم</h3>
-            <div class="stat">85</div>
-        </div>
+    <div class="login-container" id="loginScreen">
+        <h3>تسجيل الدخول للمنظومة</h3>
+        <input type="text" id="usernameInput" placeholder="اسم المستخدم">
+        <input type="password" id="codeInput" placeholder="كود الدخول السري">
+        <button onclick="login()">دخول</button>
+        <p id="loginError" style="color: red; margin-top: 10px; display: none;">الاسم أو الكود غير صحيح!</p>
     </div>
 
-    <div class="chat-box">
-        <div class="chat-messages" id="chatMessages">
-            <div class="message"><strong>محمد:</strong> أهلاً بفريق بريستو، تم إطلاق لوحة التحكم بنجاح! 🎉</div>
+    <div class="app-content" id="appContent">
+        <button class="logout-btn" onclick="logout()">تسجيل خروج</button>
+        <div class="welcome-msg" id="welcomeMessage">مرحباً بك</div>
+
+        <div id="adminDashboard" style="display: none;">
+            <h3 style="color: #ff6b00;">🔧 لوحة تحكم الإدارة العامة</h3>
+            <div class="container">
+                <div class="card"><h3>إجمالي موظفي الشركة</h3><div class="stat">12</div></div>
+                <div class="card"><h3>إجمالي طلبات الشركة اليوم</h3><div class="stat">540 طلب</div></div>
+                <div class="card"><h3>أداء النظام العام</h3><div class="stat">98%</div></div>
+            </div>
         </div>
-        <div class="chat-input">
-            <input type="text" id="msgInput" placeholder="اكتب رسالتك هنا...">
-            <button onclick="sendMessage()">إرسال</button>
+
+        <div id="employeeDashboard" style="display: none;">
+            <h3 style="color: #4CAF50;">📊 الإحصائيات الفردية لملفك</h3>
+            <div class="container">
+                <div class="card"><h3>طلباتك المكتملة اليوم</h3><div class="stat" id="empOrders">0</div></div>
+                <div class="card"><h3>ساعات العمل المسجلة</h3><div class="stat" id="empHours">0</div></div>
+                <div class="card"><h3>تقييمك الحالي</h3><div class="stat" id="empRating">5.0</div></div>
+            </div>
         </div>
     </div>
 
     <script>
-        function sendMessage() {
-            var input = document.getElementById('msgInput');
-            var text = input.value.trim();
-            if(text !== "") {
-                var msgDiv = document.createElement('div');
-                msgDiv.className = 'message';
-                msgDiv.innerHTML = '<strong>أنت:</strong> ' + text;
-                document.getElementById('chatMessages').appendChild(msgDiv);
-                input.value = "";
-                var chatContainer = document.getElementById('chatMessages');
-                chatContainer.scrollTop = chatContainer.scrollHeight;
+        // قاعدة بيانات الموظفين والأكواد (يمكنك تعديلها وزيادتها كما تحب)
+        const usersDatabase = {
+            "mohamed": { code: "1122", role: "admin", name: "محمد بن مفتاح (المدير)" },
+            "ahmed": { code: "2021", role: "employee", name: "أحمد العبيدي", orders: "42 طلب", hours: "8 ساعات", rating: "4.8" },
+            "sara": { code: "2022", role: "employee", name: "سارة الورفلي", orders: "35 طلب", hours: "7 ساعات", rating: "4.9" }
+        };
+
+        function login() {
+            const user = document.getElementById('usernameInput').value.trim().toLowerCase();
+            const code = document.getElementById('codeInput').value.trim();
+            const errorMsg = document.getElementById('loginError');
+
+            if (usersDatabase[user] && usersDatabase[user].code === code) {
+                errorMsg.style.display = 'none';
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('appContent').style.display = 'block';
+                
+                const currentUser = usersDatabase[user];
+                document.getElementById('welcomeMessage').innerText = "مرحباً بك: " + currentUser.name;
+
+                if (currentUser.role === 'admin') {
+                    document.getElementById('adminDashboard').style.display = 'block';
+                    document.getElementById('employeeDashboard').style.display = 'none';
+                } else {
+                    document.getElementById('adminDashboard').style.display = 'none';
+                    document.getElementById('employeeDashboard').style.display = 'block';
+                    // تعبئة بيانات الموظف الخاص به فقط
+                    document.getElementById('empOrders').innerText = currentUser.orders;
+                    document.getElementById('empHours').innerText = currentUser.hours;
+                    document.getElementById('empRating').innerText = currentUser.rating;
+                }
+            } else {
+                errorMsg.style.display = 'block';
             }
+        }
+
+        function logout() {
+            document.getElementById('usernameInput').value = "";
+            document.getElementById('codeInput').value = "";
+            document.getElementById('loginScreen').style.display = 'block';
+            document.getElementById('appContent').style.display = 'none';
         }
     </script>
 </body>
