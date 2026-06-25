@@ -11,17 +11,11 @@
             --main-bg: #f4f6f9;
         }
         body { font-family: Arial, sans-serif; margin: 0; background-color: var(--main-bg); color: #333; height: 100vh; overflow: hidden; }
-        
-        /* شاشة تسجيل الدخول المبدئية وفصلها عن الـ flex */
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--main-bg); display: flex; justify-content: center; align-items: center; z-index: 9999; }
-        .login-box { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; width: 100%; max-width: 360px; }
-        .login-box input { width: 90%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; text-align: center; font-size: 16px; }
-        .login-box button { width: 97%; background: var(--primary-color); color: white; border: none; padding: 12px; border-radius: 6px; font-size: 16px; cursor: pointer; font-weight: bold; }
 
-        /* الهيكل الأساسي للتطبيق بعد الدخول */
+        /* الهيكل الأساسي للتطبيق */
         .app-wrapper { display: flex; width: 100%; height: 100vh; }
 
-        /* القائمة الجانبية (Sidebar) المقتبسة من تصميمك */
+        /* القائمة الجانبية (Sidebar) */
         .sidebar { width: 260px; background-color: var(--sidebar-bg); color: #a2aab2; display: flex; flex-direction: column; padding: 20px 0; box-sizing: border-box; flex-shrink: 0; }
         .logo-area { text-align: center; padding-bottom: 30px; border-bottom: 1px solid #2d373f; margin-bottom: 20px; }
         .logo-area h2 { color: white; margin: 0; font-size: 22px; }
@@ -42,7 +36,7 @@
         .card h3 { margin: 0; font-size: 15px; color: #777; }
         .stat { font-size: 32px; font-weight: bold; color: #222; margin-top: 10px; }
         
-        /* تصميم التقويم الشهري التفاعلي للموظفين */
+        /* تصميم التقويم الشهري */
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-top: 15px; }
         .calendar-day-head { background: #e2e8f0; text-align: center; padding: 10px; font-weight: bold; border-radius: 4px; font-size: 14px; }
         .calendar-day { background: white; border: 1px solid #e2e8f0; min-height: 90px; padding: 8px; border-radius: 6px; position: relative; box-sizing: border-box; }
@@ -53,24 +47,13 @@
 
         /* النماذج والجداول */
         .form-group { display: flex; flex-direction: column; gap: 12px; max-width: 450px; margin-top: 15px; }
-        .form-group input, .form-group select { padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; font-family: Arial, sans-serif; }
+        .form-group input, .form-group select { padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
         .form-group button { background: #4CAF50; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 15px; }
-        .logout-btn { background: #ff4d4f; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; }
         .employee-list { margin-top: 15px; padding: 0; list-style: none; }
         .employee-list li { background: #eee; padding: 10px; margin-bottom: 5px; border-radius: 4px; display: flex; justify-content: space-between; font-size: 14px; }
     </style>
 </head>
 <body>
-
-    <div class="login-overlay" id="loginScreen">
-        <div class="login-box">
-            <h2 style="color: var(--primary-color); margin-bottom: 25px;">بريستو | Presto</h2>
-            <input type="text" id="usernameInput" placeholder="اسم المستخدم (mohamed)">
-            <input type="password" id="codeInput" placeholder="كود الدخول السري (1122)">
-            <button onclick="login()">تسجيل الدخول</button>
-            <p id="loginError" style="color: red; margin-top: 10px; display: none;">اسم المستخدم أو كود السر غير صحيح!</p>
-        </div>
-    </div>
 
     <div class="app-wrapper">
         
@@ -80,14 +63,13 @@
             </div>
             <div class="menu-item active" id="menu-dashboard" onclick="switchPage('dashboard')">📊 الرئيسية</div>
             <div class="menu-item" id="menu-calendar" onclick="switchPage('calendar')">📅 التقويم الشهري</div>
-            <div class="menu-item" id="menu-employees" onclick="switchPage('employees')">👥 الموظفين</div>
+            <div class="menu-item" id="menu-employees" onclick="switchPage('employees')">👥 إدارة الموظفين</div>
             <div class="menu-item" id="menu-requests" onclick="switchPage('requests')">📝 طلبات الموظفين</div>
         </div>
 
         <div class="main-content">
             <div class="top-bar">
-                <div id="welcomeMessage" style="font-weight: bold; font-size: 18px;">مرحباً بك في المنظومة</div>
-                <button class="logout-btn" onclick="logout()">تسجيل خروج</button>
+                <div style="font-weight: bold; font-size: 18px;">لوحة تحكم بريستو (الوضع المفتوح)</div>
             </div>
 
             <div id="page-dashboard" class="page-body active-page">
@@ -102,49 +84,42 @@
 
             <div id="page-calendar" class="page-body">
                 <h2 style="color: var(--primary-color); margin-top: 0;">🗓️ التقويم الشهري - حالة دوام وإجازات الموظفين</h2>
-                <p style="color: #666;">هذا التقويم متاح لجميع أفراد الفريق لمعرفة من في إجازة اليوم.</p>
+                <p style="color: #666;">هذا التقويم يظهر حالة الإجازات لجميع أفراد الفريق.</p>
                 
                 <div class="card">
-                    <h3 style="font-size: 18px; color: #222; text-align: center; font-weight: bold;" id="calendarMonthTitle">يونيو 2026</h3>
+                    <h3 style="font-size: 18px; color: #222; text-align: center; font-weight: bold;">يونيو 2026</h3>
                     <div class="calendar-grid" id="calendarGrid"></div>
                 </div>
             </div>
 
             <div id="page-employees" class="page-body">
-                <div id="adminOnlyContent" style="display: none;">
-                    <h2 style="color: var(--primary-color); margin-top: 0;">👥 إدارة شؤون الموظفين</h2>
-                    <div class="container" style="align-items: flex-start;">
-                        
-                        <div class="card" style="max-width: 450px;">
-                            <h3>➕ تسجيل موظف جديد وتعيين كود له</h3>
-                            <div class="form-group">
-                                <input type="text" id="newUsername" placeholder="اسم دخول باللاتيني (مثال: ali)">
-                                <input type="text" id="newFullName" placeholder="الاسم الكامل للموظف">
-                                <input type="password" id="newCode" placeholder="كود الدخول السري">
-                                <button onclick="addNewEmployee()">حفظ في النظام</button>
-                            </div>
+                <h2 style="color: var(--primary-color); margin-top: 0;">👥 لوحة التحكم وإضافة الموظفين</h2>
+                <div class="container" style="align-items: flex-start;">
+                    
+                    <div class="card" style="max-width: 450px;">
+                        <h3>➕ تسجيل اسم موظف جديد</h3>
+                        <div class="form-group">
+                            <input type="text" id="newUsername" placeholder="اسم الدخول باللاتيني (مثال: ali)">
+                            <input type="text" id="newFullName" placeholder="الاسم الكامل للموظف">
+                            <button onclick="addNewEmployee()">حفظ الموظف</button>
                         </div>
-
-                        <div class="card" style="max-width: 450px;">
-                            <h3>📅 تسجيل (إجازة / إذن) موظف على التقويم</h3>
-                            <div class="form-group">
-                                <select id="eventEmployeeSelect"><option value="">اختر الموظف...</option></select>
-                                <select id="eventTypeSelect">
-                                    <option value="vacation">إجازة</option>
-                                    <option value="permission">إذن مغادرة</option>
-                                </select>
-                                <input type="number" id="eventDayInput" min="1" max="30" placeholder="أدخل رقم اليوم (1-30)">
-                                <button onclick="addEventToCalendar()" style="background-color: var(--primary-color);">تثبيت في التقويم</button>
-                            </div>
-                            <h4 style="margin-top: 20px;">👥 الموظفون المسجلون:</h4>
-                            <ul class="employee-list" id="empList"></ul>
-                        </div>
-
                     </div>
-                </div>
-                <div id="employeeRestrictionMessage" style="display: none;" class="card">
-                    <h3 style="color: red;">⚠️ تنبيه صلاحيات</h3>
-                    <p>عذراً، هذه الصفحة مخصصة للمدير (الآدمن) فقط لتعديل الموظفين والتقويم.</p>
+
+                    <div class="card" style="max-width: 450px;">
+                        <h3>📅 تسجيل حالة على التقويم</h3>
+                        <div class="form-group">
+                            <select id="eventEmployeeSelect"><option value="">اختر الموظف...</option></select>
+                            <select id="eventTypeSelect">
+                                <option value="vacation">🌴 إجازة</option>
+                                <option value="permission">⏱️ إذن مغادرة</option>
+                            </select>
+                            <input type="number" id="eventDayInput" min="1" max="30" placeholder="رقم اليوم (1-30)">
+                            <button onclick="addEventToCalendar()" style="background-color: var(--primary-color);">تثبيت بالتقويم</button>
+                        </div>
+                        <h4 style="margin-top: 20px;">👥 الموظفون الحاليون:</h4>
+                        <ul class="employee-list" id="empList"></ul>
+                    </div>
+
                 </div>
             </div>
 
@@ -156,42 +131,22 @@
     </div>
 
     <script>
+        // قاعدة بيانات مبدئية بدون أكواد أو كلمات سر
         let defaultUsers = {
-            "mohamed": { code: "1122", role: "admin", name: "محمد بن مفتاح (المدير)" }
+            "mohamed": { role: "admin", name: "محمد بن مفتاح" }
         };
-        if(!localStorage.getItem('prestoUsersV4')) localStorage.setItem('prestoUsersV4', JSON.stringify(defaultUsers));
-        if(!localStorage.getItem('prestoCalendarEventsV4')) localStorage.setItem('prestoCalendarEventsV4', JSON.stringify([]));
+        if(!localStorage.getItem('prestoOpenUsers')) localStorage.setItem('prestoOpenUsers', JSON.stringify(defaultUsers));
+        if(!localStorage.getItem('prestoOpenEvents')) localStorage.setItem('prestoOpenEvents', JSON.stringify([]));
 
-        let usersDatabase = JSON.parse(localStorage.getItem('prestoUsersV4'));
-        let calendarEvents = JSON.parse(localStorage.getItem('prestoCalendarEventsV4'));
-        let currentUser = null;
+        let usersDatabase = JSON.parse(localStorage.getItem('prestoOpenUsers'));
+        let calendarEvents = JSON.parse(localStorage.getItem('prestoOpenEvents'));
 
-        function login() {
-            const user = document.getElementById('usernameInput').value.trim().toLowerCase();
-            const code = document.getElementById('codeInput').value.trim();
-            const errorMsg = document.getElementById('loginError');
-
-            if (usersDatabase[user] && usersDatabase[user].code === code) {
-                errorMsg.style.display = 'none';
-                document.getElementById('loginScreen').style.display = 'none';
-                currentUser = usersDatabase[user];
-                document.getElementById('welcomeMessage').innerText = `مرحباً بك: ${currentUser.name}`;
-                
-                if(currentUser.role === 'admin') {
-                    document.getElementById('adminOnlyContent').style.display = 'block';
-                    document.getElementById('employeeRestrictionMessage').style.display = 'none';
-                } else {
-                    document.getElementById('adminOnlyContent').style.display = 'none';
-                    document.getElementById('employeeRestrictionMessage').style.display = 'block';
-                }
-
-                updateDashboardStats();
-                buildCalendar();
-                populateEmployeeSelects();
-            } else {
-                errorMsg.style.display = 'block';
-            }
-        }
+        // تشغيل البناء فوراً وبدون شاشة دخول
+        window.onload = function() {
+            updateDashboardStats();
+            buildCalendar();
+            populateEmployeeSelects();
+        };
 
         function switchPage(pageId) {
             document.querySelectorAll('.page-body').forEach(p => p.classList.remove('active-page'));
@@ -205,21 +160,19 @@
         function addNewEmployee() {
             const username = document.getElementById('newUsername').value.trim().toLowerCase();
             const fullName = document.getElementById('newFullName').value.trim();
-            const code = document.getElementById('newCode').value.trim();
 
-            if(username && fullName && code) {
-                usersDatabase[username] = { code: code, role: "employee", name: fullName };
-                localStorage.setItem('prestoUsersV4', JSON.stringify(usersDatabase));
+            if(username && fullName) {
+                usersDatabase[username] = { role: "employee", name: fullName };
+                localStorage.setItem('prestoOpenUsers', JSON.stringify(usersDatabase));
                 
                 document.getElementById('newUsername').value = "";
                 document.getElementById('newFullName').value = "";
-                document.getElementById('newCode').value = "";
                 
-                alert(`تم تسجيل الموظف ${fullName} بنجاح!`);
+                alert(`تم تسجيل ${fullName} بنجاح!`);
                 updateDashboardStats();
                 populateEmployeeSelects();
             } else {
-                alert("الرجاء تعبئة كافة الحقول!");
+                alert("الرجاء إدخال الاسم واللقب!");
             }
         }
 
@@ -230,12 +183,12 @@
 
             if(empKey && type && day >= 1 && day <= 30) {
                 calendarEvents.push({ empName: usersDatabase[empKey].name, type: type, day: day });
-                localStorage.setItem('prestoCalendarEventsV4', JSON.stringify(calendarEvents));
+                localStorage.setItem('prestoOpenEvents', JSON.stringify(calendarEvents));
                 document.getElementById('eventDayInput').value = "";
-                alert("تم التثبيت بالتقويم بنجاح!");
+                alert("تم وضع الإجازة في التقويم!");
                 buildCalendar();
             } else {
-                alert("الرجاء اختيار الموظف وإدخال رقم يوم بين 1 و 30!");
+                alert("الرجاء اختيار الموظف واليوم بشكل صحيح!");
             }
         }
 
@@ -276,10 +229,4 @@
 
             for(let key in usersDatabase) {
                 if(usersDatabase[key].role !== 'admin') {
-                    let opt = document.createElement('option');
-                    opt.value = key;
-                    opt.innerText = usersDatabase[key].name;
-                    select.appendChild(opt);
-
-                    let li = document.createElement('li');
-                    li.innerHTML = `<span><strong>${usersDatabase[key].name}</strong> (المستخدم: ${key})</span> <span>كود: ${usersDatabase[key].code}
+                    let opt = document.createElement('option
