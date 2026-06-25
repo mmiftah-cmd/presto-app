@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة تحكم بنظام حركة iOS</title>
+    <title>لوحة تحكم مع قائمة جانبية ذكية</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -16,19 +16,32 @@
             font-family: 'Cairo', sans-serif !important;
         }
 
-        /* تأثير الحركة الخاص بآبل (Cubic Bezier) لمنح تفاعل فيزيائي ناعم */
+        /* تأثير الحركة الخاص بآبل لجميع الحركات */
         .ios-transition {
-            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* إخفاء الصفحات الافتراضي بالاعتماد على الأوباسيتي والأنميشن */
+        /* تنسيق إخفاء النصوص داخل القائمة افتراضياً لتبدو ناعمة */
+        .sidebar-text {
+            opacity: 0;
+            white-space: nowrap;
+            transition: opacity 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            display: none;
+        }
+
+        /* عند مرور الماوس على القائمة الجانبية تظهر النصوص فوراً */
+        .sidebar-container:hover .sidebar-text {
+            opacity: 1;
+            display: inline-block;
+        }
+
+        /* إخفاء الصفحات الافتراضي */
         .page-content {
             opacity: 0;
             transform: translateY(15px);
             transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* عند تفعيل الصفحة تظهر وتصعد بمكانها */
         .page-content.active {
             opacity: 1;
             transform: translateY(0);
@@ -39,41 +52,41 @@
 
     <div class="flex h-screen overflow-hidden">
         
-        <div class="w-64 bg-slate-900 text-white flex flex-col justify-between p-4 relative z-20 shrink-0">
+        <div class="sidebar-container w-20 hover:w-64 bg-slate-900 text-white flex flex-col justify-between p-4 relative z-20 shrink-0 ios-transition">
             <div>
-                <div class="flex items-center space-x-reverse space-x-2 pb-6 mb-6 border-b border-slate-700">
-                    <i class="fa-solid fa-chart-pie text-2xl text-blue-400"></i>
-                    <span class="text-xl font-bold tracking-wide">نظام الموظفين</span>
+                <div class="flex items-center space-x-reverse space-x-3 pb-6 mb-6 border-b border-slate-700 overflow-hidden h-14">
+                    <i class="fa-solid fa-chart-pie text-2xl text-blue-400 min-w-[32px] text-center"></i>
+                    <span class="sidebar-text text-xl font-bold tracking-wide">نظام الموظفين</span>
                 </div>
                 
                 <div class="relative" id="sidebar-nav">
                     <div id="active-bg" class="absolute right-0 top-0 w-full h-[48px] bg-blue-600 rounded-lg ios-transition z-0" style="transform: translateY(0px);"></div>
                     
                     <nav class="space-y-1 relative z-10">
-                        <button onclick="switchPage('home', this, 0)" class="w-full flex items-center space-x-reverse space-x-3 px-4 h-12 text-white ios-transition text-right font-medium cursor-pointer rounded-lg">
-                            <i class="fa-solid fa-house w-5"></i>
-                            <span>الرئيسية</span>
+                        <button onclick="switchPage('home', this, 0)" class="w-full flex items-center space-x-reverse space-x-3 px-3 h-12 text-white ios-transition text-right font-medium cursor-pointer rounded-lg overflow-hidden">
+                            <i class="fa-solid fa-house text-lg min-w-[32px] text-center"></i>
+                            <span class="sidebar-text">الرئيسية</span>
                         </button>
-                        <button onclick="switchPage('attendance', this, 1)" class="w-full flex items-center space-x-reverse space-x-3 px-4 h-12 text-slate-400 hover:text-white ios-transition text-right font-medium cursor-pointer rounded-lg">
-                            <i class="fa-solid fa-user-clock w-5"></i>
-                            <span>الحضور والغياب</span>
+                        <button onclick="switchPage('attendance', this, 1)" class="w-full flex items-center space-x-reverse space-x-3 px-3 h-12 text-slate-400 hover:text-white ios-transition text-right font-medium cursor-pointer rounded-lg overflow-hidden">
+                            <i class="fa-solid fa-user-clock text-lg min-w-[32px] text-center"></i>
+                            <span class="sidebar-text">الحضور والغياب</span>
                         </button>
-                        <button onclick="switchPage('leave', this, 2)" class="w-full flex items-center space-x-reverse space-x-3 px-4 h-12 text-slate-400 hover:text-white ios-transition text-right font-medium cursor-pointer rounded-lg">
-                            <i class="fa-solid fa-calendar-check w-5"></i>
-                            <span>طلب إجازة</span>
+                        <button onclick="switchPage('leave', this, 2)" class="w-full flex items-center space-x-reverse space-x-3 px-3 h-12 text-slate-400 hover:text-white ios-transition text-right font-medium cursor-pointer rounded-lg overflow-hidden">
+                            <i class="fa-solid fa-calendar-check text-lg min-w-[32px] text-center"></i>
+                            <span class="sidebar-text">طلب إجازة</span>
                         </button>
-                        <button onclick="switchPage('salary', this, 3)" class="w-full flex items-center space-x-reverse space-x-3 px-4 h-12 text-slate-400 hover:text-white ios-transition text-right font-medium cursor-pointer rounded-lg">
-                            <i class="fa-solid fa-file-invoice-dollar w-5"></i>
-                            <span>الرواتب والمستندات</span>
+                        <button onclick="switchPage('salary', this, 3)" class="w-full flex items-center space-x-reverse space-x-3 px-3 h-12 text-slate-400 hover:text-white ios-transition text-right font-medium cursor-pointer rounded-lg overflow-hidden">
+                            <i class="fa-solid fa-file-invoice-dollar text-lg min-w-[32px] text-center"></i>
+                            <span class="sidebar-text">الرواتب والمستندات</span>
                         </button>
                     </nav>
                 </div>
             </div>
             
-            <div class="pt-4 border-t border-slate-700">
-                <a href="#" class="flex items-center space-x-reverse space-x-3 px-4 py-2.5 rounded-lg text-red-400 hover:bg-red-950/30 transition">
-                    <i class="fa-solid fa-right-from-bracket w-5"></i>
-                    <span>تسجيل الخروج</span>
+            <div class="pt-4 border-t border-slate-700 overflow-hidden">
+                <a href="#" class="flex items-center space-x-reverse space-x-3 px-3 py-2.5 rounded-lg text-red-400 hover:bg-red-950/30 transition">
+                    <i class="fa-solid fa-right-from-bracket text-lg min-w-[32px] text-center"></i>
+                    <span class="sidebar-text">تسجيل الخروج</span>
                 </a>
             </div>
         </div>
@@ -119,18 +132,59 @@
                             <div class="w-12 h-12 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600"><i class="fa-solid fa-list-check text-xl"></i></div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="bg-white rounded-xl border border-gray-200 shadow-xs overflow-hidden">
-                        <div class="px-6 py-4 border-b border-gray-200"><h2 class="text-lg font-bold text-gray-800">المهام الحالية الموكلة إليك</h2></div>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-right text-sm">
-                                <thead class="bg-gray-50 text-gray-500 border-b border-gray-200">
-                                    <tr><th class="px-6 py-3">اسم المهمة</th><th class="px-6 py-3">تاريخ التسليم</th><th class="px-6 py-3">الحالة</th></tr>
-                                </thead>
-                                <tbody class="divide-y divide-gray-200 text-gray-700">
-                                    <tr><td class="px-6 py-4 font-medium text-gray-900">تحديث تقرير المبيعات السنوي</td><td class="px-6 py-4">30 يونيو 2026</td><td class="px-6 py-4"><span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-amber-100 text-amber-800">قيد التنفيذ</span></td></tr>
-                                </tbody>
-                            </table>
+                <div id="attendance" class="page-content hidden absolute w-full left-0 p-0 space-y-6">
+                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-xs flex justify-between items-center">
+                        <div>
+                            <h2 class="text-xl font-bold text-gray-800">تسجيل الحضور اليومي</h2>
+                        </div>
+                        <div class="flex space-x-reverse space-x-3">
+                            <button class="bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-lg font-semibold transition cursor-pointer">تسجيل دخول</button>
                         </div>
                     </div>
                 </div>
+
+                <div id="leave" class="page-content hidden absolute w-full left-0 p-0 space-y-6">
+                    <div class="max-w-2xl bg-white p-6 rounded-xl border border-gray-200 shadow-xs">
+                        <h2 class="text-xl font-bold text-gray-800 mb-6">تقديم طلب إجازة جديد</h2>
+                    </div>
+                </div>
+
+                <div id="salary" class="page-content hidden absolute w-full left-0 p-0 space-y-6">
+                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-xs max-w-md">
+                        <h2 class="text-lg font-bold text-gray-800 border-b pb-3 mb-4">كشف راتب شهر يونيو 2026</h2>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <script>
+        function switchPage(pageId, element, index) {
+            const moveY = index * 52; 
+            document.getElementById('active-bg').style.transform = `translateY(${moveY}px)`;
+
+            const buttons = document.querySelectorAll('#sidebar-nav button');
+            buttons.forEach(btn => {
+                btn.classList.remove('text-white');
+                btn.classList.add('text-slate-400');
+            });
+            element.classList.remove('text-slate-400');
+            element.classList.add('text-white');
+
+            const pages = document.querySelectorAll('.page-content');
+            pages.forEach(page => {
+                if (page.id === pageId) {
+                    page.classList.remove('hidden');
+                    setTimeout(() => { page.classList.add('active'); }, 50);
+                } else {
+                    page.classList.remove('active');
+                    page.classList.add('hidden');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
