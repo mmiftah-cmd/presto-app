@@ -3,125 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة تحكم عصرية فخمة 2026</title>
+    <title>لوحة تحكم بتصميم مودرن واحترافي</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
         body {
             font-family: 'Cairo', sans-serif !important;
         }
 
-        /* انحناءات حركة شاشات آبل الذكية الفيزيائية */
+        /* تأثير الحركة السلس المعتمد في تطبيقات آبل (iOS Cubic Bezier) */
         .ios-transition {
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* إخفاء واظهار النصوص بنعومة بالغة */
+        /* تنسيق نصوص القائمة الجانبية لتظهر وتختفي بنعومة */
         .sidebar-text {
             opacity: 0;
             white-space: nowrap;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.3s cubic-bezier(0.25, 1, 0.5, 1);
             display: none;
         }
 
+        /* تمدد النصوص عند تمرير الماوس فوق الحاوية */
         .sidebar-container:hover .sidebar-text {
             opacity: 1;
             display: inline-block;
         }
 
-        /* أنميشن ظهور محتوى لوحة التحكم بتأثير الـ Blur والتلاشي */
+        /* تأثير التلاشي والانزلاق العمودي عند ظهور محتوى الصفحات */
         .page-content {
             opacity: 0;
-            filter: blur(8px);
-            transform: scale(0.98) translateY(10px);
-            transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), filter 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            transform: translateY(16px);
+            transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .page-content.active {
             opacity: 1;
-            filter: blur(0);
-            transform: scale(1) translateY(0);
+            transform: translateY(0);
         }
     </style>
 </head>
-<body class="bg-[#f8fafc] text-slate-900 overflow-hidden">
+<body class="bg-gray-50 overflow-hidden">
 
     <div class="flex h-screen overflow-hidden">
         
-        <div class="sidebar-container w-22 hover:w-64 bg-[#0f172a] text-white flex flex-col justify-between p-4 relative z-20 shrink-0 ios-transition shadow-2xl">
+        <div class="sidebar-container w-20 hover:w-64 bg-slate-900 text-white flex flex-col justify-between p-4 relative z-20 shrink-0 ios-transition border-l border-slate-800">
             <div>
-                <div class="flex items-center space-x-reverse space-x-3 pb-6 mb-6 border-b border-slate-800/60 overflow-hidden h-14">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-lg shadow-orange-500/30 shrink-0">
-                        <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="14" y1="4" x2="8" y2="10" />
-                            <path d="M18 8 L12 14 A 3 3 0 0 1 7 14 A 3 3 0 0 1 12 14" />
-                        </svg>
+                <div class="flex items-center space-x-reverse space-x-3 pb-6 mb-6 border-b border-slate-800 overflow-hidden h-14">
+                    <div class="w-8 h-8 rounded-full bg-linear-to-tr from-orange-600 to-orange-400 flex items-center justify-center shadow-md shadow-orange-500/20">
+                        <i class="fa-solid fa-chart-pie text-sm text-white"></i>
                     </div>
-                    <span class="sidebar-text text-xl font-extrabold tracking-tight bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">نظام الموظفين</span>
+                    <span class="sidebar-text text-lg font-bold bg-linear-to-l from-white to-gray-300 bg-clip-text text-transparent">نظام الموظفين</span>
                 </div>
                 
                 <div class="relative" id="sidebar-nav">
-                    <div id="active-bg" class="absolute right-0 top-0 w-full h-12 bg-gradient-to-r from-orange-500 to-amber-500 rounded-2xl ios-transition z-0 shadow-[0_8px_24px_rgba(249,115,22,0.4)]" style="transform: translateY(0px);"></div>
+                    <div id="active-bg" class="absolute right-0 top-0 w-full h-12 bg-orange-500 rounded-full ios-transition z-0 shadow-lg shadow-orange-500/30" style="transform: translateY(0px);"></div>
                     
-                    <nav class="space-y-2 relative z-10">
-                        <button onclick="switchPage('home', this, 0)" class="w-full flex items-center space-x-reverse space-x-4 px-4 h-12 text-white ios-transition text-right font-bold cursor-pointer rounded-2xl overflow-hidden bg-transparent border-0 outline-none">
-                            <i class="fa-solid fa-layer-group text-lg min-w-[28px] text-center"></i>
+                    <nav class="space-y-1 relative z-10">
+                        <button onclick="switchPage('home', this, 0)" class="w-full flex items-center space-x-reverse space-x-3 px-3 h-12 text-white ios-transition text-right font-semibold cursor-pointer rounded-full overflow-hidden">
+                            <i class="fa-solid fa-house text-base min-w-[32px] text-center"></i>
                             <span class="sidebar-text">الرئيسية</span>
                         </button>
-                        <button onclick="switchPage('attendance', this, 1)" class="w-full flex items-center space-x-reverse space-x-4 px-4 h-12 text-slate-400 hover:text-white ios-transition text-right font-bold cursor-pointer rounded-2xl overflow-hidden bg-transparent border-0 outline-none">
-                            <i class="fa-solid fa-fingerprint text-lg min-w-[28px] text-center"></i>
+                        <button onclick="switchPage('attendance', this, 1)" class="w-full flex items-center space-x-reverse space-x-3 px-3 h-12 text-slate-400 hover:text-white ios-transition text-right font-semibold cursor-pointer rounded-full overflow-hidden">
+                            <i class="fa-solid fa-user-clock text-base min-w-[32px] text-center"></i>
                             <span class="sidebar-text">الحضور والغياب</span>
                         </button>
-                        <button onclick="switchPage('leave', this, 2)" class="w-full flex items-center space-x-reverse space-x-4 px-4 h-12 text-slate-400 hover:text-white ios-transition text-right font-bold cursor-pointer rounded-2xl overflow-hidden bg-transparent border-0 outline-none">
-                            <i class="fa-solid fa-calendar-minus text-lg min-w-[28px] text-center"></i>
+                        <button onclick="switchPage('leave', this, 2)" class="w-full flex items-center space-x-reverse space-x-3 px-3 h-12 text-slate-400 hover:text-white ios-transition text-right font-semibold cursor-pointer rounded-full overflow-hidden">
+                            <i class="fa-solid fa-calendar-check text-base min-w-[32px] text-center"></i>
                             <span class="sidebar-text">طلب إجازة</span>
                         </button>
-                        <button onclick="switchPage('salary', this, 3)" class="w-full flex items-center space-x-reverse space-x-4 px-4 h-12 text-slate-400 hover:text-white ios-transition text-right font-bold cursor-pointer rounded-2xl overflow-hidden bg-transparent border-0 outline-none">
-                            <i class="fa-solid fa-wallet text-lg min-w-[28px] text-center"></i>
+                        <button onclick="switchPage('salary', this, 3)" class="w-full flex items-center space-x-reverse space-x-3 px-3 h-12 text-slate-400 hover:text-white ios-transition text-right font-semibold cursor-pointer rounded-full overflow-hidden">
+                            <i class="fa-solid fa-file-invoice-dollar text-base min-w-[32px] text-center"></i>
                             <span class="sidebar-text">الرواتب والمستندات</span>
                         </button>
                     </nav>
                 </div>
             </div>
             
-            <div class="pt-4 border-t border-slate-800/60 overflow-hidden">
-                <a href="#" class="flex items-center space-x-reverse space-x-4 px-4 py-3 rounded-2xl text-rose-400 hover:bg-rose-500/10 transition duration-300 no-underline">
-                    <i class="fa-solid fa-arrow-right-from-bracket text-lg min-w-[28px] text-center"></i>
-                    <span class="sidebar-text font-bold">تسجيل الخروج</span>
+            <div class="pt-4 border-t border-slate-800 overflow-hidden">
+                <a href="#" class="flex items-center space-x-reverse space-x-3 px-3 py-2.5 rounded-full text-red-400 hover:bg-red-500/10 transition duration-300">
+                    <i class="fa-solid fa-right-from-bracket text-base min-w-[32px] text-center"></i>
+                    <span class="sidebar-text font-semibold">تسجيل الخروج</span>
                 </a>
             </div>
         </div>
 
-        <div class="flex-1 flex flex-col overflow-hidden">
+        <div class="flex-1 flex flex-col overflow-y-auto">
             
-            <header class="bg-white/80 backdrop-blur-md border-b border-slate-100 h-20 flex items-center justify-between px-8 shrink-0 z-10">
-                <div>
-                    <h1 class="text-2xl font-extrabold text-slate-800 tracking-tight">أهلاً بك، أحمد علي 👋</h1>
-                    <p class="text-xs font-medium text-slate-400 mt-0.5">مرحباً بك في نظام إدارة الموظفين الذكي</p>
+            <header class="bg-white border-b border-gray-100 h-16 flex items-center justify-between px-6 shrink-0">
+                <div class="flex items-center space-x-reverse space-x-4">
+                    <h1 class="text-xl font-bold text-gray-800">أهلاً بك، أحمد علي 👋</h1>
                 </div>
-                <div class="flex items-center space-x-reverse space-x-5">
-                    <button class="relative w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:text-slate-600 hover:scale-105 ios-transition bg-transparent outline-none">
-                        <i class="fa-solid fa-bell text-base"></i>
-                        <span class="absolute top-2 left-2 bg-orange-500 w-2 h-2 rounded-full animate-ping"></span>
+                <div class="flex items-center space-x-reverse space-x-4">
+                    <button class="relative text-gray-400 hover:text-gray-600 ios-transition">
+                        <i class="fa-solid fa-bell text-lg"></i>
+                        <span class="absolute -top-1 -left-1 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">3</span>
                     </button>
-                    <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-orange-500 to-amber-500 flex items-center justify-center text-white font-extrabold shadow-md shadow-orange-500/20 text-sm">أع</div>
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-orange-600 to-orange-400 flex items-center justify-center text-white font-bold shadow-md shadow-orange-500/10">أع</div>
                 </div>
             </header>
 
-            <main class="p-8 flex-1 overflow-y-auto">
+            <main class="p-6 relative">
                 
                 <div id="home" class="page-content active space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.01)] flex items-center justify-between hover:scale-[1.02] ios-transition">
+                        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-xs flex items-center justify-between">
                             <div>
-                                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">ساعات العمل هذا الشهر</p>
-                                <p class="text-3xl font-extrabold text-slate-900 mt-1.5">160 ساعة</p>
+                                <p class="text-sm font-medium text-gray-400">ساعات العمل هذا الشهر</p>
+                                <p class="text-2xl font-bold text-gray-900 mt-1">160 ساعة</p>
                             </div>
-                            <div class="w-14 h-14 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-500 shadow-inner"><i class="fa-solid fa-stopwatch text-xl"></i></div>
+                            <div class="w-12 h-12 rounded-lg bg-orange-50 flex items-center justify-center text-orange-500"><i class="fa-solid fa-clock text-lg"></i></div>
                         </div>
-                        <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.01)] flex items-center justify-between hover:scale-
+                    </div>
+                </div>
+
+                <div id="attendance" class="page-content hidden absolute w-full left-0 p-6 space-y-6">
+                    <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs max-w-md">
+                        <h2 class="text-lg font-bold text-gray-800 border-b pb-3 mb-4">كشف الحضور</h2>
+                    </div>
+                </div>
+
+                <div id="leave" class="page-content hidden absolute w-full left-0 p-6 space-y-6">
+                    <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs max-w-md">
+                        <h2 class="text-lg font-bold text-gray-800 border-b pb-3 mb-4">تقديم طلب إجازة</h2>
+                    </div>
+                </div>
+
+                <div id="salary" class="page-content hidden absolute w-full left-0 p-6 space-y-6">
+                    <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-xs max-w-md">
+                        <h2 class="text-lg font-bold text-gray-800 border-b pb-3 mb-4">كشف الراتب</h2>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <script>
+        function switchPage(pageId, element, index) {
+            // حساب مسافة التزحلق العمودي بدقة (الزر h-12 تعني 48px + مسافة الفراغ 4px = 52px للخطوة)
+            const moveY = index * 52; 
+            document.getElementById('active-bg').style.transform = `translateY(${moveY}px)`;
+
+            // تحديث ألوان الأيقونات والنصوص
+            const buttons = document.querySelectorAll('#sidebar-nav button');
+            buttons.forEach(btn => {
+                btn.classList.remove('text-white');
+                btn.classList.add('text-slate-400');
+            });
+            element.classList.remove('text-slate-400');
+            element.classList.add('text-white');
+
+            // التبديل بين الصفحات مع أنميشن الآيفون
+            const pages = document.querySelectorAll('.page-content');
+            pages.forEach(page => {
+                if (page.id === pageId) {
+                    page.classList.remove('hidden');
+                    setTimeout(() => { page.classList.add('active'); }, 50);
+                } else {
+                    page.classList.remove('active');
+                    page.classList.add('hidden');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
