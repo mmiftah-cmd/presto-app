@@ -6,7 +6,6 @@
     <title>نظام الموظفين المتطور - محمد بن مفتاح</title>
     
     <style>
-        /* نظام ألوان متناسق ومستقل كلياً يعمل بدون إنترنت */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -98,20 +97,45 @@
         .badge-active { background: rgba(34,197,94,0.1); color: #4ade80; }
         .badge-leave { background: rgba(245,158,11,0.1); color: #fbbf24; }
         
-        /* التحكم بالتقويم والشهر */
+        /* التحكم بالتقويم والشهر والأزرار */
         .calendar-header-area {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
         }
+        .calendar-navigation {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .nav-cal-btn {
+            background-color: #1e293b;
+            color: white;
+            border: 1px solid #334155;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+        .nav-cal-btn:hover {
+            background-color: #ff7a00;
+            border-color: #ff7a00;
+        }
         .month-year-title {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             color: #ffffff;
             background: #582b56;
             padding: 6px 16px;
             border-radius: 12px;
+            min-width: 140px;
+            text-align: center;
         }
         .calendar-grid {
             display: grid;
@@ -217,7 +241,12 @@
                     <h3>تقويم توزيع الإجازات الفعلي</h3>
                     <p style="color: #94a3b8; font-size: 13px; margin-top: 4px;">اضغط على مربع اليوم لمنح إجازة فورية لموظف</p>
                 </div>
-                <div id="month-year-display" class="month-year-title">الشهر الحالي</div>
+                
+                <div class="calendar-navigation">
+                    <button class="nav-cal-btn" onclick="changeMonth(-1)">▶</button>
+                    <div id="month-year-display" class="month-year-title">الشهر الحالي</div>
+                    <button class="nav-cal-btn" onclick="changeMonth(1)">◀</button>
+                </div>
             </div>
             
             <div class="calendar-grid">
@@ -262,7 +291,7 @@
 
     <div id="calendarModal" class="modal hidden">
         <div class="modal-content">
-            <h4 id="calendar-modal-title">منح إجازة لليوم</h4>
+            <h4 id="calendar-modal-title">منح إجازة</h4>
             <div class="form-group"><label>إختر الموظف</label><select id="calendar-select"></select></div>
             <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px;">
                 <button onclick="closeCalendarModal()" style="padding: 8px; background: #334155; border:none; color:white; border-radius:6px; cursor:pointer;">إلغاء</button>
@@ -276,7 +305,12 @@
             { id: 1, name: "أحمد المصعبي", role: "مهندس برمجيات", status: "نشط" },
             { id: 2, name: "سارة العامري", role: "مصممة واجهات", status: "نشط" }
         ];
-        let targetDayId = null;
+        
+        // متغيرات للتحكم بالشهر والسنة المعروضين حالياً بالتقويم
+        let currentCalendarDate = new Date();
+        let targetDayKey = null;
+        // مخزن لحفظ الإجازات المسجلة محلياً لكي لا تضيع عند التنقل بين الأشهر
+        let savedLeaves = {}; 
 
         function switchPage(pageId, btn) {
             document.querySelectorAll('#top-navigation button').forEach(b => b.classList.remove('nav-item-active'));
@@ -306,49 +340,56 @@
             select.innerHTML = employees.map(e => `<option value="${e.name}">${e.name}</option>`).join('');
         }
 
-        // دالة بناء التقويم الحقيقي بناءً على تاريخ اليوم الفعلي والشهر الحالي
+        // دالة بناء وتحديث التقويم ديناميكياً بناءً على الشهر والسنة المختارين
         function buildRealCalendar() {
             const container = document.getElementById('calendar-container');
             container.innerHTML = '';
 
+            const year = currentCalendarDate.getFullYear();
+            const month = currentCalendarDate.getMonth();
+            
             const today = new Date();
-            const currentYear = today.getFullYear();
-            const currentMonth = today.getMonth(); // 0 = يناير، 1 = فبراير... إلخ
-            const currentDate = today.getDate();
 
-            // أسماء الأشهر العربية
             const monthsArabic = [
                 "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", 
                 "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
             ];
 
-            // عرض الشهر والسنة في العنوان العلوي للتقويم
-            document.getElementById('month-year-display').innerText = monthsArabic[currentMonth] + " " + currentYear;
+            // تحديث نص العنوان (الشهر والسنة المعروضين حالياً)
+            document.getElementById('month-year-display').innerText = monthsArabic[month] + " " + year;
 
-            // تحديد أول يوم في الشهر (أي يوم في الأسبوع يبدأ)
-            const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
+            const firstDayIndex = new Date(year, month, 1).getDay();
+            const totalDaysInMonth = new Date(year, month + 1, 0).getDate();
 
-            // تحديد عدد أيام الشهر الحالي الإجمالي
-            const totalDaysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-
-            // 1. توليد مربعات فارغة للأيام قبل بداية الشهر لتنسيق الجدول
+            // مربعات فارغة للمحاذاة
             for (let i = 0; i < firstDayIndex; i++) {
                 container.innerHTML += `<div class="day-box empty-day"></div>`;
             }
 
-            // 2. توليد أيام الشهر الحقيقية
+            // توليد الأيام الحقيقية للشهر المحدد
             for (let i = 1; i <= totalDaysInMonth; i++) {
-                // التحقق لو كان اليوم المولد هو تاريخ اليوم الحالي لوضع علامة مميزة حوله
-                let isTodayClass = (i === currentDate) ? 'today-box' : '';
+                let isTodayClass = (i === today.getDate() && month === today.getMonth() && year === today.getFullYear()) ? 'today-box' : '';
+                
+                // مفتاح فريد لحفظ الإجازة لهذا اليوم المعين في هذه السنة المعينة
+                let dayKey = `${year}-${month}-${i}`;
+                let currentDayLeave = savedLeaves[dayKey] ? savedLeaves[dayKey] : '';
 
                 container.innerHTML += `
-                    <div class="day-box ${isTodayClass}" onclick="openCalModal('day-${i}', ${i})">
-                        <span style="font-size:12px; font-weight:bold; color:${i === currentDate ? '#ff7a00' : '#64748b'};">
-                            ${i} ${i === currentDate ? '(اليوم)' : ''}
+                    <div class="day-box ${isTodayClass}" onclick="openCalModal('${dayKey}', ${i})">
+                        <span style="font-size:12px; font-weight:bold; color:${isTodayClass ? '#ff7a00' : '#64748b'};">
+                            ${i} ${isTodayClass ? '(اليوم)' : ''}
                         </span>
-                        <div id="day-${i}" style="font-size:10px; color:#c084fc; font-weight:bold; margin-top:5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></div>
+                        <div id="div-${dayKey}" style="font-size:10px; color:#c084fc; font-weight:bold; margin-top:5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                            ${currentDayLeave}
+                        </div>
                     </div>`;
             }
+        }
+
+        // دالة تغيير الشهر عند الضغط على الأزرار (تستقبل 1 للشهر القادم و -1 للشهر السابق)
+        function changeMonth(direction) {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() + direction);
+            buildRealCalendar();
         }
 
         function openAddModal() {
@@ -373,43 +414,10 @@
 
         function closeModal() { document.getElementById('employeeModal').classList.add('hidden'); }
         
-        function openCalModal(id, dayNum) { 
-            targetDayId = id; 
+        function openCalModal(dayKey, dayNum) { 
+            targetDayKey = dayKey; 
             document.getElementById('calendar-modal-title').innerText = "منح إجازة ليوم " + dayNum;
             document.getElementById('calendarModal').classList.remove('hidden'); 
         }
         
-        function closeCalendarModal() { document.getElementById('calendarModal').classList.add('hidden'); }
-
-        function saveEmployee() {
-            const id = document.getElementById('edit-id').value;
-            const name = document.getElementById('empName').value.trim();
-            const role = document.getElementById('empRole').value.trim();
-            const status = document.getElementById('empStatus').value;
-
-            if(!name || !role) return alert('يرجى ملء الحقول!');
-
-            if(id) {
-                const emp = employees.find(e => e.id == id);
-                if(emp) { emp.name = name; emp.role = role; emp.status = status; }
-            } else {
-                employees.push({ id: Date.now(), name, role, status });
-            }
-            renderTable(); closeModal();
-        }
-
-        function deleteEmployee(id) { employees = employees.filter(e => e.id !== id); renderTable(); }
-        
-        function assignLeave() {
-            const name = document.getElementById('calendar-select').value;
-            if(name && targetDayId) document.getElementById(targetDayId).innerText = "🌴 " + name;
-            closeCalendarModal();
-        }
-
-        window.onload = function() { 
-            renderTable(); 
-            buildRealCalendar(); 
-        };
-    </script>
-</body>
-</html>
+        function closeCalendarModal() { document.getElementById('calendarModal').
