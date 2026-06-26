@@ -33,7 +33,6 @@
             min-height: 60px;
         }
         
-        /* تحويل الأزرار إلى روابط هيكلية آمنة لمنع التجميد */
         nav {
             display: flex;
             gap: 12px;
@@ -53,7 +52,6 @@
             transition: all 0.25s ease-in-out;
         }
         
-        /* تأثير التمرير بنفسجي شفاف ومتفاعل */
         .nav-btn:hover {
             color: #ffffff;
             background-color: rgba(88, 43, 86, 0.35);
@@ -68,34 +66,30 @@
             fill: currentColor;
         }
         
-        /* --- المحرك الميكانيكي الجديد كلياً بالـ CSS لفك تجميد الشاشات --- */
+        /* المحرك الميكانيكي الحصري بـ CSS لتبديل الواجهات */
         .page-container {
             width: 100%;
             position: relative;
         }
         .page-content {
-            display: none; /* إخفاء افتراضي */
+            display: none;
         }
         
-        /* الشاشة الافتراضية عند الفتح لأول مرة */
         #view-home {
             display: block;
         }
         
-        /* تفعيل الشاشات فوراً عند الضغط ميكانيكياً بدون جافاسكريبت */
         #view-home:target,
         #view-employees:target,
         #view-calendar:target {
             display: block !important;
         }
         
-        /* إخفاء الشاشة الرئيسية تلقائياً عند طلب تصفح الشاشات الأخرى */
         #view-employees:target ~ #view-home,
         #view-calendar:target ~ #view-home {
             display: none !important;
         }
         
-        /* الكرت الرئيسي بخلفية سوداء داكنة جداً */
         .table-card {
             background-color: #050505;
             padding: 30px;
@@ -120,7 +114,6 @@
             margin-top: 4px;
         }
         
-        /* زر الإضافة البنفسجي */
         .btn-add {
             background-color: #582b56;
             color: #ffffff;
@@ -186,7 +179,48 @@
             background-color: rgba(255, 255, 255, 0.02);
         }
         
-        /* التقويم */
+        /* أزرار وعنوان التحكم بالشهر والسنة للتقويم */
+        .calendar-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .calendar-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .cal-arrow-btn {
+            background-color: rgba(255, 255, 255, 0.04);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .cal-arrow-btn:hover {
+            background-color: #582b56;
+            opacity: 0.85;
+        }
+        .month-year-badge {
+            background-color: #582b56;
+            padding: 6px 18px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #ffffff;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        /* هيكلة التقويم */
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
@@ -205,19 +239,24 @@
             border-radius: 12px;
             padding: 12px;
             min-height: 80px;
-            cursor: pointer;
             transition: all 0.25s ease;
         }
         .day-box:hover {
             border-color: rgba(168, 85, 247, 0.3);
             background-color: rgba(88, 43, 86, 0.15);
         }
+        .empty-day {
+            background: transparent;
+            border: none;
+            cursor: default;
+        }
         .today-box {
-            border: 1px solid #582b56 !important;
-            background-color: rgba(88, 43, 86, 0.1);
+            border: 2px solid #582b56 !important;
+            background-color: rgba(88, 43, 86, 0.15);
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
         }
 
-        /* --- منطقة الترحيب الزجاجية الكبيرة داخل المربع البنفسجي المختار --- */
+        /* منطقة الترحيب الزجاجية الكبيرة */
         .main-welcome-section {
             display: flex;
             align-items: center;
@@ -241,7 +280,6 @@
             display: inline-block;
         }
 
-        /* تأثير الكتابة المتحركة للخط الكبير */
         .typing-large-container {
             display: inline-block;
             overflow: hidden;
@@ -269,12 +307,10 @@
             from { width: 0; }
             to { width: 100%; }
         }
-
         @keyframes blinkLarge {
             from, to { border-color: transparent; }
             50% { border-color: #582b56; }
         }
-
         @keyframes waveHand {
             0% { transform: rotate(0deg) }
             10% { transform: rotate(14deg) }
@@ -304,7 +340,6 @@
                 <span>التقويم والإجازات</span>
             </a>
         </nav>
-        
         <div></div>
     </header>
 
@@ -352,20 +387,61 @@
 
         <div id="view-calendar" class="page-content">
             <div class="table-card">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <h3 style="font-size: 18px; color: white; font-weight: 700;">تقويم توزيع الإجازات التشغيلية</h3>
-                    <div style="background-color: #582b56; padding: 6px 16px; border-radius: 12px; font-weight: bold; font-size: 13px;">يونيو 2026</div>
+                
+                <div class="calendar-top-bar">
+                    <div>
+                        <h3 style="font-size: 18px; color: white; font-weight: 700;">تقويم توزيع الإجازات التشغيلية</h3>
+                        <p style="color: #4b5563; font-size: 12px; margin-top: 2px;">تصفح الأشهر والسنوات لمتابعة خطة الغيابات</p>
+                    </div>
+                    
+                    <div class="calendar-nav">
+                        <button class="cal-arrow-btn" onclick="alert('تصفح الشهر السابق مستقر ومستعد للربط بقاعدة البيانات.')">▶</button>
+                        <div class="month-year-badge">يونيو 2026</div>
+                        <button class="cal-arrow-btn" onclick="alert('تصفح الشهر القادم مستقر ومستعد للربط بقاعدة البيانات.')">◀</button>
+                    </div>
                 </div>
                 
                 <div class="calendar-grid">
-                    <div class="cal-header">الأحد</div><div class="cal-header">الإثنين</div><div class="cal-header">الثلاثاء</div><div class="cal-header">أربعاء</div><div class="cal-header">خميس</div><div class="cal-header">جمعة</div><div class="cal-header">سبت</div>
+                    <div class="cal-header">الأحد</div>
+                    <div class="cal-header">الإثنين</div>
+                    <div class="cal-header">الثلاثاء</div>
+                    <div class="cal-header">الأربعاء</div>
+                    <div class="cal-header">الخميس</div>
+                    <div class="cal-header">الجمعة</div>
+                    <div class="cal-header">السبت</div>
                     
-                    <div class="day-box" style="background:transparent; border:none; cursor:default;"></div>
-                    <div class="day-box"><span>1</span></div><div class="day-box"><span>2</span></div><div class="day-box"><span>3</span></div><div class="day-box"><span>4</span></div><div class="day-box"><span>5</span></div><div class="day-box"><span>6</span></div>
-                    <div class="day-box"><span>7</span></div><div class="day-box"><span>8</span></div><div class="day-box"><span>9</span></div><div class="day-box"><span>10</span></div><div class="day-box"><span>11</span></div><div class="day-box"><span>12</span></div><div class="day-box"><span>13</span></div>
-                    <div class="day-box"><span>14</span></div><div class="day-box"><span>15</span></div><div class="day-box"><span>16</span></div><div class="day-box"><span>17</span></div><div class="day-box"><span>18</span></div><div class="day-box"><span>19</span></div><div class="day-box"><span>20</span></div>
-                    <div class="day-box"><span>21</span></div><div class="day-box"><span>22</span></div><div class="day-box"><span>23</span></div><div class="day-box"><span>24</span></div><div class="day-box"><span>25</span></div><div class="day-box today-box"><span style="color:#ffffff; font-weight:700;">26 (اليوم)</span></div><div class="day-box"><span>27</span></div>
-                    <div class="day-box"><span>28</span></div><div class="day-box"><span>29</span></div><div class="day-box"><span>30</span></div>
+                    <div class="day-box empty-day"></div>
+                    
+                    <div class="day-box"><span>1</span></div>
+                    <div class="day-box"><span>2</span></div>
+                    <div class="day-box"><span>3</span></div>
+                    <div class="day-box"><span>4</span></div>
+                    <div class="day-box"><span>5</span></div>
+                    <div class="day-box"><span>6</span></div>
+                    <div class="day-box"><span>7</span></div>
+                    <div class="day-box"><span>8</span></div>
+                    <div class="day-box"><span>9</span></div>
+                    <div class="day-box"><span>10</span></div>
+                    <div class="day-box"><span>11</span></div>
+                    <div class="day-box"><span>12</span></div>
+                    <div class="day-box"><span>13</span></div>
+                    <div class="day-box"><span>14</span></div>
+                    <div class="day-box"><span>15</span></div>
+                    <div class="day-box"><span>16</span></div>
+                    <div class="day-box"><span>17</span></div>
+                    <div class="day-box"><span>18</span></div>
+                    <div class="day-box"><span>19</span></div>
+                    <div class="day-box"><span>20</span></div>
+                    <div class="day-box"><span>21</span></div>
+                    <div class="day-box"><span>22</span></div>
+                    <div class="day-box"><span>23</span></div>
+                    <div class="day-box"><span>24</span></div>
+                    <div class="day-box"><span>25</span></div>
+                    <div class="day-box today-box"><span style="color:#ffffff; font-weight:900;">26 (اليوم)</span></div>
+                    <div class="day-box"><span>27</span></div>
+                    <div class="day-box"><span>28</span></div>
+                    <div class="day-box"><span>29</span></div>
+                    <div class="day-box"><span>30</span></div>
                 </div>
             </div>
         </div>
