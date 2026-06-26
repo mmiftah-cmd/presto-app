@@ -10,15 +10,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     
     <style>
-        /* تطبيق خط Cairo الجديد على كافة عناصر النظام */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Cairo', sans-serif;
         }
+        
+        /* خلفية سوداء حقيقية بالكامل للموقع */
         body {
-            background-color: #0b111e;
+            background-color: #000000;
             color: #e2e8f0;
             padding: 30px;
         }
@@ -36,11 +37,11 @@
             gap: 12px;
         }
         
-        /* النمط المطفأ الفخم (Minimalist Dark) للأزرار */
+        /* الأزرار العلوية بنظام شفاف فخم */
         .nav-btn {
-            background-color: rgba(30, 41, 59, 0.4);
+            background-color: rgba(255, 255, 255, 0.03);
             color: #94a3b8;
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.02);
             padding: 8px 24px;
             border-radius: 20px;
             font-weight: 600;
@@ -52,7 +53,7 @@
             transition: all 0.25s ease-in-out;
         }
         
-        /* تأثير التمرير الفخم الشفاف بتوهج خفيف */
+        /* تأثير التمرير بنفسجي شفاف ومتفاعل */
         .nav-btn:hover {
             color: #ffffff;
             background-color: rgba(88, 43, 86, 0.35);
@@ -61,7 +62,7 @@
             transform: translateY(-1px);
         }
         
-        /* الزر المختار النشط حالياً */
+        /* الزر المختار النشط حالياً (البنفسجي الفخم) */
         .nav-item-active {
             background-color: #582b56 !important;
             color: #ffffff !important;
@@ -86,13 +87,13 @@
             display: block !important;
         }
         
-        /* تصميم كرت الجدول المتناسق مع المظهر المطفأ */
+        /* الكرت الرئيسي بخلفية سوداء داكنة جداً متباينة ونظيفة */
         .table-card {
-            background-color: #111625;
+            background-color: #050505;
             padding: 30px;
             border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
         }
         .table-header {
             display: flex;
@@ -111,10 +112,11 @@
             margin-top: 4px;
         }
         
+        /* زر الإضافة تم تحويله بالكامل إلى اللون البنفسجي تلبية لطلبك مع ميزة التفاعل الشفاف */
         .btn-add {
-            background-color: #ff7a00;
+            background-color: #582b56;
             color: #ffffff;
-            border: none;
+            border: 1px solid rgba(168, 85, 247, 0.2);
             padding: 10px 18px;
             border-radius: 12px;
             font-weight: 700;
@@ -123,12 +125,13 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.25s ease;
+            transition: all 0.25s ease-in-out;
         }
         .btn-add:hover {
-            background-color: #ea6e00;
+            background-color: rgba(88, 43, 86, 0.7);
             opacity: 0.9;
-            box-shadow: 0 4px 14px rgba(255, 122, 0, 0.25);
+            box-shadow: 0 4px 14px rgba(88, 43, 86, 0.4);
+            transform: translateY(-1px);
         }
         
         table {
@@ -138,7 +141,7 @@
         }
         th, td {
             padding: 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
         th {
             color: #6b7280;
@@ -175,7 +178,7 @@
             background-color: rgba(255, 255, 255, 0.02);
         }
         
-        /* التقويم */
+        /* التقويم بخلفية سوداء متناسقة */
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
@@ -189,8 +192,8 @@
             font-size: 13px;
         }
         .day-box {
-            background-color: #0b111e;
-            border: 1px solid rgba(255, 255, 255, 0.02);
+            background-color: #000000;
+            border: 1px solid rgba(255, 255, 255, 0.03);
             border-radius: 12px;
             padding: 12px;
             min-height: 80px;
@@ -199,10 +202,11 @@
         }
         .day-box:hover {
             border-color: rgba(168, 85, 247, 0.3);
-            background-color: rgba(30, 41, 59, 0.3);
+            background-color: rgba(88, 43, 86, 0.15);
         }
         .today-box {
-            border: 1px solid #ff7a00 !important;
+            border: 1px solid #582b56 !important; /* تم تعديل تمييز اليوم الحالي ليصبح بنفسجياً أيضاً */
+            background-color: rgba(88, 43, 86, 0.1);
         }
     </style>
 </head>
@@ -234,7 +238,7 @@
         <div id="view-home" class="page-content active-view">
             <div class="table-card" style="padding: 40px 30px;">
                 <h2 style="font-size: 20px; color: #ffffff; font-weight: 900; margin-bottom: 8px;">مرحباً بك في نظام العمليات الذكي</h2>
-                <p style="color: #6b7280; font-size: 13px;">تم تفعيل النمط المطفأ الفخم مع خط Cairo الجديد بنجاح لبدء تصفح آمن.</p>
+                <p style="color: #6b7280; font-size: 13px;">تم تحديث التصميم باللون الأسود الحقيقي الفخم وتوحيد الأزرار البنفسجية بنجاح.</p>
             </div>
         </div>
 
@@ -292,7 +296,7 @@
                     <div class="day-box"><span>1</span></div><div class="day-box"><span>2</span></div><div class="day-box"><span>3</span></div><div class="day-box"><span>4</span></div><div class="day-box"><span>5</span></div><div class="day-box"><span>6</span></div>
                     <div class="day-box"><span>7</span></div><div class="day-box"><span>8</span></div><div class="day-box"><span>9</span></div><div class="day-box"><span>10</span></div><div class="day-box"><span>11</span></div><div class="day-box"><span>12</span></div><div class="day-box"><span>13</span></div>
                     <div class="day-box"><span>14</span></div><div class="day-box"><span>15</span></div><div class="day-box"><span>16</span></div><div class="day-box"><span>17</span></div><div class="day-box"><span>18</span></div><div class="day-box"><span>19</span></div><div class="day-box"><span>20</span></div>
-                    <div class="day-box"><span>21</span></div><div class="day-box"><span>22</span></div><div class="day-box"><span>23</span></div><div class="day-box"><span>24</span></div><div class="day-box"><span>25</span></div><div class="day-box today-box"><span style="color:#ff7a00; font-weight:700;">26 (اليوم)</span></div><div class="day-box"><span>27</span></div>
+                    <div class="day-box"><span>21</span></div><div class="day-box"><span>22</span></div><div class="day-box"><span>23</span></div><div class="day-box"><span>24</span></div><div class="day-box"><span>25</span></div><div class="day-box today-box"><span style="color:#ffffff; font-weight:700;">26 (اليوم)</span></div><div class="day-box"><span>27</span></div>
                     <div class="day-box"><span>28</span></div><div class="day-box"><span>29</span></div><div class="day-box"><span>30</span></div>
                 </div>
             </div>
