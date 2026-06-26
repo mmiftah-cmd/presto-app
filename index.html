@@ -16,22 +16,30 @@
             font-family: 'Cairo', sans-serif !important;
         }
 
-        /* انحناءات حركة شاشات آبل الذكية الفيزيائية */
-        .ios-transition {
-            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        /* منحنى حركة فيزيائي فخم وناعم جداً للتمدد والانكماش */
+        .ios-sidebar-transition {
+            transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* إخفاء واظهار النصوص بنعومة بالغة عند تمرير الماوس */
+        /* كود السحر البصري: إخفاء النص عبر تحجيم العرض والشفافية معاً لتجنب القفز المفاجئ */
         .sidebar-text {
+            max-width: 0;
             opacity: 0;
             white-space: nowrap;
-            transition: opacity 0.2s ease;
-            display: none;
+            display: inline-block;
+            overflow: hidden;
+            transition: max-width 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
+        /* عند تمرير الماوس، تتمدد النصوص تدريجياً بالتزامن مع تمدد القائمة الجانبية */
         .sidebar-container:hover .sidebar-text {
+            max-width: 150px; /* يعطي مساحة كافية للنص ليتمدد بنعومة */
             opacity: 1;
-            display: inline-block;
+        }
+
+        /* حركة الكبسولة البنفسجية المتزحلقة */
+        .ios-transition {
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         /* أنميشن ظهور محتوى لوحة التحكم بتأثير الـ Blur والتلاشي والانزلاق */
@@ -49,14 +57,14 @@
         }
     </style>
 </head>
-<body class="bg-[#f8fafc] text-slate-900 overflow-hidden">
+<body class="bg-[#f4f5f8] text-slate-900 overflow-hidden">
 
     <div class="flex h-screen overflow-hidden">
         
-        <div class="sidebar-container w-22 hover:w-64 bg-[#0f172a] text-white flex flex-col justify-between p-4 relative z-20 shrink-0 ios-transition shadow-2xl">
+        <div class="sidebar-container w-22 hover:w-64 bg-[#090d16] text-white flex flex-col justify-between p-4 relative z-20 shrink-0 ios-sidebar-transition shadow-2xl">
             <div>
                 <div class="flex items-center space-x-reverse space-x-3 pb-6 mb-6 border-b border-slate-800/60 overflow-hidden h-14">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-lg shadow-orange-500/30 shrink-0">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-purple-500/30 shrink-0">
                         <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="14" y1="4" x2="8" y2="10" />
                             <path d="M18 8 L12 14 A 3 3 0 0 1 7 14 A 3 3 0 0 1 12 14" />
@@ -66,28 +74,28 @@
                 </div>
                 
                 <div class="relative" id="sidebar-nav">
-                    <div id="active-bg" class="absolute right-0 top-0 w-full h-12 bg-gradient-to-r from-orange-500 to-amber-500 rounded-2xl ios-transition z-0 shadow-[0_8px_24px_rgba(249,115,22,0.4)]" style="transform: translateY(0px);"></div>
+                    <div id="active-bg" class="absolute right-0 top-0 w-full h-12 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl ios-transition z-0 shadow-[0_8px_24px_rgba(147,51,234,0.4)]" style="transform: translateY(0px);"></div>
                     
                     <nav class="space-y-2 relative z-10">
                         <button onclick="switchPage('home', this)" class="w-full flex items-center space-x-reverse space-x-4 px-4 h-12 text-white ios-transition text-right font-bold cursor-pointer rounded-2xl overflow-hidden bg-transparent border-0 outline-none">
                             <i class="fa-solid fa-layer-group text-lg min-w-[28px] text-center"></i>
-                            <span class="sidebar-text">الرئيسية</span>
+                            <span class="sidebar-text mr-2">الرئيسية</span>
                         </button>
                         <button onclick="switchPage('employees', this)" class="w-full flex items-center space-x-reverse space-x-4 px-4 h-12 text-slate-400 hover:text-white ios-transition text-right font-bold cursor-pointer rounded-2xl overflow-hidden bg-transparent border-0 outline-none">
                             <i class="fa-solid fa-users text-lg min-w-[28px] text-center"></i>
-                            <span class="sidebar-text">الموظفون</span>
+                            <span class="sidebar-text mr-2">الموظفون</span>
                         </button>
                         <button onclick="switchPage('attendance', this)" class="w-full flex items-center space-x-reverse space-x-4 px-4 h-12 text-slate-400 hover:text-white ios-transition text-right font-bold cursor-pointer rounded-2xl overflow-hidden bg-transparent border-0 outline-none">
                             <i class="fa-solid fa-fingerprint text-lg min-w-[28px] text-center"></i>
-                            <span class="sidebar-text">الحضور والغياب</span>
+                            <span class="sidebar-text mr-2">الحضور والغياب</span>
                         </button>
                         <button onclick="switchPage('leave', this)" class="w-full flex items-center space-x-reverse space-x-4 px-4 h-12 text-slate-400 hover:text-white ios-transition text-right font-bold cursor-pointer rounded-2xl overflow-hidden bg-transparent border-0 outline-none">
                             <i class="fa-solid fa-calendar-minus text-lg min-w-[28px] text-center"></i>
-                            <span class="sidebar-text">طلب إجازة</span>
+                            <span class="sidebar-text mr-2">طلب إجازة</span>
                         </button>
                         <button onclick="switchPage('salary', this)" class="w-full flex items-center space-x-reverse space-x-4 px-4 h-12 text-slate-400 hover:text-white ios-transition text-right font-bold cursor-pointer rounded-2xl overflow-hidden bg-transparent border-0 outline-none">
                             <i class="fa-solid fa-wallet text-lg min-w-[28px] text-center"></i>
-                            <span class="sidebar-text">الرواتب والمستندات</span>
+                            <span class="sidebar-text mr-2">الرواتب والمستندات</span>
                         </button>
                     </nav>
                 </div>
@@ -96,7 +104,7 @@
             <div class="pt-4 border-t border-slate-800/60 overflow-hidden">
                 <a href="#" class="flex items-center space-x-reverse space-x-4 px-4 py-3 rounded-2xl text-rose-400 hover:bg-rose-500/10 transition duration-300 no-underline">
                     <i class="fa-solid fa-arrow-right-from-bracket text-lg min-w-[28px] text-center"></i>
-                    <span class="sidebar-text font-bold">تسجيل الخروج</span>
+                    <span class="sidebar-text font-bold mr-2">تسجيل الخروج</span>
                 </a>
             </div>
         </div>
@@ -105,15 +113,15 @@
             
             <header class="bg-white/80 backdrop-blur-md border-b border-slate-100 h-20 flex items-center justify-between px-8 shrink-0 z-10">
                 <div>
-                    <h1 class="text-2xl font-extrabold text-slate-800 tracking-tight">أهلاً بك، محمد بن مفتاح 👋</h1>
-                    <p class="text-xs font-medium text-slate-400 mt-0.5">مرحباً بك في نظام إدارة الموظفين الذكي الخاص بك</p>
+                    <h1 class="text-2xl font-extrabold text-[#090d16] tracking-tight">أهلاً بك، محمد بن مفتاح 👋</h1>
+                    <p class="text-xs font-medium text-slate-400 mt-0.5">مرحباً بك في نظام إدارة الموظفين الذكي والملكي الخاص بك</p>
                 </div>
                 <div class="flex items-center space-x-reverse space-x-5">
-                    <button class="relative w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:text-slate-600 hover:scale-105 ios-transition bg-transparent outline-none">
+                    <button class="relative w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:text-purple-600 hover:scale-105 ios-transition bg-transparent outline-none">
                         <i class="fa-solid fa-bell text-base"></i>
-                        <span class="absolute top-2 left-2 bg-orange-500 w-2 h-2 rounded-full animate-ping"></span>
+                        <span class="absolute top-2 left-2 bg-purple-600 w-2 h-2 rounded-full animate-ping"></span>
                     </button>
-                    <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-orange-500 to-amber-500 flex items-center justify-center text-white font-extrabold shadow-md shadow-orange-500/20 text-sm">مم</div>
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white font-extrabold shadow-md shadow-purple-500/20 text-sm">مم</div>
                 </div>
             </header>
 
@@ -126,140 +134,25 @@
                                 <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">ساعات العمل هذا الشهر</p>
                                 <p class="text-3xl font-extrabold text-slate-900 mt-1.5">160 ساعة</p>
                             </div>
-                            <div class="w-14 h-14 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-500 shadow-inner"><i class="fa-solid fa-stopwatch text-xl"></i></div>
+                            <div class="w-14 h-14 rounded-2xl bg-purple-50 flex items-center justify-center text-purple-600 shadow-inner"><i class="fa-solid fa-stopwatch text-xl"></i></div>
                         </div>
                         <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.01)] flex items-center justify-between hover:scale-[1.01] ios-transition">
                             <div>
                                 <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">رصيد الإجازات المتبقي</p>
                                 <p class="text-3xl font-extrabold text-slate-900 mt-1.5">14 يوم</p>
                             </div>
-                            <div class="w-14 h-14 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-500 shadow-inner"><i class="fa-solid fa-plane-departure text-xl"></i></div>
+                            <div class="w-14 h-14 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600 shadow-inner"><i class="fa-solid fa-plane-departure text-xl"></i></div>
                         </div>
                         <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.01)] flex items-center justify-between hover:scale-[1.01] ios-transition">
                             <div>
                                 <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">المهام المعلقة</p>
                                 <p class="text-3xl font-extrabold text-slate-900 mt-1.5">5 مهام</p>
                             </div>
-                            <div class="w-14 h-14 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-500 shadow-inner"><i class="fa-solid fa-folder-open text-xl"></i></div>
+                            <div class="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-700 shadow-inner"><i class="fa-solid fa-folder-open text-xl"></i></div>
                         </div>
                     </div>
                 </div>
 
                 <div id="employees" class="page-content hidden space-y-6">
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.01)] lg:col-span-1">
-                            <h2 class="text-lg font-extrabold text-slate-800 mb-4"><i class="fa-solid fa-user-plus text-orange-500 mr-1"></i> تسجيل موظف جديد</h2>
-                            <form id="employeeForm" class="space-y-4" onsubmit="addEmployee(event)">
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-500 mb-1">اسم الموظف كلياً</label>
-                                    <input type="text" id="empName" required class="w-full border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-orange-500 outline-none ios-transition" placeholder="مثال: محمد عبد الله">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-500 mb-1">المسمى الوظيفي</label>
-                                    <input type="text" id="empRole" required class="w-full border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-orange-500 outline-none ios-transition" placeholder="مثال: مطور واجهات">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold text-slate-500 mb-1">البريد الإلكتروني</label>
-                                    <input type="email" id="empEmail" required class="w-full border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-orange-500 outline-none ios-transition text-right" placeholder="name@company.com">
-                                </div>
-                                <button type="submit" class="w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white py-3 rounded-xl font-bold shadow-lg shadow-orange-500/20 hover:scale-[1.02] active:scale-95 ios-transition cursor-pointer border-0 outline-none">تسجيل وتأكيد الموظف</button>
-                            </form>
-                        </div>
-
-                        <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.01)] lg:col-span-2">
-                            <h2 class="text-lg font-extrabold text-slate-800 mb-4"><i class="fa-solid fa-list text-orange-500 mr-1"></i> لائحة الموظفين الحاليين</h2>
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-right text-sm">
-                                    <thead class="bg-slate-50 text-slate-400 font-bold border-b border-slate-100">
-                                        <tr><th class="px-4 py-3">الموظف</th><th class="px-4 py-3">الوظيفة</th><th class="px-4 py-3">البريد</th></tr>
-                                    </thead>
-                                    <tbody id="employeeTableBody" class="divide-y divide-slate-50 text-slate-700 font-semibold">
-                                        </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="attendance" class="page-content hidden space-y-6">
-                    <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.01)] flex justify-between items-center">
-                        <div>
-                            <h2 class="text-xl font-extrabold text-slate-800">بوابة إثبات الحضور والإنصراف</h2>
-                        </div>
-                        <button class="bg-gradient-to-r from-orange-500 to-amber-500 text-white px-8 py-3.5 rounded-2xl font-extrabold border-0 outline-none cursor-pointer shadow-lg shadow-orange-500/20">تسجيل بصمة الدخول</button>
-                    </div>
-                </div>
-
-                <div id="leave" class="page-content hidden space-y-6">
-                    <div class="max-w-2xl bg-white p-8 rounded-3xl border border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.01)]">
-                        <h2 class="text-xl font-extrabold text-slate-800 mb-6">تقديم طلب إجازة رقمي جديد</h2>
-                    </div>
-                </div>
-
-                <div id="salary" class="page-content hidden space-y-6">
-                    <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.01)] max-w-md">
-                        <h2 class="text-lg font-extrabold text-slate-800 border-b border-slate-100 pb-3 mb-4">كشف الراتب المستحق</h2>
-                        <div class="flex justify-between text-lg font-extrabold text-orange-500"><span>إجمالي مستحقاتك المالية:</span><span>6,000 د.إ</span></div>
-                    </div>
-                </div>
-
-            </main>
-        </div>
-    </div>
-
-    <script>
-        // دالة التنقل الديناميكية المعالجة لحسابات الإزاحة والأنميشن بشكل فيزيائي دقيق
-        function switchPage(pageId, element) {
-            // 1. التقاط مسافة توب الزر الفعلي من الـ offsetTop لضمان سلاسة حركة الكبسولة البرتقالية
-            const moveY = element.offsetTop; 
-            document.getElementById('active-bg').style.transform = `translateY(${moveY}px)`;
-
-            // 2. تحديث وتخفيف ألوان أزرار الأيقونات غير النشطة
-            const buttons = document.querySelectorAll('#sidebar-nav button');
-            buttons.forEach(btn => {
-                btn.classList.remove('text-white');
-                btn.classList.add('text-slate-400');
-            });
-            element.classList.remove('text-slate-400');
-            element.classList.add('text-white');
-
-            // 3. التبديل النظيف والآمن بين الأقسام
-            const pages = document.querySelectorAll('.page-content');
-            pages.forEach(page => {
-                if (page.id === pageId) {
-                    page.classList.remove('hidden');
-                    // مهلة بالملي ثانية ليتحفز تأثير الـ Fade & Slide
-                    setTimeout(() => { page.classList.add('active'); }, 30);
-                } else {
-                    page.classList.remove('active');
-                    page.classList.add('hidden');
-                }
-            });
-        }
-
-        // دالة تفاعلية لإضافة الموظفين إلى الجدول فوراً
-        function addEmployee(event) {
-            event.preventDefault();
-            
-            const name = document.getElementById('empName').value;
-            const role = document.getElementById('empRole').value;
-            const email = document.getElementById('empEmail').value;
-
-            const tableBody = document.getElementById('employeeTableBody');
-            
-            const newRow = document.createElement('tr');
-            newRow.className = 'bg-orange-50/20 border-b border-slate-50 ios-transition'; 
-            newRow.innerHTML = `
-                <td class="px-4 py-3 text-slate-900 font-bold">${name}</td>
-                <td class="px-4 py-3 text-orange-600">${role}</td>
-                <td class="px-4 py-3 text-slate-400">${email}</td>
-            `;
-
-            tableBody.appendChild(newRow);
-
-            // تفريغ الفورم بعد التسجيل بنجاح
-            document.getElementById('employeeForm').reset();
-        }
-    </script>
-</body>
-</html>
+                        <div class="bg-white p-6 rounded-3xl border border
