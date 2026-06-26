@@ -103,10 +103,69 @@
             </div>
 
             <div id="attendance" class="page-content hidden space-y-6">
-                <div class="bg-[#111625] border border-slate-800/50 rounded-3xl p-8 text-center max-w-md mx-auto shadow-2xl">
-                    <h2 class="text-xl font-bold text-white mb-2">تسجيل الحضور اليومي</h2>
-                    <p class="text-xs text-slate-500 mb-6">اضغط لإثبات حضورك الرقمي الفوري في النظام</p>
-                    <button class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-8 py-3 rounded-xl font-bold border-0 outline-none cursor-pointer w-full shadow-lg shadow-purple-600/20">بصمة الدخول</button>
+                <div class="bg-[#111625] border border-slate-800/50 rounded-3xl p-6 shadow-2xl overflow-hidden">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                        <div>
+                            <h2 class="text-lg font-bold text-white">قائمة إدارة الموظفين</h2>
+                            <p class="text-xs text-slate-500 mt-1">عرض ومتابعة كافة موظفي النظام الحاليين وصلاحياتهم</p>
+                        </div>
+                        <button class="bg-[#ff7a00] hover:bg-orange-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl border-0 outline-none cursor-pointer flex items-center gap-2 shadow-lg shadow-orange-600/20 transition">
+                            <i class="fa-solid fa-user-plus"></i>
+                            <span>إضافة موظف جديد</span>
+                        </button>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-right border-collapse">
+                            <thead>
+                                <tr class="border-b border-slate-800 text-slate-400 text-xs font-bold">
+                                    <th class="pb-3 text-center w-12">#</th>
+                                    <th class="pb-3 pr-2">الموظف</th>
+                                    <th class="pb-3">القسم الوظيفي</th>
+                                    <th class="pb-3 text-center">حالة الحضور اليوم</th>
+                                    <th class="pb-3 text-center">الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800/50 text-sm">
+                                <tr>
+                                    <td class="py-4 text-center text-slate-500 font-bold">1</td>
+                                    <td class="py-4 pr-2 font-bold text-white">أحمد المصعبي</td>
+                                    <td class="py-4 text-slate-400 text-xs">مهندس برمجيات أول</td>
+                                    <td class="py-4 text-center">
+                                        <span class="bg-green-500/10 text-green-400 text-[10px] font-bold px-2.5 py-1 rounded-full">حاضر</span>
+                                    </td>
+                                    <td class="py-4 text-center space-x-2 space-x-reverse">
+                                        <button class="text-purple-400 hover:text-purple-300 bg-transparent border-0 cursor-pointer p-1"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <button class="text-rose-400 hover:text-rose-300 bg-transparent border-0 cursor-pointer p-1"><i class="fa-solid fa-trash-can"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-4 text-center text-slate-500 font-bold">2</td>
+                                    <td class="py-4 pr-2 font-bold text-white">سارة العامري</td>
+                                    <td class="py-4 text-slate-400 text-xs">مصممة واجهات المستخدم UI/UX</td>
+                                    <td class="py-4 text-center">
+                                        <span class="bg-green-500/10 text-green-400 text-[10px] font-bold px-2.5 py-1 rounded-full">حاضر</span>
+                                    </td>
+                                    <td class="py-4 text-center space-x-2 space-x-reverse">
+                                        <button class="text-purple-400 hover:text-purple-300 bg-transparent border-0 cursor-pointer p-1"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <button class="text-rose-400 hover:text-rose-300 bg-transparent border-0 cursor-pointer p-1"><i class="fa-solid fa-trash-can"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-4 text-center text-slate-500 font-bold">3</td>
+                                    <td class="py-4 pr-2 font-bold text-white">خالد الهاملي</td>
+                                    <td class="py-4 text-slate-400 text-xs">مدير التسويق الرقمي</td>
+                                    <td class="py-4 text-center">
+                                        <span class="bg-amber-500/10 text-amber-400 text-[10px] font-bold px-2.5 py-1 rounded-full">مستأذن</span>
+                                    </td>
+                                    <td class="py-4 text-center space-x-2 space-x-reverse">
+                                        <button class="text-purple-400 hover:text-purple-300 bg-transparent border-0 cursor-pointer p-1"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <button class="text-rose-400 hover:text-rose-300 bg-transparent border-0 cursor-pointer p-1"><i class="fa-solid fa-trash-can"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
