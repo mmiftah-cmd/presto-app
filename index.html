@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام الموظفين المستقر - محمد بن مفتاح</title>
+    <title>نظام الموظفين المتطور - محمد بن مفتاح</title>
     
     <style>
-        /* نظام تصميم متكامل يعتمد على الـ CSS فقط للتنقل فكاً للتجميد */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -33,63 +32,51 @@
             font-weight: bold;
             color: #ff7a00;
         }
-        
-        /* أزرار التنقل أصبحت روابط ذكية */
         nav {
             display: flex;
             gap: 10px;
         }
-        nav a {
+        nav button {
             background-color: #1e293b;
             color: #94a3b8;
-            text-decoration: none;
+            border: none;
             padding: 10px 20px;
             border-radius: 20px;
             font-weight: bold;
-            font-size: 14px;
+            cursor: pointer;
             transition: 0.2s;
         }
-        nav a:hover {
+        nav button:hover {
             color: white;
             background-color: #334155;
         }
-
-        /* حاوية الشاشات والأقسام */
-        .page-container {
-            position: relative;
-            background-color: #111625;
-            min-height: 400px;
-            border-radius: 24px;
-            border: 1px solid #1e293b;
-            padding: 25px;
-            overflow: hidden;
+        .nav-item-active {
+            background-color: #582b56 !important;
+            color: white !important;
         }
-
-        /* إخفاء جميع الشاشات بشكل افتراضي */
         .page-content {
             display: none;
+            background-color: #111625;
+            padding: 25px;
+            border-radius: 24px;
+            border: 1px solid #1e293b;
+            margin-top: 20px;
         }
-
-        /* الشاشة الافتراضية عند فتح الملف أول مرة */
-        #home {
-            display: block;
-        }
-
-        /* سحر الـ CSS: عند الضغط على أي زر، يتم عرض الشاشة المستهدفة فوراً وإخفاء الباقي */
-        :target {
+        .active {
             display: block !important;
         }
-        :target ~ .page-content {
-            display: none;
+        .btn-main {
+            background-color: #ff7a00;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
         }
-        #employees:target ~ #home,
-        #calendar-page:target ~ #home,
-        #attendance:target ~ #home,
-        #salary:target ~ #home {
-            display: none !important;
-        }
-
-        /* تنسيق الجداول والتقويم المستقر */
+        .btn-main:hover { background-color: #ea6e00; }
+        
+        /* الجداول */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -101,7 +88,6 @@
             border-bottom: 1px solid #1e293b;
         }
         th { color: #94a3b8; font-size: 13px; }
-        
         .badge {
             padding: 4px 10px;
             border-radius: 12px;
@@ -110,20 +96,101 @@
         }
         .badge-active { background: rgba(34,197,94,0.1); color: #4ade80; }
         .badge-leave { background: rgba(245,158,11,0.1); color: #fbbf24; }
-
+        
+        /* التحكم بالتقويم والشهر والأزرار */
+        .calendar-header-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .calendar-navigation {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .nav-cal-btn {
+            background-color: #1e293b;
+            color: white;
+            border: 1px solid #334155;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+        .nav-cal-btn:hover {
+            background-color: #ff7a00;
+            border-color: #ff7a00;
+        }
+        .month-year-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffffff;
+            background: #582b56;
+            padding: 6px 16px;
+            border-radius: 12px;
+            min-width: 140px;
+            text-align: center;
+        }
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 10px;
-            margin-top: 15px;
         }
-        .cal-header { color: #94a3b8; font-weight: bold; text-align: center; font-size: 13px; }
+        .cal-header { 
+            color: #94a3b8; 
+            font-weight: bold; 
+            text-align: center; 
+            font-size: 13px; 
+            padding: 5px 0;
+        }
         .day-box {
             background: #0b111e;
             border: 1px solid #1e293b;
             border-radius: 10px;
             padding: 10px;
-            min-height: 70px;
+            min-height: 75px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .day-box:hover { border-color: #a855f7; background-color: #161d30; }
+        .empty-day {
+            background: transparent;
+            border: none;
+            cursor: default;
+        }
+        .today-box {
+            border: 2px solid #ff7a00 !important;
+        }
+
+        /* النوافذ المنبثقة */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+        .hidden { display: none !important; }
+        .modal-content {
+            background: #111625;
+            padding: 25px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 350px;
+            border: 1px solid #1e293b;
+        }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 12px; color: #94a3b8; margin-bottom: 4px; }
+        .form-group input, .form-group select {
+            width: 100%; padding: 8px; background: #0b111e; border: 1px solid #1e293b; color: white; border-radius: 8px; outline: none;
         }
     </style>
 </head>
@@ -131,24 +198,28 @@
 
     <header>
         <div class="logo">⚡ نظام الموظفين الذكي</div>
-        <nav>
-            <a href="#home">الرئيسية</a>
-            <a href="#employees">الموظفون</a>
-            <a href="#calendar-page">التقويم والإجازات</a>
-            <a href="#attendance">الحضور والغياب</a>
-            <a href="#salary">الرواتب</a>
+        <nav id="top-navigation">
+            <button onclick="switchPage('home', this)" class="nav-item-active">الرئيسية</button>
+            <button onclick="switchPage('employees', this)">الموظفون</button>
+            <button onclick="switchPage('calendar-page', this)">التقويم والإجازات</button>
+            <button onclick="switchPage('attendance', this)">الحضور والغياب</button>
+            <button onclick="switchPage('salary', this)">الرواتب</button>
         </nav>
         <div style="text-align: left;">
             <span style="font-weight: bold;">محمد بن مفتاح 👋</span>
         </div>
     </header>
 
-    <div class="page-container">
+    <main>
+        <div id="home" class="page-content active">
+            <h2>مرحباً بك في اللوحة الرئيسية</h2>
+            <p style="color: #94a3b8; margin-top: 10px;">ساعات العمل هذا الشهر: 160 ساعة | المهام المعلقة: 5 مهام</p>
+        </div>
 
         <div id="employees" class="page-content">
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <h3>إدارة بيانات سجل الموظفين</h3>
-                <button style="background-color: #ff7a00; color: white; padding: 8px 12px; border: none; border-radius: 8px; font-weight: bold;">+ إضافة موظف</button>
+                <button onclick="openAddModal()" class="btn-main">+ إضافة موظف</button>
             </div>
             <table>
                 <thead>
@@ -157,65 +228,226 @@
                         <th>الاسم</th>
                         <th>المسمى الوظيفي</th>
                         <th>الحالة</th>
+                        <th>الإجراءات</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td style="color: white; font-weight: bold;">أحمد المصعبي</td>
-                        <td>مهندس برمجيات أول</td>
-                        <td><span class="badge badge-active">نشط</span></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td style="color: white; font-weight: bold;">سارة العامري</td>
-                        <td>مصممة واجهات UI/UX</td>
-                        <td><span class="badge badge-active">نشط</span></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td style="color: white; font-weight: bold;">خالد الهاملي</td>
-                        <td>مدير التسويق الرقمي</td>
-                        <td><span class="badge badge-leave">إجازة</span></td>
-                    </tr>
-                </tbody>
+                <tbody id="table-body"></tbody>
             </table>
         </div>
 
         <div id="calendar-page" class="page-content">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <h3>تقويم توزيع الإجازات الفعلي</h3>
-                <div style="background-color: #582b56; padding: 6px 14px; border-radius: 10px; font-weight: bold; font-size: 14px;">يونيو 2026</div>
-            </div>
-            <div class="calendar-grid">
-                <div class="cal-header">الأحد</div><div class="cal-header">الإثنين</div><div class="cal-header">الثلاثاء</div><div class="cal-header">الأربعاء</div><div class="cal-header">الخميس</div><div class="cal-header">الجمعة</div><div class="cal-header">السبت</div>
+            <div class="calendar-header-area">
+                <div>
+                    <h3>تقويم توزيع الإجازات الفعلي</h3>
+                    <p style="color: #94a3b8; font-size: 13px; margin-top: 4px;">اضغط على مربع اليوم لمنح إجازة فورية لموظف</p>
+                </div>
                 
-                <div class="day-box" style="background:transparent; border:none;"></div>
-                <div class="day-box"><span>1</span></div><div class="day-box"><span>2</span></div><div class="day-box"><span>3</span></div><div class="day-box"><span>4</span></div><div class="day-box"><span>5</span></div><div class="day-box"><span>6</span></div>
-                <div class="day-box"><span>7</span></div><div class="day-box"><span>8</span></div><div class="day-box"><span>9</span></div><div class="day-box"><span>10</span><div style="font-size: 10px; color: #fbbf24; font-weight: bold; margin-top: 4px;">🌴 خالد الهاملي</div></div><div class="day-box"><span>11</span></div><div class="day-box"><span>12</span></div><div class="day-box"><span>13</span></div>
-                <div class="day-box"><span>14</span></div><div class="day-box"><span>15</span></div><div class="day-box"><span>16</span></div><div class="day-box"><span>17</span></div><div class="day-box"><span>18</span></div><div class="day-box"><span>19</span></div><div class="day-box"><span>20</span></div>
-                <div class="day-box"><span>21</span></div><div class="day-box"><span>22</span></div><div class="day-box"><span>23</span></div><div class="day-box"><span>24</span></div><div class="day-box"><span>25</span></div><div class="day-box" style="border: 2px solid #ff7a00;"><span>26 (اليوم)</span></div><div class="day-box"><span>27</span></div>
-                <div class="day-box"><span>28</span></div><div class="day-box"><span>29</span></div><div class="day-box"><span>30</span></div>
+                <div class="calendar-navigation">
+                    <button class="nav-cal-btn" onclick="changeMonth(-1)">▶</button>
+                    <div id="month-year-display" class="month-year-title">الشهر الحالي</div>
+                    <button class="nav-cal-btn" onclick="changeMonth(1)">◀</button>
+                </div>
             </div>
+            
+            <div class="calendar-grid">
+                <div class="cal-header">الأحد</div>
+                <div class="cal-header">الإثنين</div>
+                <div class="cal-header">الثلاثاء</div>
+                <div class="cal-header">الأربعاء</div>
+                <div class="cal-header">الخميس</div>
+                <div class="cal-header">الجمعة</div>
+                <div class="cal-header">السبت</div>
+            </div>
+            <div id="calendar-container" class="calendar-grid" style="margin-top: 10px;"></div>
         </div>
 
         <div id="attendance" class="page-content">
             <h3>تسجيل وبصمة الحضور اليومي</h3>
-            <p style="color: #94a3b8; margin: 10px 0;">اضغط بالأسفل لإثبات حضورك الرقمي في النظام</p>
-            <button style="background-color: #ff7a00; color: white; padding: 12px; border: none; border-radius: 8px; font-weight: bold; width: 100%; cursor: pointer;">تسجيل البصمة الآن</button>
+            <button class="btn-main" style="margin-top: 15px; width: 100%; padding: 12px;">تسجيل البصمة الآن</button>
         </div>
 
         <div id="salary" class="page-content">
-            <h3>المستندات المالية والرواتب المعتمدة</h3>
-            <p style="color: #4ade80; font-weight: bold; margin-top: 15px; font-size: 18px;">صافي المستحقات الحالي: 6,000 د.إ</p>
+            <h3>المستندات المالية والرواتب</h3>
+            <p style="color: #4ade80; font-weight: bold; margin-top: 15px;">صافي المستحقات الحالي: 6,000 د.إ</p>
         </div>
+    </main>
 
-        <div id="home" class="page-content">
-            <h2>مرحباً بك في اللوحة الرئيسية للنظام</h2>
-            <p style="color: #94a3b8; margin-top: 10px; font-size: 15px;">ساعات العمل الإجمالية هذا الشهر: 160 ساعة | المهام التشغيلية المعلقة: 5 مهام</p>
+    <div id="employeeModal" class="modal hidden">
+        <div class="modal-content">
+            <h4 id="modal-title">إضافة موظف جديد</h4>
+            <input type="hidden" id="edit-id">
+            <div class="form-group"><label>الاسم الكامل</label><input type="text" id="empName"></div>
+            <div class="form-group"><label>الوظيفة</label><input type="text" id="empRole"></div>
+            <div class="form-group">
+                <label>الحالة</label>
+                <select id="empStatus"><option value="نشط">نشط</option><option value="إجازة">إجازة</option></select>
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px;">
+                <button onclick="closeModal()" style="padding: 8px; background: #334155; border:none; color:white; border-radius:6px; cursor:pointer;">إلغاء</button>
+                <button onclick="saveEmployee()" class="btn-main">حفظ</button>
+            </div>
         </div>
-
     </div>
 
+    <div id="calendarModal" class="modal hidden">
+        <div class="modal-content">
+            <h4 id="calendar-modal-title">منح إجازة</h4>
+            <div class="form-group"><label>إختر الموظف</label><select id="calendar-select"></select></div>
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px;">
+                <button onclick="closeCalendarModal()" style="padding: 8px; background: #334155; border:none; color:white; border-radius:6px; cursor:pointer;">إلغاء</button>
+                <button onclick="assignLeave()" class="btn-main">تأكيد الإجازة</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let employees = [
+            { id: 1, name: "أحمد المصعبي", role: "مهندس برمجيات", status: "نشط" },
+            { id: 2, name: "سارة العامري", role: "مصممة واجهات", status: "نشط" }
+        ];
+        
+        let currentCalendarDate = new Date();
+        let targetDayKey = null;
+        let savedLeaves = {}; 
+
+        // دالة التنقل بين الخانات والشاشات
+        function switchPage(pageId, btn) {
+            document.querySelectorAll('#top-navigation button').forEach(b => b.classList.remove('nav-item-active'));
+            btn.classList.add('nav-item-active');
+            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        // رندر وعرض جدول بيانات الموظفين
+        function renderTable() {
+            const body = document.getElementById('table-body');
+            body.innerHTML = '';
+            employees.forEach((emp, index) => {
+                const cls = emp.status === 'نشط' ? 'badge-active' : 'badge-leave';
+                body.innerHTML += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td style="color:white; font-weight:bold;">${emp.name}</td>
+                        <td>${emp.role}</td>
+                        <td><span class="badge ${cls}">${emp.status}</span></td>
+                        <td>
+                            <button onclick="openEditModal(${emp.id})" style="color:#c084fc; background:none; border:none; cursor:pointer; margin-left:10px;">📝 تعديل</button>
+                            <button onclick="deleteEmployee(${emp.id})" style="color:#f87171; background:none; border:none; cursor:pointer;">❌ حذف</button>
+                        </td>
+                    </tr>`;
+            });
+            const select = document.getElementById('calendar-select');
+            select.innerHTML = employees.map(e => `<option value="${e.name}">${e.name}</option>`).join('');
+        }
+
+        // بناء التقويم الحقيقي مع احتساب الأيام آلياً للشهر والسنة المختارة
+        function buildRealCalendar() {
+            const container = document.getElementById('calendar-container');
+            container.innerHTML = '';
+
+            const year = currentCalendarDate.getFullYear();
+            const month = currentCalendarDate.getMonth();
+            const today = new Date();
+
+            const monthsArabic = [
+                "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", 
+                "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
+            ];
+
+            document.getElementById('month-year-display').innerText = monthsArabic[month] + " " + year;
+
+            const firstDayIndex = new Date(year, month, 1).getDay();
+            const totalDaysInMonth = new Date(year, month + 1, 0).getDate();
+
+            for (let i = 0; i < firstDayIndex; i++) {
+                container.innerHTML += `<div class="day-box empty-day"></div>`;
+            }
+
+            for (let i = 1; i <= totalDaysInMonth; i++) {
+                let isTodayClass = (i === today.getDate() && month === today.getMonth() && year === today.getFullYear()) ? 'today-box' : '';
+                let dayKey = `${year}-${month}-${i}`;
+                let currentDayLeave = savedLeaves[dayKey] ? savedLeaves[dayKey] : '';
+
+                container.innerHTML += `
+                    <div class="day-box ${isTodayClass}" onclick="openCalModal('${dayKey}', ${i})">
+                        <span style="font-size:12px; font-weight:bold; color:${isTodayClass ? '#ff7a00' : '#64748b'};">
+                            ${i} ${isTodayClass ? '(اليوم)' : ''}
+                        </span>
+                        <div id="div-${dayKey}" style="font-size:10px; color:#c084fc; font-weight:bold; margin-top:5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                            ${currentDayLeave}
+                        </div>
+                    </div>`;
+            }
+        }
+
+        function changeMonth(direction) {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() + direction);
+            buildRealCalendar();
+        }
+
+        function openAddModal() {
+            document.getElementById('edit-id').value = '';
+            document.getElementById('modal-title').innerText = "إضافة موظف جديد";
+            document.getElementById('empName').value = '';
+            document.getElementById('empRole').value = '';
+            document.getElementById('empStatus').value = 'نشط';
+            document.getElementById('employeeModal').classList.remove('hidden');
+        }
+
+        function openEditModal(id) {
+            const emp = employees.find(e => e.id === id);
+            if(emp) {
+                document.getElementById('edit-id').value = emp.id;
+                document.getElementById('modal-title').innerText = "تعديل بيانات الموظف";
+                document.getElementById('empName').value = emp.name;
+                document.getElementById('empRole').value = emp.role;
+                document.getElementById('empStatus').value = emp.status;
+                document.getElementById('employeeModal').classList.remove('hidden');
+            }
+        }
+
+        function closeModal() { document.getElementById('employeeModal').classList.add('hidden'); }
+        
+        function openCalModal(dayKey, dayNum) { 
+            targetDayKey = dayKey; 
+            document.getElementById('calendar-modal-title').innerText = "منح إجازة ليوم " + dayNum;
+            document.getElementById('calendarModal').classList.remove('hidden'); 
+        }
+        
+        function closeCalendarModal() { document.getElementById('calendarModal').classList.add('hidden'); }
+
+        function saveEmployee() {
+            const id = document.getElementById('edit-id').value;
+            const name = document.getElementById('empName').value.trim();
+            const role = document.getElementById('empRole').value.trim();
+            const status = document.getElementById('empStatus').value;
+
+            if(!name || !role) return alert('يرجى ملء الحقول!');
+
+            if(id) {
+                const emp = employees.find(e => e.id == id);
+                if(emp) { emp.name = name; emp.role = role; emp.status = status; }
+            } else {
+                employees.push({ id: Date.now(), name, role, status });
+            }
+            renderTable(); closeModal();
+        }
+
+        function deleteEmployee(id) { employees = employees.filter(e => e.id !== id); renderTable(); }
+        
+        function assignLeave() {
+            const name = document.getElementById('calendar-select').value;
+            if(name && targetDayKey) {
+                savedLeaves[targetDayKey] = "🌴 " + name;
+                buildRealCalendar(); // إعادة رندر لمزامنة وعرض النص
+            }
+            closeCalendarModal();
+        }
+
+        window.onload = function() { 
+            renderTable(); 
+            buildRealCalendar(); 
+        };
+    </script>
 </body>
 </html>
