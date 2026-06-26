@@ -33,12 +33,11 @@
             min-height: 60px;
         }
         
+        /* تحويل الأزرار إلى روابط هيكلية آمنة لمنع التجميد */
         nav {
             display: flex;
             gap: 12px;
         }
-        
-        /* الأزرار العلوية بنظام شفاف فخم */
         .nav-btn {
             background-color: rgba(255, 255, 255, 0.03);
             color: #94a3b8;
@@ -47,7 +46,7 @@
             border-radius: 20px;
             font-weight: 600;
             font-size: 14px;
-            cursor: pointer;
+            text-decoration: none;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -63,29 +62,37 @@
             transform: translateY(-1px);
         }
         
-        /* الزر المختار النشط حالياً (البنفسجي الفخم) */
-        .nav-item-active {
-            background-color: #582b56 !important;
-            color: #ffffff !important;
-            border-color: rgba(168, 85, 247, 0.3);
-            font-weight: 700;
-        }
-        
         .nav-btn svg {
             width: 15px;
             height: 15px;
             fill: currentColor;
-            transition: transform 0.2s ease;
         }
         
+        /* --- المحرك الميكانيكي الجديد كلياً بالـ CSS لفك تجميد الشاشات --- */
         .page-container {
             width: 100%;
+            position: relative;
         }
         .page-content {
-            display: none;
+            display: none; /* إخفاء افتراضي */
         }
-        .page-content.active-view {
+        
+        /* الشاشة الافتراضية عند الفتح لأول مرة */
+        #view-home {
+            display: block;
+        }
+        
+        /* تفعيل الشاشات فوراً عند الضغط ميكانيكياً بدون جافاسكريبت */
+        #view-home:target,
+        #view-employees:target,
+        #view-calendar:target {
             display: block !important;
+        }
+        
+        /* إخفاء الشاشة الرئيسية تلقائياً عند طلب تصفح الشاشات الأخرى */
+        #view-employees:target ~ #view-home,
+        #view-calendar:target ~ #view-home {
+            display: none !important;
         }
         
         /* الكرت الرئيسي بخلفية سوداء داكنة جداً */
@@ -113,7 +120,7 @@
             margin-top: 4px;
         }
         
-        /* زر الإضافة بنفسجي متفاعل بالكامل */
+        /* زر الإضافة البنفسجي */
         .btn-add {
             background-color: #582b56;
             color: #ffffff;
@@ -210,7 +217,7 @@
             background-color: rgba(88, 43, 86, 0.1);
         }
 
-        /* --- تصميم منطقة الترحيب الزجاجية الكبيرة داخل الكرت الرئيسي --- */
+        /* --- منطقة الترحيب الزجاجية الكبيرة داخل المربع البنفسجي المختار --- */
         .main-welcome-section {
             display: flex;
             align-items: center;
@@ -224,7 +231,7 @@
             margin-top: 15px;
             width: 100%;
             max-width: 850px;
-            direction: ltr; /* لضمان انسيابية النص الإنجليزي */
+            direction: ltr;
         }
 
         .welcome-emoji-big {
@@ -234,25 +241,24 @@
             display: inline-block;
         }
 
-        /* أنميشن الخط الكبير والنوع المتحرك (Typing Effect) */
+        /* تأثير الكتابة المتحركة للخط الكبير */
         .typing-large-container {
             display: inline-block;
             overflow: hidden;
             white-space: nowrap;
-            border-right: 3px solid #582b56; /* مؤشر الكتابة البنفسجي */
+            border-right: 3px solid #582b56;
             width: 0;
             animation: typeLarge 4s steps(50, end) forwards, blinkLarge 0.8s step-end infinite;
         }
 
         .typing-large-container span {
             font-family: 'Segoe UI', Tahoma, sans-serif;
-            font-size: 24px; /* خط كبير جداً وواضح */
+            font-size: 24px;
             font-weight: 700;
-            color: #ffffff; /* النص بالكامل أبيض */
+            color: #ffffff;
             letter-spacing: -0.5px;
         }
 
-        /* تمييز اسمك باللون البنفسجي الفاخر والمتوهج */
         .typing-large-container span.purple-name {
             color: #b57edc !important;
             font-weight: 900;
@@ -285,41 +291,24 @@
 
     <header>
         <nav id="main-nav">
-            <button class="nav-btn nav-item-active" data-view="view-home">
+            <a href="#view-home" class="nav-btn">
                 <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
                 <span>الرئيسية</span>
-            </button>
-            <button class="nav-btn" data-view="view-employees">
+            </a>
+            <a href="#view-employees" class="nav-btn">
                 <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 1.34 5 3s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
                 <span>الموظفون</span>
-            </button>
-            <button class="nav-btn" data-view="view-calendar">
+            </a>
+            <a href="#view-calendar" class="nav-btn">
                 <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>
                 <span>التقويم والإجازات</span>
-            </button>
+            </a>
         </nav>
         
         <div></div>
     </header>
 
     <div class="page-container">
-
-        <div id="view-home" class="page-content active-view">
-            <div class="table-card">
-                <div style="text-align: right; margin-bottom: 10px;">
-                    <h2 style="font-size: 22px; color: #ffffff; font-weight: 900;">نظام العمليات الذكي الموحد</h2>
-                    <p style="color: #4b5563; font-size: 13px; margin-top: 4px;">لوحة تشغيل آمنة بنظام لوني فخم وتأثيرات بصرية مالية الدقة والانسيابية.</p>
-                </div>
-
-                <div class="main-welcome-section">
-                    <span class="welcome-emoji-big">👋</span>
-                    <div class="typing-large-container">
-                        <span>Welcome Back to Operations Management System, </span>
-                        <span class="purple-name">Mohammed Bin Miftah</span>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div id="view-employees" class="page-content">
             <div class="table-card">
@@ -352,4 +341,53 @@
                             <td><span class="badge-status">نشط</span></td>
                             <td style="text-align: center;">
                                 <button class="btn-action" title="حذف">
-                                    <svg style="width:16px; height:16px; fill:#f87171;" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v
+                                    <svg style="width:16px; height:16px; fill:#f87171;" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="view-calendar" class="page-content">
+            <div class="table-card">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="font-size: 18px; color: white; font-weight: 700;">تقويم توزيع الإجازات التشغيلية</h3>
+                    <div style="background-color: #582b56; padding: 6px 16px; border-radius: 12px; font-weight: bold; font-size: 13px;">يونيو 2026</div>
+                </div>
+                
+                <div class="calendar-grid">
+                    <div class="cal-header">الأحد</div><div class="cal-header">الإثنين</div><div class="cal-header">الثلاثاء</div><div class="cal-header">أربعاء</div><div class="cal-header">خميس</div><div class="cal-header">جمعة</div><div class="cal-header">سبت</div>
+                    
+                    <div class="day-box" style="background:transparent; border:none; cursor:default;"></div>
+                    <div class="day-box"><span>1</span></div><div class="day-box"><span>2</span></div><div class="day-box"><span>3</span></div><div class="day-box"><span>4</span></div><div class="day-box"><span>5</span></div><div class="day-box"><span>6</span></div>
+                    <div class="day-box"><span>7</span></div><div class="day-box"><span>8</span></div><div class="day-box"><span>9</span></div><div class="day-box"><span>10</span></div><div class="day-box"><span>11</span></div><div class="day-box"><span>12</span></div><div class="day-box"><span>13</span></div>
+                    <div class="day-box"><span>14</span></div><div class="day-box"><span>15</span></div><div class="day-box"><span>16</span></div><div class="day-box"><span>17</span></div><div class="day-box"><span>18</span></div><div class="day-box"><span>19</span></div><div class="day-box"><span>20</span></div>
+                    <div class="day-box"><span>21</span></div><div class="day-box"><span>22</span></div><div class="day-box"><span>23</span></div><div class="day-box"><span>24</span></div><div class="day-box"><span>25</span></div><div class="day-box today-box"><span style="color:#ffffff; font-weight:700;">26 (اليوم)</span></div><div class="day-box"><span>27</span></div>
+                    <div class="day-box"><span>28</span></div><div class="day-box"><span>29</span></div><div class="day-box"><span>30</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-home" class="page-content">
+            <div class="table-card">
+                <div style="text-align: right; margin-bottom: 10px;">
+                    <h2 style="font-size: 22px; color: #ffffff; font-weight: 900;">نظام العمليات الذكي الموحد</h2>
+                    <p style="color: #4b5563; font-size: 13px; margin-top: 4px;">لوحة تشغيل آمنة بنظام لوني فخم وتأثيرات بصرية فائقة الدقة والانسيابية.</p>
+                </div>
+
+                <div class="main-welcome-section">
+                    <span class="welcome-emoji-big">👋</span>
+                    <div class="typing-large-container">
+                        <span>Welcome Back to Operations Management System, </span>
+                        <span class="purple-name">Mohammed Bin Miftah</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
