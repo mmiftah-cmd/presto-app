@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام الموظفين - محمد بن مفتاح</title>
+    <title>نظام الموظفين المتطور - محمد بن مفتاح</title>
     
     <style>
         /* نظام ألوان متناسق ومستقل كلياً يعمل بدون إنترنت */
@@ -98,23 +98,51 @@
         .badge-active { background: rgba(34,197,94,0.1); color: #4ade80; }
         .badge-leave { background: rgba(245,158,11,0.1); color: #fbbf24; }
         
-        /* التقويم */
+        /* التحكم بالتقويم والشهر */
+        .calendar-header-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .month-year-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffffff;
+            background: #582b56;
+            padding: 6px 16px;
+            border-radius: 12px;
+        }
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 10px;
-            margin-top: 15px;
         }
-        .cal-header { color: #94a3b8; font-weight: bold; text-align: center; font-size: 12px; }
+        .cal-header { 
+            color: #94a3b8; 
+            font-weight: bold; 
+            text-align: center; 
+            font-size: 13px; 
+            padding: 5px 0;
+        }
         .day-box {
             background: #0b111e;
             border: 1px solid #1e293b;
             border-radius: 10px;
             padding: 10px;
-            min-height: 70px;
+            min-height: 75px;
             cursor: pointer;
+            transition: all 0.2s;
         }
-        .day-box:hover { border-color: #a855f7; }
+        .day-box:hover { border-color: #a855f7; background-color: #161d30; }
+        .empty-day {
+            background: transparent;
+            border: none;
+            cursor: default;
+        }
+        .today-box {
+            border: 2px solid #ff7a00 !important;
+        }
 
         /* النوافذ المنبثقة */
         .modal {
@@ -145,7 +173,7 @@
 <body>
 
     <header>
-        <div class="logo">⚡ نظام الموظفين ذكي</div>
+        <div class="logo">⚡ نظام الموظفين الذكي</div>
         <nav id="top-navigation">
             <button onclick="switchPage('home', this)" class="nav-item-active">الرئيسية</button>
             <button onclick="switchPage('employees', this)">الموظفون</button>
@@ -184,12 +212,24 @@
         </div>
 
         <div id="calendar-page" class="page-content">
-            <h3>تقويم توزيع الإجازات</h3>
-            <p style="color: #94a3b8; font-size: 13px;">اضغط على مربع اليوم لمنح إجازة فورية لموظف</p>
-            <div class="calendar-grid">
-                <div class="cal-header">أحد</div><div class="cal-header">إثنين</div><div class="cal-header">ثلاثاء</div><div class="cal-header">أربعاء</div><div class="cal-header">خميس</div><div class="cal-header">جمعة</div><div class="cal-header">سبت</div>
+            <div class="calendar-header-area">
+                <div>
+                    <h3>تقويم توزيع الإجازات الفعلي</h3>
+                    <p style="color: #94a3b8; font-size: 13px; margin-top: 4px;">اضغط على مربع اليوم لمنح إجازة فورية لموظف</p>
+                </div>
+                <div id="month-year-display" class="month-year-title">الشهر الحالي</div>
             </div>
-            <div id="calendar-container" class="calendar-grid"></div>
+            
+            <div class="calendar-grid">
+                <div class="cal-header">الأحد</div>
+                <div class="cal-header">الإثنين</div>
+                <div class="cal-header">الثلاثاء</div>
+                <div class="cal-header">الأربعاء</div>
+                <div class="cal-header">الخميس</div>
+                <div class="cal-header">الجمعة</div>
+                <div class="cal-header">السبت</div>
+            </div>
+            <div id="calendar-container" class="calendar-grid" style="margin-top: 10px;"></div>
         </div>
 
         <div id="attendance" class="page-content">
@@ -222,7 +262,7 @@
 
     <div id="calendarModal" class="modal hidden">
         <div class="modal-content">
-            <h4>منح إجازة لليوم</h4>
+            <h4 id="calendar-modal-title">منح إجازة لليوم</h4>
             <div class="form-group"><label>إختر الموظف</label><select id="calendar-select"></select></div>
             <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px;">
                 <button onclick="closeCalendarModal()" style="padding: 8px; background: #334155; border:none; color:white; border-radius:6px; cursor:pointer;">إلغاء</button>
@@ -266,14 +306,47 @@
             select.innerHTML = employees.map(e => `<option value="${e.name}">${e.name}</option>`).join('');
         }
 
-        function buildCalendar() {
+        // دالة بناء التقويم الحقيقي بناءً على تاريخ اليوم الفعلي والشهر الحالي
+        function buildRealCalendar() {
             const container = document.getElementById('calendar-container');
             container.innerHTML = '';
-            for(let i=1; i<=30; i++) {
+
+            const today = new Date();
+            const currentYear = today.getFullYear();
+            const currentMonth = today.getMonth(); // 0 = يناير، 1 = فبراير... إلخ
+            const currentDate = today.getDate();
+
+            // أسماء الأشهر العربية
+            const monthsArabic = [
+                "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", 
+                "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
+            ];
+
+            // عرض الشهر والسنة في العنوان العلوي للتقويم
+            document.getElementById('month-year-display').innerText = monthsArabic[currentMonth] + " " + currentYear;
+
+            // تحديد أول يوم في الشهر (أي يوم في الأسبوع يبدأ)
+            const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
+
+            // تحديد عدد أيام الشهر الحالي الإجمالي
+            const totalDaysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+            // 1. توليد مربعات فارغة للأيام قبل بداية الشهر لتنسيق الجدول
+            for (let i = 0; i < firstDayIndex; i++) {
+                container.innerHTML += `<div class="day-box empty-day"></div>`;
+            }
+
+            // 2. توليد أيام الشهر الحقيقية
+            for (let i = 1; i <= totalDaysInMonth; i++) {
+                // التحقق لو كان اليوم المولد هو تاريخ اليوم الحالي لوضع علامة مميزة حوله
+                let isTodayClass = (i === currentDate) ? 'today-box' : '';
+
                 container.innerHTML += `
-                    <div class="day-box" onclick="openCalModal('day-${i}')">
-                        <span style="font-size:12px; color:#64748b;">${i}</span>
-                        <div id="day-${i}" style="font-size:10px; color:#c084fc; font-weight:bold; margin-top:5px;"></div>
+                    <div class="day-box ${isTodayClass}" onclick="openCalModal('day-${i}', ${i})">
+                        <span style="font-size:12px; font-weight:bold; color:${i === currentDate ? '#ff7a00' : '#64748b'};">
+                            ${i} ${i === currentDate ? '(اليوم)' : ''}
+                        </span>
+                        <div id="day-${i}" style="font-size:10px; color:#c084fc; font-weight:bold; margin-top:5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></div>
                     </div>`;
             }
         }
@@ -299,7 +372,13 @@
         }
 
         function closeModal() { document.getElementById('employeeModal').classList.add('hidden'); }
-        function openCalModal(id) { targetDayId = id; document.getElementById('calendarModal').classList.remove('hidden'); }
+        
+        function openCalModal(id, dayNum) { 
+            targetDayId = id; 
+            document.getElementById('calendar-modal-title').innerText = "منح إجازة ليوم " + dayNum;
+            document.getElementById('calendarModal').classList.remove('hidden'); 
+        }
+        
         function closeCalendarModal() { document.getElementById('calendarModal').classList.add('hidden'); }
 
         function saveEmployee() {
@@ -327,7 +406,10 @@
             closeCalendarModal();
         }
 
-        window.onload = function() { renderTable(); buildCalendar(); };
+        window.onload = function() { 
+            renderTable(); 
+            buildRealCalendar(); 
+        };
     </script>
 </body>
 </html>
