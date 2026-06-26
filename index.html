@@ -52,9 +52,15 @@
             transition: all 0.25s ease-in-out;
         }
         
-        /* --- التعديل: إخفاء الأيقونة في زر الرئيسية فقط --- */
+        /* --- التصحيح: إخفاء أيقونة الرئيسية بسلاسة دون تخريب التصميم الإنزلاقي --- */
+        .home-nav-btn {
+            gap: 0px !important; /* إلغاء الفراغ الخاص بالأيقونة */
+        }
         .home-nav-btn svg {
-            display: none !important;
+            width: 0px !important;
+            height: 15px;
+            opacity: 0;
+            visibility: hidden;
         }
         
         .nav-btn:hover {
@@ -236,4 +242,21 @@
             color: #6b7280;
             font-weight: 700;
             text-align: center;
-            font-size
+            font-size: 13px;
+        }
+        .day-box {
+            background-color: #000000;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 12px;
+            min-height: 80px;
+            transition: all 0.25s ease;
+        }
+        .day-box:hover {
+            border-color: rgba(168, 85, 247, 0.3);
+            background-color: rgba(88, 43, 86, 0.15);
+        }
+        .empty-day {
+            background: transparent;
+            border: none;
+            cursor: default
