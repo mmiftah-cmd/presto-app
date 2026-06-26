@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة تحكم إدارة الموظفين المتكاملة</title>
+    <title>لوحة تحكم إدارة الموظفين - محمد بن مفتاح</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -105,15 +105,15 @@
             
             <header class="bg-white/80 backdrop-blur-md border-b border-slate-100 h-20 flex items-center justify-between px-8 shrink-0 z-10">
                 <div>
-                    <h1 class="text-2xl font-extrabold text-slate-800 tracking-tight">أهلاً بك، أحمد علي 👋</h1>
-                    <p class="text-xs font-medium text-slate-400 mt-0.5">مرحباً بك في نظام إدارة الموظفين الذكي</p>
+                    <h1 class="text-2xl font-extrabold text-slate-800 tracking-tight">أهلاً بك، محمد بن مفتاح 👋</h1>
+                    <p class="text-xs font-medium text-slate-400 mt-0.5">مرحباً بك في نظام إدارة الموظفين الذكي الخاص بك</p>
                 </div>
                 <div class="flex items-center space-x-reverse space-x-5">
                     <button class="relative w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:text-slate-600 hover:scale-105 ios-transition bg-transparent outline-none">
                         <i class="fa-solid fa-bell text-base"></i>
                         <span class="absolute top-2 left-2 bg-orange-500 w-2 h-2 rounded-full animate-ping"></span>
                     </button>
-                    <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-orange-500 to-amber-500 flex items-center justify-center text-white font-extrabold shadow-md shadow-orange-500/20 text-sm">أع</div>
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-orange-500 to-amber-500 flex items-center justify-center text-white font-extrabold shadow-md shadow-orange-500/20 text-sm">مم</div>
                 </div>
             </header>
 
@@ -171,106 +171,4 @@
                             <div class="overflow-x-auto">
                                 <table class="w-full text-right text-sm">
                                     <thead class="bg-slate-50 text-slate-400 font-bold border-b border-slate-100">
-                                        <tr><th class="px-4 py-3">الموظف</th><th class="px-4 py-3">الوظيفة</th><th class="px-4 py-3">البريد</th></tr>
-                                    </thead>
-                                    <tbody id="employeeTableBody" class="divide-y divide-slate-50 text-slate-700 font-semibold">
-                                        <tr>
-                                            <td class="px-4 py-3 text-slate-900">أحمد علي</td>
-                                            <td class="px-4 py-3 text-orange-600">مهندس برمجيات</td>
-                                            <td class="px-4 py-3 text-slate-400">ahmed@company.com</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="px-4 py-3 text-slate-900">سارة عمر</td>
-                                            <td class="px-4 py-3 text-orange-600">مصممة واجهات UI/UX</td>
-                                            <td class="px-4 py-3 text-slate-400">sara@company.com</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="attendance" class="page-content hidden space-y-6">
-                    <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.01)] flex justify-between items-center">
-                        <div>
-                            <h2 class="text-xl font-extrabold text-slate-800">بوابة إثبات الحضور والإنصراف</h2>
-                        </div>
-                        <button class="bg-gradient-to-r from-orange-500 to-amber-500 text-white px-8 py-3.5 rounded-2xl font-extrabold border-0 outline-none cursor-pointer shadow-lg shadow-orange-500/20">تسجيل بصمة الدخول</button>
-                    </div>
-                </div>
-
-                <div id="leave" class="page-content hidden space-y-6">
-                    <div class="max-w-2xl bg-white p-8 rounded-3xl border border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.01)]">
-                        <h2 class="text-xl font-extrabold text-slate-800 mb-6">تقديم طلب إجازة رقمي جديد</h2>
-                    </div>
-                </div>
-
-                <div id="salary" class="page-content hidden space-y-6">
-                    <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.01)] max-w-md">
-                        <h2 class="text-lg font-extrabold text-slate-800 border-b border-slate-100 pb-3 mb-4">كشف الراتب المستحق</h2>
-                        <div class="flex justify-between text-lg font-extrabold text-orange-500"><span>إجمالي مستحقاتك المالية:</span><span>6,000 د.إ</span></div>
-                    </div>
-                </div>
-
-            </main>
-        </div>
-    </div>
-
-    <script>
-        // دالة التنقل والتحكم بالكبسولة العظمى للآيفون
-        function switchPage(pageId, element, index) {
-            // حساب المسافة العمودية بدقة تامة (الزر 48px + مسافة الفراغ 8px = 56px لكل خطوة)
-            const moveY = index * 56; 
-            document.getElementById('active-bg').style.transform = `translateY(${moveY}px)`;
-
-            // تحديث ألوان الأزرار في القائمة
-            const buttons = document.querySelectorAll('#sidebar-nav button');
-            buttons.forEach(btn => {
-                btn.classList.remove('text-white');
-                btn.classList.add('text-slate-400');
-            });
-            element.classList.remove('text-slate-400');
-            element.classList.add('text-white');
-
-            // إخفاء وإظهار الأقسام مع الأنميشن
-            const pages = document.querySelectorAll('.page-content');
-            pages.forEach(page => {
-                if (page.id === pageId) {
-                    page.classList.remove('hidden');
-                    setTimeout(() => { page.classList.add('active'); }, 50);
-                } else {
-                    page.classList.remove('active');
-                    page.classList.add('hidden');
-                }
-            });
-        }
-
-        // دالة تفاعلية لإضافة الموظفين إلى الجدول فوراً دون إعادة تحميل
-        function addEmployee(event) {
-            event.preventDefault();
-            
-            const name = document.getElementById('empName').value;
-            const role = document.getElementById('empRole').value;
-            const email = document.getElementById('empEmail').value;
-
-            const tableBody = document.getElementById('employeeTableBody');
-            
-            // إنشاء صف جديد في الجدول
-            const newRow = document.createElement('tr');
-            newRow.className = 'bg-orange-50/30 animate-fade-in border-b border-slate-50'; // تلوين خفيف للموظف الجديد لتمييزه
-            newRow.innerHTML = `
-                <td class="px-4 py-3 text-slate-900 font-bold">${name}</td>
-                <td class="px-4 py-3 text-orange-600">${role}</td>
-                <td class="px-4 py-3 text-slate-400">${email}</td>
-            `;
-
-            // إضافة الصف إلى الجدول
-            tableBody.appendChild(newRow);
-
-            // تفريغ الفورم بعد التسجيل بنجاح
-            document.getElementById('employeeForm').reset();
-        }
-    </script>
-</body>
-</html>
+                                        <tr><th class="px-4
