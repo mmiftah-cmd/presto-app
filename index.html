@@ -22,14 +22,9 @@
         }
         .page-content {
             display: none;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
         }
-        .page-content.active-page {
+        .page-content.active {
             display: block !important;
-            opacity: 1 !important;
-            transform: translateY(0) !important;
         }
     </style>
 </head>
@@ -44,23 +39,23 @@
         </div>
 
         <nav class="flex flex-wrap items-center gap-4" id="top-navigation">
-            <button data-page="home" class="nav-item-active flex items-center gap-2 px-5 py-2 rounded-full transition font-bold text-sm bg-transparent text-slate-400 hover:text-white border-0 outline-none cursor-pointer">
+            <button onclick="switchPage('home', this)" class="nav-item-active flex items-center gap-2 px-5 py-2 rounded-full transition font-bold text-sm bg-transparent text-slate-400 hover:text-white border-0 outline-none cursor-pointer">
                 <i class="fa-solid fa-house text-xs"></i>
                 <span>الرئيسية</span>
             </button>
-            <button data-page="employees" class="flex items-center gap-2 px-5 py-2 rounded-full transition font-semibold text-sm bg-transparent text-slate-400 hover:text-white border-0 outline-none cursor-pointer">
+            <button onclick="switchPage('employees', this)" class="flex items-center gap-2 px-5 py-2 rounded-full transition font-semibold text-sm bg-transparent text-slate-400 hover:text-white border-0 outline-none cursor-pointer">
                 <i class="fa-solid fa-users text-xs"></i>
                 <span>الموظفون</span>
             </button>
-            <button data-page="calendar-page" class="flex items-center gap-2 px-5 py-2 rounded-full transition font-semibold text-sm bg-transparent text-slate-400 hover:text-white border-0 outline-none cursor-pointer">
+            <button onclick="switchPage('calendar-page', this)" class="flex items-center gap-2 px-5 py-2 rounded-full transition font-semibold text-sm bg-transparent text-slate-400 hover:text-white border-0 outline-none cursor-pointer">
                 <i class="fa-solid fa-calendar-days text-xs"></i>
                 <span>التقويم والإجازات</span>
             </button>
-            <button data-page="attendance" class="flex items-center gap-2 px-5 py-2 rounded-full transition font-semibold text-sm bg-transparent text-slate-400 hover:text-white border-0 outline-none cursor-pointer">
+            <button onclick="switchPage('attendance', this)" class="flex items-center gap-2 px-5 py-2 rounded-full transition font-semibold text-sm bg-transparent text-slate-400 hover:text-white border-0 outline-none cursor-pointer">
                 <i class="fa-solid fa-user-check text-xs"></i>
                 <span>الحضور والغياب</span>
             </button>
-            <button data-page="salary" class="flex items-center gap-2 px-5 py-2 rounded-full transition font-semibold text-sm bg-transparent text-slate-400 hover:text-white border-0 outline-none cursor-pointer">
+            <button onclick="switchPage('salary', this)" class="flex items-center gap-2 px-5 py-2 rounded-full transition font-semibold text-sm bg-transparent text-slate-400 hover:text-white border-0 outline-none cursor-pointer">
                 <i class="fa-solid fa-file-invoice-dollar text-xs"></i>
                 <span>الرواتب والمستندات</span>
             </button>
@@ -78,7 +73,7 @@
     <main class="p-8 flex-1 max-w-5xl w-full mx-auto">
         <div class="space-y-8">
             
-            <div id="home" class="page-content active-page space-y-8">
+            <div id="home" class="page-content active space-y-8">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div class="bg-[#111625] border border-slate-800/50 rounded-3xl p-6 flex justify-between items-center shadow-2xl">
                         <div class="text-right">
@@ -108,7 +103,7 @@
                             <h2 class="text-lg font-bold text-white">قائمة إدارة الموظفين</h2>
                             <p class="text-xs text-slate-500 mt-1">يمكنك إضافة، حذف، وتعديل بيانات أي موظف الآن</p>
                         </div>
-                        <button id="add-emp-btn" class="bg-[#ff7a00] hover:bg-orange-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl border-0 outline-none cursor-pointer flex items-center gap-2 shadow-lg shadow-orange-600/20 transition">
+                        <button onclick="openAddModal()" class="bg-[#ff7a00] hover:bg-orange-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl border-0 outline-none cursor-pointer flex items-center gap-2 shadow-lg shadow-orange-600/20 transition">
                             <i class="fa-solid fa-user-plus"></i>
                             <span>إضافة موظف جديد</span>
                         </button>
@@ -184,8 +179,8 @@
                 </div>
             </div>
             <div class="flex justify-end gap-2 pt-2">
-                <button id="close-modal-btn" class="bg-slate-800 text-slate-300 text-xs font-bold px-4 py-2 rounded-xl border-0 cursor-pointer hover:bg-slate-700 transition">إلغاء</button>
-                <button id="save-emp-btn" class="bg-[#ff7a00] text-white text-xs font-bold px-4 py-2 rounded-xl border-0 cursor-pointer hover:bg-orange-600 transition">حفظ البيانات</button>
+                <button onclick="closeModal()" class="bg-slate-800 text-slate-300 text-xs font-bold px-4 py-2 rounded-xl border-0 cursor-pointer hover:bg-slate-700 transition">إلغاء</button>
+                <button onclick="saveEmployee()" class="bg-[#ff7a00] text-white text-xs font-bold px-4 py-2 rounded-xl border-0 cursor-pointer hover:bg-orange-600 transition">حفظ البيانات</button>
             </div>
         </div>
     </div>
@@ -199,14 +194,13 @@
                 </select>
             </div>
             <div class="flex justify-end gap-2">
-                <button id="close-cal-btn" class="bg-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-xl border-0 cursor-pointer">إلغاء</button>
-                <button id="confirm-leave-btn" class="bg-purple-600 text-white text-xs px-4 py-1.5 rounded-xl border-0 cursor-pointer hover:bg-purple-700">تأكيد الإجازة</button>
+                <button onclick="closeCalendarModal()" class="bg-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-xl border-0 cursor-pointer">إلغاء</button>
+                <button onclick="assignLeaveToDay()" class="bg-purple-600 text-white text-xs px-4 py-1.5 rounded-xl border-0 cursor-pointer hover:bg-purple-700">تأكيد الإجازة</button>
             </div>
         </div>
     </div>
 
     <script>
-        // مصفوفة البيانات الرئيسية للموظفين
         let employeesList = [
             { id: 1, name: "أحمد المصعبي", role: "مهندس برمجيات أول", status: "نشط" },
             { id: 2, name: "سارة العامري", role: "مصممة واجهات UI/UX", status: "نشط" },
@@ -215,14 +209,31 @@
 
         let selectedDayId = null;
 
-        // دالة رندر جدول الموظفين
+        // التبديل بين الصفحات والخانات
+        function switchPage(pageId, element) {
+            const buttons = document.querySelectorAll('#top-navigation button');
+            buttons.forEach(btn => {
+                btn.classList.remove('nav-item-active', 'font-bold');
+                btn.classList.add('text-slate-400', 'font-semibold');
+            });
+            element.classList.remove('text-slate-400', 'font-semibold');
+            element.classList.add('nav-item-active', 'font-bold');
+
+            const pages = document.querySelectorAll('.page-content');
+            pages.forEach(page => {
+                page.classList.remove('active');
+                if (page.id === pageId) {
+                    page.classList.add('active');
+                }
+            });
+        }
+
         function renderTable() {
             const tableBody = document.getElementById('employee-table-body');
             tableBody.innerHTML = '';
 
             employeesList.forEach((emp, index) => {
                 const statusClass = emp.status === 'نشط' ? 'bg-green-500/10 text-green-400' : 'bg-amber-500/10 text-amber-400';
-                
                 const row = `
                     <tr class="hover:bg-slate-800/20 transition">
                         <td class="py-4 text-center text-slate-500 font-bold">${index + 1}</td>
@@ -232,96 +243,5 @@
                             <span class="${statusClass} text-[10px] font-bold px-2.5 py-1 rounded-full">${emp.status}</span>
                         </td>
                         <td class="py-4 text-center space-x-2 space-x-reverse">
-                            <button onclick="openEditModal(${emp.id})" class="text-purple-400 hover:text-purple-300 bg-transparent border-0 cursor-pointer p-1 transition" title="تعديل">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </button>
-                            <button onclick="deleteEmployee(${emp.id})" class="text-rose-400 hover:text-rose-300 bg-transparent border-0 cursor-pointer p-1 transition" title="حذف">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </td>
-                    </tr>
-                `;
-                tableBody.insertAdjacentHTML('beforeend', row);
-            });
-            updateCalendarSelect();
-        }
-
-        // دالة رندر وبناء أيام التقويم الـ 30
-        function buildCalendar() {
-            const grid = document.getElementById('calendar-grid');
-            grid.innerHTML = '';
-            for (let i = 1; i <= 30; i++) {
-                const dayBox = document.createElement('div');
-                dayBox.className = "bg-[#0b111e] border border-slate-800/80 rounded-xl p-2 flex flex-col justify-between items-start cursor-pointer hover:border-purple-500 transition relative min-h-[65px]";
-                dayBox.innerHTML = `
-                    <span class="text-xs font-bold text-slate-500">${i}</span>
-                    <div class="w-full text-[10px] font-bold text-purple-400 truncate mt-1" id="day-leave-${i}"></div>
-                `;
-                dayBox.addEventListener('click', () => {
-                    selectedDayId = `day-leave-${i}`;
-                    document.getElementById('calendarModal').classList.remove('hidden');
-                });
-                grid.appendChild(dayBox);
-            }
-        }
-
-        function updateCalendarSelect() {
-            const select = document.getElementById('calendar-emp-select');
-            select.innerHTML = '';
-            employeesList.forEach(e => {
-                const opt = document.createElement('option');
-                opt.value = e.name;
-                opt.textContent = e.name;
-                select.appendChild(opt);
-            });
-        }
-
-        // عمليات الموظفين الإدارية
-        window.openEditModal = function(id) {
-            const emp = employeesList.find(e => e.id === id);
-            if (emp) {
-                document.getElementById('edit-emp-id').value = emp.id;
-                document.getElementById('modal-title').innerText = "تعديل بيانات الموظف";
-                document.getElementById('empName').value = emp.name;
-                document.getElementById('empRole').value = emp.role;
-                document.getElementById('empStatus').value = emp.status;
-                document.getElementById('employeeModal').classList.remove('hidden');
-            }
-        }
-
-        window.deleteEmployee = function(id) {
-            employeesList = employeesList.filter(emp => emp.id !== id);
-            renderTable();
-        }
-
-        function closeModal() {
-            document.getElementById('employeeModal').classList.add('hidden');
-        }
-
-        // إعداد المستمعات الذكية (Event Listeners) لمنع أي تجميد بالصفحة أو الأزرار العلوية
-        document.addEventListener('DOMContentLoaded', () => {
-            renderTable();
-            buildCalendar();
-
-            // 1. نظام جافاسكريبت لربط أزرار التنقل العلوية بشكل حقيقي وفعال فوراً
-            const navButtons = document.querySelectorAll('#top-navigation button');
-            navButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    // إدارة حالة الزر النشط
-                    navButtons.forEach(b => {
-                        b.classList.remove('nav-item-active', 'font-bold');
-                        b.classList.add('text-slate-400', 'font-semibold');
-                    });
-                    this.classList.remove('text-slate-400', 'font-semibold');
-                    this.classList.add('nav-item-active', 'font-bold');
-
-                    // إدارة عرض وإخفاء الصفحات المقابلة
-                    const targetPage = this.getAttribute('data-page');
-                    document.querySelectorAll('.page-content').forEach(page => {
-                        page.classList.remove('active-page');
-                        if (page.id === targetPage) {
-                            page.classList.add('active-page');
-                        }
-                    });
-                });
-            });
+                            <button onclick="openEditModal(${emp.id})" class="text-purple-400 hover:text-purple-300 bg-transparent border-0 cursor-pointer p-1 transition"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button onclick="deleteEmployee(${emp.id})" class="text-rose-400 hover:text-rose-300 bg-transparent border-
