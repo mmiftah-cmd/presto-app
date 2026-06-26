@@ -4,21 +4,104 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نظام الموظفين الذكي - محمد بن مفتاح</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     
     <style>
+        /* التنسيقات الهيكلية الأساسية البديلة لـ Tailwind */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
         body {
-            font-family: 'Cairo', sans-serif;
             background-color: #0b111e;
+            color: #e2e8f0;
+            min-height: screen;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background-color: #0b111e;
+            border-b: 1px solid rgba(51, 65, 85, 0.6);
+            padding: 20px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-box {
+            width: 40px;
+            height: 40px;
+            background-color: #ff7a00;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 10px 15px -3px rgba(255, 122, 0, 0.2);
+        }
+        .logo-text {
+            font-size: 20px;
+            font-weight: 900;
+            color: white;
+        }
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 16px;
+        }
+        nav button {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            padding: 8px 20px;
+            border-radius: 9999px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        nav button:hover {
+            color: white;
         }
         .nav-item-active {
             background-color: #582b56 !important;
             color: #ffffff !important;
+            font-weight: 700 !important;
+        }
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .avatar-box {
+            background-color: #ff7a00;
+            color: white;
+            font-weight: bold;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+        main {
+            padding: 32px;
+            flex: 1;
+            max-width: 1024px;
+            width: 100%;
+            margin: 0 auto;
         }
         .page-content {
             display: none;
@@ -26,181 +109,290 @@
         .page-content.active {
             display: block !important;
         }
+        
+        /* شاشة التبويبات والكروت */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+        }
+        .card {
+            background-color: #111625;
+            border: 1px solid rgba(51, 65, 85, 0.5);
+            border-radius: 24px;
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .btn-add {
+            background-color: #ff7a00;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 10px 16px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-add:hover { background-color: #ea6e00; }
+
+        /* تنسيق الجداول الاحترافي محلياً */
+        .table-container {
+            background-color: #111625;
+            border: 1px solid rgba(51, 65, 85, 0.5);
+            border-radius: 24px;
+            padding: 24px;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: right;
+            margin-top: 16px;
+        }
+        th {
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: 700;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #1e293b;
+        }
+        td {
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(30, 41, 59, 0.5);
+            font-size: 14px;
+        }
+        .badge {
+            font-size: 10px;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 9999px;
+        }
+        .badge-active { background-color: rgba(34, 197, 94, 0.1); color: #4ade80; }
+        .badge-leave { background-color: rgba(245, 158, 11, 0.1); color: #fbbf24; }
+        
+        .action-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .edit-btn { color: #c084fc; margin-left: 8px;}
+        .delete-btn { color: #f87171; }
+
+        /* التقويم */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-top: 16px;
+        }
+        .cal-header {
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .day-box {
+            background-color: #0b111e;
+            border: 1px solid rgba(51, 65, 85, 0.8);
+            border-radius: 12px;
+            padding: 8px;
+            min-h: 65px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: border-color 0.2s;
+        }
+        .day-box:hover { border-color: #a855f7; }
+
+        /* النوافذ المنبثقة الناصعة المضمونة */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 16px;
+        }
+        .hidden { display: none !important; }
+        .modal-card {
+            background-color: #111625;
+            border: 1px solid #1e293b;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 24px;
+            padding: 24px;
+        }
+        .form-control {
+            margin-bottom: 12px;
+        }
+        .form-control label {
+            display: block;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 4px;
+        }
+        .form-control input, .form-control select {
+            width: 100%;
+            background-color: #0b111e;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            padding: 8px 12px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+        }
     </style>
 </head>
-<body class="text-slate-200 min-h-screen flex flex-col relative">
+<body>
 
-    <header class="bg-[#0b111e] border-b border-slate-800/60 px-8 py-5 flex flex-col md:flex-row justify-between items-center gap-4 sticky top-0 z-50">
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-[#ff7a00] rounded-xl flex items-center justify-center text-white shadow-lg shadow-orange-600/20">
-                <i class="fa-solid fa-bolt text-lg"></i>
-            </div>
-            <span class="text-xl font-black text-white tracking-wide">نظام الموظفين</span>
+    <header>
+        <div class="logo-area">
+            <div class="logo-box">⚡</div>
+            <span class="logo-text">نظام الموظفين</span>
         </div>
 
-        <nav class="flex flex-wrap items-center gap-4" id="top-navigation">
-            <button onclick="switchPage('home', this)" class="nav-item-active flex items-center gap-2 px-5 py-2 rounded-full transition font-bold text-sm bg-transparent text-slate-400 hover:text-white border-0 outline-none cursor-pointer">
-                <i class="fa-solid fa-house text-xs"></i>
-                <span>الرئيسية</span>
-            </button>
-            <button onclick="switchPage('employees', this)" class="flex items-center gap-2 px-5 py-2 rounded-full transition font-semibold text-sm bg-transparent text-slate-400 hover:text-white border-0 outline-none cursor-pointer">
-                <i class="fa-solid fa-users text-xs"></i>
-                <span>الموظفون</span>
-            </button>
-            <button onclick="switchPage('calendar-page', this)" class="flex items-center gap-2 px-5 py-2 rounded-full transition font-semibold text-sm bg-transparent text-slate-400 hover:text-white border-0 outline-none cursor-pointer">
-                <i class="fa-solid fa-calendar-days text-xs"></i>
-                <span>التقويم والإجازات</span>
-            </button>
-            <button onclick="switchPage('attendance', this)" class="flex items-center gap-2 px-5 py-2 rounded-full transition font-semibold text-sm bg-transparent text-slate-400 hover:text-white border-0 outline-none cursor-pointer">
-                <i class="fa-solid fa-user-check text-xs"></i>
-                <span>الحضور والغياب</span>
-            </button>
-            <button onclick="switchPage('salary', this)" class="flex items-center gap-2 px-5 py-2 rounded-full transition font-semibold text-sm bg-transparent text-slate-400 hover:text-white border-0 outline-none cursor-pointer">
-                <i class="fa-solid fa-file-invoice-dollar text-xs"></i>
-                <span>الرواتب والمستندات</span>
-            </button>
+        <nav id="top-navigation">
+            <button onclick="switchPage('home', this)" class="nav-item-active">الرئيسية</button>
+            <button onclick="switchPage('employees', this)">الموظفون</button>
+            <button onclick="switchPage('calendar-page', this)">التقويم والإجازات</button>
+            <button onclick="switchPage('attendance', this)">الحضور والغياب</button>
+            <button onclick="switchPage('salary', this)">الرواتب والمستندات</button>
         </nav>
 
-        <div class="flex items-center gap-4">
-            <div class="bg-[#ff7a00] text-white font-bold px-3 py-1.5 rounded-xl text-sm shadow-sm">مم</div>
-            <div class="text-right hidden sm:block">
-                <h1 class="text-sm font-black text-white">محمد بن مفتاح 👋</h1>
-                <p class="text-[10px] text-slate-500">المدير المسؤول</p>
+        <div class="user-profile">
+            <div class="avatar-box">مم</div>
+            <div style="text-align: right;">
+                <h4 style="font-size: 14px; color: white;">محمد بن مفتاح 👋</h4>
+                <p style="font-size: 10px; color: #64748b;">المدير المسؤول</p>
             </div>
         </div>
     </header>
 
-    <main class="p-8 flex-1 max-w-5xl w-full mx-auto">
-        <div class="space-y-8">
-            
-            <div id="home" class="page-content active space-y-8">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div class="bg-[#111625] border border-slate-800/50 rounded-3xl p-6 flex justify-between items-center shadow-2xl">
-                        <div class="text-right">
-                            <p class="text-xs font-bold text-slate-500 mb-1">ساعات العمل هذا الشهر</p>
-                            <h3 class="text-2xl font-black text-white">160 ساعة</h3>
-                        </div>
-                        <div class="w-12 h-12 rounded-2xl bg-orange-500/10 flex items-center justify-center text-[#ff7a00]">
-                            <i class="fa-solid fa-stopwatch text-xl"></i>
-                        </div>
+    <main>
+        <div id="home" class="page-content active">
+            <div class="grid-2">
+                <div class="card">
+                    <div>
+                        <p style="font-size: 12px; color: #64748b; font-weight: bold;">ساعات العمل هذا الشهر</p>
+                        <h3 style="font-size: 24px; color: white; margin-top: 4px;">160 ساعة</h3>
                     </div>
-                    <div class="bg-[#111625] border border-slate-800/50 rounded-3xl p-6 flex justify-between items-center shadow-2xl">
-                        <div class="text-right">
-                            <p class="text-xs font-bold text-slate-500 mb-1">المهام المعلقة</p>
-                            <h3 class="text-2xl font-black text-white">5 مهام</h3>
-                        </div>
-                        <div class="w-12 h-12 rounded-2xl bg-purple-500/10 flex items-center justify-center text-purple-400">
-                            <i class="fa-solid fa-folder-open text-xl"></i>
-                        </div>
+                </div>
+                <div class="card">
+                    <div>
+                        <p style="font-size: 12px; color: #64748b; font-weight: bold;">المهام المعلقة</p>
+                        <h3 style="font-size: 24px; color: white; margin-top: 4px;">5 مهام</h3>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div id="employees" class="page-content space-y-6">
-                <div class="bg-[#111625] border border-slate-800/50 rounded-3xl p-6 shadow-2xl overflow-hidden">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                        <div>
-                            <h2 class="text-lg font-bold text-white">قائمة إدارة الموظفين</h2>
-                            <p class="text-xs text-slate-500 mt-1">يمكنك إضافة، حذف، وتعديل بيانات أي موظف الآن</p>
-                        </div>
-                        <button onclick="openAddModal()" class="bg-[#ff7a00] hover:bg-orange-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl border-0 outline-none cursor-pointer flex items-center gap-2 shadow-lg shadow-orange-600/20 transition">
-                            <i class="fa-solid fa-user-plus"></i>
-                            <span>إضافة موظف جديد</span>
-                        </button>
+        <div id="employees" class="page-content">
+            <div class="table-container">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                    <div>
+                        <h2 style="font-size: 18px; color: white;">قائمة إدارة الموظفين</h2>
+                        <p style="font-size: 12px; color: #64748b;">إضافة وحذف وتعديل الموظفين بشكل فوري ومحلي</p>
                     </div>
-
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-right border-collapse">
-                            <thead>
-                                <tr class="border-b border-slate-800 text-slate-400 text-xs font-bold">
-                                    <th class="pb-3 text-center w-12">#</th>
-                                    <th class="pb-3 pr-2">الموظف</th>
-                                    <th class="pb-3">القسم الوظيفي</th>
-                                    <th class="pb-3 text-center">الحالة الإدارية</th>
-                                    <th class="pb-3 text-center">الإجراءات</th>
-                                </tr>
-                            </thead>
-                            <tbody id="employee-table-body" class="divide-y divide-slate-800/50 text-sm">
-                                </tbody>
-                        </table>
-                    </div>
+                    <button onclick="openAddModal()" class="btn-add">إضافة موظف جديد</button>
                 </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: center; width: 50px;">#</th>
+                            <th>الموظف</th>
+                            <th>القسم الوظيفي</th>
+                            <th style="text-align: center;">الحالة</th>
+                            <th style="text-align: center;">الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employee-table-body">
+                        </tbody>
+                </table>
             </div>
+        </div>
 
-            <div id="calendar-page" class="page-content space-y-6">
-                <div class="bg-[#111625] border border-slate-800/50 rounded-3xl p-6 shadow-2xl">
-                    <div class="mb-4">
-                        <h2 class="text-lg font-bold text-white">تقويم الإجازات والغيابات</h2>
-                        <p class="text-xs text-slate-500 mt-1">اضغط على أي يوم في الشهر لتعيين وإعطاء إجازة لأحد الموظفين</p>
-                    </div>
-                    <div class="grid grid-cols-7 gap-2 text-center text-xs font-bold text-slate-400 mb-2">
-                        <div>أحد</div><div>إثنين</div><div>ثلاثاء</div><div>أربعاء</div><div>خميس</div><div>جمعة</div><div>سبت</div>
-                    </div>
-                    <div id="calendar-grid" class="grid grid-cols-7 gap-2 min-h-[300px]">
-                        </div>
+        <div id="calendar-page" class="page-content">
+            <div class="table-container">
+                <h2 style="font-size: 18px; color: white;">تقويم الإجازات</h2>
+                <p style="font-size: 12px; color: #64748b; margin-bottom: 12px;">اضغط على أي مربع يوم لتعيين إجازة للموظف</p>
+                <div class="calendar-grid">
+                    <div class="cal-header">أحد</div><div class="cal-header">إثنين</div><div class="cal-header">ثلاثاء</div><div class="cal-header">أربعاء</div><div class="cal-header">خميس</div><div class="cal-header">جمعة</div><div class="cal-header">سبت</div>
                 </div>
+                <div id="calendar-grid" class="calendar-grid">
+                    </div>
             </div>
+        </div>
 
-            <div id="attendance" class="page-content space-y-6">
-                <div class="bg-[#111625] border border-slate-800/50 rounded-3xl p-8 text-center max-w-md mx-auto shadow-2xl">
-                    <h2 class="text-xl font-bold text-white mb-2">تسجيل الحضور اليومي</h2>
-                    <button class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-8 py-3 rounded-xl font-bold border-0 cursor-pointer w-full shadow-lg shadow-purple-600/20">بصمة الدخول</button>
-                </div>
+        <div id="attendance" class="page-content">
+            <div class="table-container" style="text-align: center; max-width: 400px; margin: 0 auto;">
+                <h2 style="color: white; font-size: 18px; margin-bottom: 8px;">تسجيل الحضور اليومي</h2>
+                <button class="btn-add" style="width: 100%; padding: 12px; background: linear-gradient(to right, #8a3d85, #582b56);">بصمة الدخول</button>
             </div>
+        </div>
 
-            <div id="salary" class="page-content space-y-6">
-                <div class="bg-[#111625] border border-slate-800/50 rounded-3xl p-6 max-w-md mx-auto shadow-2xl">
-                    <h2 class="text-lg font-bold text-white border-b border-slate-800 pb-3 mb-4">كشف الرواتب</h2>
-                    <div class="flex justify-between font-bold text-purple-400"><span>صافي المستحقات الحالي:</span><span>6,000 د.إ</span></div>
+        <div id="salary" class="page-content">
+            <div class="table-container" style="max-width: 400px; margin: 0 auto;">
+                <h2 style="color: white; font-size: 16px; border-bottom: 1px solid #1e293b; padding-bottom: 8px; margin-bottom: 12px;">كشف الرواتب</h2>
+                <div style="display: flex; justify-content: space-between; font-weight: bold; color: #c084fc;">
+                    <span>صافي المستحقات الحالي:</span>
+                    <span>6,000 د.إ</span>
                 </div>
             </div>
         </div>
     </main>
 
-    <div id="employeeModal" class="fixed inset-0 bg-black/70 flex items-center justify-center hidden z-50 p-4">
-        <div class="bg-[#111625] border border-slate-800 w-full max-w-md rounded-2xl p-6 space-y-4">
-            <h3 id="modal-title" class="text-lg font-bold text-white">إضافة موظف جديد</h3>
+    <div id="employeeModal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <h3 id="modal-title" style="color: white; margin-bottom: 16px;">إضافة موظف جديد</h3>
             <input type="hidden" id="edit-emp-id">
-            <div class="space-y-3">
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1">اسم الموظف الكامل</label>
-                    <input type="text" id="empName" class="w-full bg-[#0b111e] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-purple-500 transition">
-                </div>
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1">القسم / المسمى الوظيفي</label>
-                    <input type="text" id="empRole" class="w-full bg-[#0b111e] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-purple-500 transition">
-                </div>
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1">الحالة الإدارية</label>
-                    <select id="empStatus" class="w-full bg-[#0b111e] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-purple-500 transition">
-                        <option value="نشط">نشط</option>
-                        <option value="إجازة">إجازة</option>
-                    </select>
-                </div>
+            <div class="form-control">
+                <label>اسم الموظف الكامل</label>
+                <input type="text" id="empName">
             </div>
-            <div class="flex justify-end gap-2 pt-2">
-                <button onclick="closeModal()" class="bg-slate-800 text-slate-300 text-xs font-bold px-4 py-2 rounded-xl border-0 cursor-pointer hover:bg-slate-700 transition">إلغاء</button>
-                <button onclick="saveEmployee()" class="bg-[#ff7a00] text-white text-xs font-bold px-4 py-2 rounded-xl border-0 cursor-pointer hover:bg-orange-600 transition">حفظ البيانات</button>
+            <div class="form-control">
+                <label>القسم الوظيفي</label>
+                <input type="text" id="empRole">
+            </div>
+            <div class="form-control">
+                <label>الحالة الإدارية</label>
+                <select id="empStatus">
+                    <option value="نشط">نشط</option>
+                    <option value="إجازة">إجازة</option>
+                </select>
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px;">
+                <button onclick="closeModal()" style="background-color: #1e293b; color: #cbd5e1; border: none; padding: 8px 16px; border-radius: 12px; cursor: pointer;">إلغاء</button>
+                <button onclick="saveEmployee()" class="btn-add">حفظ البيانات</button>
             </div>
         </div>
     </div>
 
-    <div id="calendarModal" class="fixed inset-0 bg-black/70 flex items-center justify-center hidden z-50 p-4">
-        <div class="bg-[#111625] border border-slate-800 w-full max-w-sm rounded-2xl p-6 space-y-4">
-            <h3 class="text-md font-bold text-white">إعطاء إجازة لليوم المحدد</h3>
-            <div>
-                <label class="block text-xs text-slate-400 mb-1">إختر الموظف لمنحه الإجازة</label>
-                <select id="calendar-emp-select" class="w-full bg-[#0b111e] border border-slate-800 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-purple-500 transition">
-                </select>
+    <div id="calendarModal" class="modal-overlay hidden">
+        <div class="modal-card" style="max-width: 320px;">
+            <h3 style="color: white; margin-bottom: 12px; font-size: 16px;">منح إجازة لليوم</h3>
+            <div class="form-control">
+                <label>إختر الموظف</label>
+                <select id="calendar-emp-select"></select>
             </div>
-            <div class="flex justify-end gap-2">
-                <button onclick="closeCalendarModal()" class="bg-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-xl border-0 cursor-pointer">إلغاء</button>
-                <button onclick="assignLeaveToDay()" class="bg-purple-600 text-white text-xs px-4 py-1.5 rounded-xl border-0 cursor-pointer hover:bg-purple-700">تأكيد الإجازة</button>
+            <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px;">
+                <button onclick="closeCalendarModal()" style="background-color: #1e293b; color: #cbd5e1; border: none; padding: 6px 12px; border-radius: 12px; cursor: pointer; font-size: 12px;">إلغاء</button>
+                <button onclick="assignLeaveToDay()" class="btn-add" style="padding: 6px 12px; background-color: #8a3d85; font-size: 12px;">تأكيد</button>
             </div>
         </div>
     </div>
 
     <script>
+        // مصفوفة البيانات المحلية المستقرة تماماً
         let employeesList = [
             { id: 1, name: "أحمد المصعبي", role: "مهندس برمجيات أول", status: "نشط" },
             { id: 2, name: "سارة العامري", role: "مصممة واجهات UI/UX", status: "نشط" },
@@ -209,23 +401,16 @@
 
         let selectedDayId = null;
 
-        // التبديل بين الصفحات والخانات
+        // دالة التنقل المحلية الصارمة والفورية عند الضغط
         function switchPage(pageId, element) {
             const buttons = document.querySelectorAll('#top-navigation button');
-            buttons.forEach(btn => {
-                btn.classList.remove('nav-item-active', 'font-bold');
-                btn.classList.add('text-slate-400', 'font-semibold');
-            });
-            element.classList.remove('text-slate-400', 'font-semibold');
-            element.classList.add('nav-item-active', 'font-bold');
+            buttons.forEach(btn => btn.classList.remove('nav-item-active'));
+            element.classList.add('nav-item-active');
 
             const pages = document.querySelectorAll('.page-content');
-            pages.forEach(page => {
-                page.classList.remove('active');
-                if (page.id === pageId) {
-                    page.classList.add('active');
-                }
-            });
+            pages.forEach(page => page.classList.remove('active'));
+            
+            document.getElementById(pageId).classList.add('active');
         }
 
         function renderTable() {
@@ -233,15 +418,61 @@
             tableBody.innerHTML = '';
 
             employeesList.forEach((emp, index) => {
-                const statusClass = emp.status === 'نشط' ? 'bg-green-500/10 text-green-400' : 'bg-amber-500/10 text-amber-400';
+                const statusClass = emp.status === 'نشط' ? 'badge-active' : 'badge-leave';
                 const row = `
-                    <tr class="hover:bg-slate-800/20 transition">
-                        <td class="py-4 text-center text-slate-500 font-bold">${index + 1}</td>
-                        <td class="py-4 pr-2 font-bold text-white">${emp.name}</td>
-                        <td class="py-4 text-slate-400 text-xs">${emp.role}</td>
-                        <td class="py-4 text-center">
-                            <span class="${statusClass} text-[10px] font-bold px-2.5 py-1 rounded-full">${emp.status}</span>
+                    <tr>
+                        <td style="text-align: center; color: #64748b; font-weight: bold;">${index + 1}</td>
+                        <td style="font-weight: bold; color: white;">${emp.name}</td>
+                        <td style="color: #94a3b8; font-size: 12px;">${emp.role}</td>
+                        <td style="text-align: center;"><span class="badge ${statusClass}">${emp.status}</span></td>
+                        <td style="text-align: center;">
+                            <button onclick="openEditModal(${emp.id})" class="action-btn edit-btn">📝 تعديل</button>
+                            <button onclick="deleteEmployee(${emp.id})" class="action-btn delete-btn">❌ حذف</button>
                         </td>
-                        <td class="py-4 text-center space-x-2 space-x-reverse">
-                            <button onclick="openEditModal(${emp.id})" class="text-purple-400 hover:text-purple-300 bg-transparent border-0 cursor-pointer p-1 transition"><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button onclick="deleteEmployee(${emp.id})" class="text-rose-400 hover:text-rose-300 bg-transparent border-
+                    </tr>
+                `;
+                tableBody.insertAdjacentHTML('beforeend', row);
+            });
+            updateCalendarSelect();
+        }
+
+        function buildCalendar() {
+            const grid = document.getElementById('calendar-grid');
+            grid.innerHTML = '';
+            for (let i = 1; i <= 30; i++) {
+                const dayBox = document.createElement('div');
+                dayBox.className = "day-box";
+                dayBox.innerHTML = `<span style="font-size: 12px; font-weight: bold; color: #64748b;">${i}</span><div style="font-size: 10px; color: #c084fc; font-weight: bold; margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" id="day-leave-${i}"></div>`;
+                dayBox.onclick = function() {
+                    selectedDayId = `day-leave-${i}`;
+                    document.getElementById('calendarModal').classList.remove('hidden');
+                };
+                grid.appendChild(dayBox);
+            }
+        }
+
+        function updateCalendarSelect() {
+            const select = document.getElementById('calendar-emp-select');
+            select.innerHTML = '';
+            employeesList.forEach(e => {
+                const opt = document.createElement('option');
+                opt.value = e.name; opt.textContent = e.name;
+                select.appendChild(opt);
+            });
+        }
+
+        function openAddModal() {
+            document.getElementById('edit-emp-id').value = '';
+            document.getElementById('modal-title').innerText = "إضافة موظف جديد";
+            document.getElementById('empName').value = '';
+            document.getElementById('empRole').value = '';
+            document.getElementById('employeeModal').classList.remove('hidden');
+        }
+
+        function openEditModal(id) {
+            const emp = employeesList.find(e => e.id === id);
+            if (emp) {
+                document.getElementById('edit-emp-id').value = emp.id;
+                document.getElementById('modal-title').innerText = "تعديل بيانات الموظف";
+                document.getElementById('empName').value = emp.name;
+                document.getElementById('empRole').value = emp.role
