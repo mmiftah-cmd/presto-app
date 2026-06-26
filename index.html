@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام الموظفين الذكي - محمد بن مفتاح</title>
+    <title>نظام الموظفين الذكي</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     
     <style>
         body {
@@ -20,16 +20,6 @@
         .nav-item-active {
             background-color: #582b56 !important; /* اللون البنفسجي المطفأ الفاخر للزر النشط */
             color: #ffffff !important;
-        }
-        /* أنميشن سلس للتنقل والظهور */
-        .page-content {
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-        .page-content.active {
-            opacity: 1;
-            transform: translateY(0);
         }
     </style>
 </head>
@@ -61,6 +51,10 @@
                 <i class="fa-solid fa-file-invoice-dollar text-xs"></i>
                 <span>الرواتب والمستندات</span>
             </button>
+            <button onclick="switchPage('admin', this)" class="flex items-center gap-2 px-5 py-2 rounded-full transition font-semibold text-sm bg-transparent text-slate-400 hover:text-white border-0 outline-none cursor-pointer">
+                <i class="fa-solid fa-user-gear text-xs"></i>
+                <span>Admin Dashboard</span>
+            </button>
         </nav>
 
         <div class="flex items-center gap-4">
@@ -78,54 +72,37 @@
         </div>
     </header>
 
-    <main class="p-8 flex-1 overflow-y-auto max-w-7xl w-full mx-auto">
+    <main class="p-8 flex-1 max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         
-        <div id="home" class="page-content active space-y-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-[#111625] border border-slate-800/50 rounded-3xl p-6 flex justify-between items-center shadow-2xl">
-                    <div class="text-right">
-                        <p class="text-xs font-bold text-slate-500 mb-1">ساعات العمل هذا الشهر</p>
-                        <h3 class="text-2xl font-black text-white">160 ساعة</h3>
+        <div class="lg:col-span-2 space-y-8">
+            <div id="home" class="page-content active space-y-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="bg-[#111625] border border-slate-800/50 rounded-3xl p-6 flex justify-between items-center shadow-2xl">
+                        <div>
+                            <p class="text-xs font-bold text-slate-500 mb-1">ساعات العمل</p>
+                            <h3 class="text-2xl font-black text-white">160 ساعة</h3>
+                        </div>
+                        <div class="w-12 h-12 rounded-2xl bg-orange-500/10 flex items-center justify-center text-[#ff7a00]"><i class="fa-solid fa-stopwatch text-xl"></i></div>
                     </div>
-                    <div class="w-12 h-12 rounded-2xl bg-orange-500/10 flex items-center justify-center text-[#ff7a00]"><i class="fa-solid fa-stopwatch text-xl"></i></div>
-                </div>
-                <div class="bg-[#111625] border border-slate-800/50 rounded-3xl p-6 flex justify-between items-center shadow-2xl">
-                    <div class="text-right">
-                        <p class="text-xs font-bold text-slate-500 mb-1">رصيد الإجازات المتبقي</p>
-                        <h3 class="text-2xl font-black text-white">14 يوم</h3>
+                    <div class="bg-[#111625] border border-slate-800/50 rounded-3xl p-6 flex justify-between items-center shadow-2xl">
+                        <div>
+                            <p class="text-xs font-bold text-slate-500 mb-1">المهام المعلقة</p>
+                            <h3 class="text-2xl font-black text-white">5 مهام</h3>
+                        </div>
+                        <div class="w-12 h-12 rounded-2xl bg-purple-500/10 flex items-center justify-center text-purple-400"><i class="fa-solid fa-folder-open text-xl"></i></div>
                     </div>
-                    <div class="w-12 h-12 rounded-2xl bg-blue-500/10 flex items-center justify-center text-blue-400"><i class="fa-solid fa-plane-departure text-xl"></i></div>
-                </div>
-                <div class="bg-[#111625] border border-slate-800/50 rounded-3xl p-6 flex justify-between items-center shadow-2xl">
-                    <div class="text-right">
-                        <p class="text-xs font-bold text-slate-500 mb-1">المهام المعلقة</p>
-                        <h3 class="text-2xl font-black text-white">5 مهام</h3>
-                    </div>
-                    <div class="w-12 h-12 rounded-2xl bg-purple-500/10 flex items-center justify-center text-purple-400"><i class="fa-solid fa-folder-open text-xl"></i></div>
                 </div>
             </div>
         </div>
 
-        <div id="attendance" class="page-content hidden space-y-6">
-            <div class="bg-[#111625] border border-slate-800/50 rounded-3xl p-8 text-center max-w-md mx-auto shadow-2xl">
-                <h2 class="text-xl font-bold text-white mb-2">تسجيل الحضور اليومي</h2>
-                <p class="text-xs text-slate-500 mb-6">اضغط لإثبات حضورك الرقمي في النظام</p>
-                <button class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-8 py-3 rounded-xl font-bold border-0 outline-none cursor-pointer w-full">بصمة الدخول</button>
+        <div class="bg-[#111625]/40 border border-slate-800/40 rounded-3xl p-6 flex flex-col items-center justify-center text-center relative overflow-hidden">
+            <p class="text-xs font-semibold text-slate-400 mb-4">المساعد الذكي للنظام</p>
+            
+            <div class="w-full max-w-[280px] aspect-square flex items-center justify-center">
+                <img src="path/to/abeer-avatar.png" alt="3D Abeer Avatar" class="w-full h-full object-contain drop-shadow-[0_10px_20px_rgba(88,43,86,0.3)]">
             </div>
-        </div>
-
-        <div id="leave" class="page-content hidden space-y-6">
-            <div class="bg-[#111625] border border-slate-800/50 rounded-3xl p-6 max-w-xl mx-auto shadow-2xl">
-                <h2 class="text-lg font-bold text-white mb-4">تقديم طلب إجازة جديد</h2>
-                <p class="text-sm text-slate-500">هذه الشاشة جاهزة ومستقرة للربط بالخلفية.</p>
-            </div>
-        </div>
-
-        <div id="salary" class="page-content hidden space-y-6">
-            <div class="bg-[#111625] border border-slate-800/50 rounded-3xl p-6 max-w-md mx-auto shadow-2xl">
-                <h2 class="text-lg font-bold text-white border-b border-slate-800 pb-3 mb-4">كشف المستندات والرواتب</h2>
-                <div class="flex justify-between font-bold text-purple-400"><span>صافي المستحقات:</span><span>6,000 د.إ</span></div>
-            </div>
+            
+            <h4 class="text-sm font-bold text-white mt-4">مرحباً بك مجدداً!</h4>
         </div>
 
     </main>
@@ -142,18 +119,6 @@
             // تطبيق الكبسولة البنفسجية الفخمة على الزر المختار فورا
             element.classList.remove('text-slate-400', 'font-semibold');
             element.classList.add('nav-item-active', 'font-bold');
-
-            // إخفاء وإظهار الشاشات المقابلة بأنميشن ناعم
-            const pages = document.querySelectorAll('.page-content');
-            pages.forEach(page => {
-                if (page.id === pageId) {
-                    page.classList.remove('hidden');
-                    setTimeout(() => { page.classList.add('active'); }, 20);
-                } else {
-                    page.classList.remove('active');
-                    page.classList.add('hidden');
-                }
-            });
         }
     </script>
 </body>
