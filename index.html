@@ -3,466 +3,283 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام الموظفين الذكي - محمد بن مفتاح</title>
+    <title>نظام الموظفين - محمد بن مفتاح</title>
     
     <style>
-        /* التنسيقات الهيكلية الأساسية البديلة لـ Tailwind */
+        /* نظام ألوان متناسق ومستقل كلياً يعمل بدون إنترنت */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
         }
         body {
             background-color: #0b111e;
             color: #e2e8f0;
-            min-height: screen;
-            display: flex;
-            flex-direction: column;
+            padding: 20px;
         }
         header {
-            background-color: #0b111e;
-            border-b: 1px solid rgba(51, 65, 85, 0.6);
-            padding: 20px 32px;
+            background-color: #111625;
+            padding: 20px;
+            border-radius: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            flex-wrap: wrap;
-            gap: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #1e293b;
         }
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .logo-box {
-            width: 40px;
-            height: 40px;
-            background-color: #ff7a00;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            box-shadow: 0 10px 15px -3px rgba(255, 122, 0, 0.2);
-        }
-        .logo-text {
+        .logo {
             font-size: 20px;
-            font-weight: 900;
-            color: white;
+            font-weight: bold;
+            color: #ff7a00;
         }
         nav {
             display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 16px;
+            gap: 10px;
         }
         nav button {
-            background: transparent;
-            border: none;
+            background-color: #1e293b;
             color: #94a3b8;
-            padding: 8px 20px;
-            border-radius: 9999px;
-            font-size: 14px;
-            font-weight: 600;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            transition: 0.2s;
         }
         nav button:hover {
             color: white;
+            background-color: #334155;
         }
         .nav-item-active {
             background-color: #582b56 !important;
-            color: #ffffff !important;
-            font-weight: 700 !important;
-        }
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-        .avatar-box {
-            background-color: #ff7a00;
-            color: white;
-            font-weight: bold;
-            padding: 6px 12px;
-            border-radius: 12px;
-            font-size: 14px;
-        }
-        main {
-            padding: 32px;
-            flex: 1;
-            max-width: 1024px;
-            width: 100%;
-            margin: 0 auto;
+            color: white !important;
         }
         .page-content {
             display: none;
+            background-color: #111625;
+            padding: 25px;
+            border-radius: 24px;
+            border: 1px solid #1e293b;
+            margin-top: 20px;
         }
-        .page-content.active {
+        .active {
             display: block !important;
         }
-        
-        /* شاشة التبويبات والكروت */
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 24px;
-        }
-        .card {
-            background-color: #111625;
-            border: 1px solid rgba(51, 65, 85, 0.5);
-            border-radius: 24px;
-            padding: 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-        .btn-add {
+        .btn-main {
             background-color: #ff7a00;
             color: white;
-            font-weight: bold;
-            font-size: 14px;
-            padding: 10px 16px;
-            border-radius: 12px;
+            padding: 10px 15px;
             border: none;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background 0.2s;
+            font-weight: bold;
         }
-        .btn-add:hover { background-color: #ea6e00; }
-
-        /* تنسيق الجداول الاحترافي محلياً */
-        .table-container {
-            background-color: #111625;
-            border: 1px solid rgba(51, 65, 85, 0.5);
-            border-radius: 24px;
-            padding: 24px;
-            overflow-x: auto;
-        }
+        .btn-main:hover { background-color: #ea6e00; }
+        
+        /* الجداول */
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 15px;
             text-align: right;
-            margin-top: 16px;
         }
-        th {
-            color: #94a3b8;
-            font-size: 12px;
-            font-weight: 700;
-            padding-bottom: 12px;
+        th, td {
+            padding: 12px;
             border-bottom: 1px solid #1e293b;
         }
-        td {
-            padding: 16px 0;
-            border-bottom: 1px solid rgba(30, 41, 59, 0.5);
-            font-size: 14px;
-        }
+        th { color: #94a3b8; font-size: 13px; }
         .badge {
-            font-size: 10px;
-            font-weight: bold;
             padding: 4px 10px;
-            border-radius: 9999px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
         }
-        .badge-active { background-color: rgba(34, 197, 94, 0.1); color: #4ade80; }
-        .badge-leave { background-color: rgba(245, 158, 11, 0.1); color: #fbbf24; }
+        .badge-active { background: rgba(34,197,94,0.1); color: #4ade80; }
+        .badge-leave { background: rgba(245,158,11,0.1); color: #fbbf24; }
         
-        .action-btn {
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 4px;
-            font-size: 14px;
-            transition: color 0.2s;
-        }
-        .edit-btn { color: #c084fc; margin-left: 8px;}
-        .delete-btn { color: #f87171; }
-
         /* التقويم */
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 8px;
-            margin-top: 16px;
+            gap: 10px;
+            margin-top: 15px;
         }
-        .cal-header {
-            color: #94a3b8;
-            font-size: 12px;
-            font-weight: bold;
-            text-align: center;
-        }
+        .cal-header { color: #94a3b8; font-weight: bold; text-align: center; font-size: 12px; }
         .day-box {
-            background-color: #0b111e;
-            border: 1px solid rgba(51, 65, 85, 0.8);
-            border-radius: 12px;
-            padding: 8px;
-            min-h: 65px;
+            background: #0b111e;
+            border: 1px solid #1e293b;
+            border-radius: 10px;
+            padding: 10px;
+            min-height: 70px;
             cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: border-color 0.2s;
         }
         .day-box:hover { border-color: #a855f7; }
 
-        /* النوافذ المنبثقة الناصعة المضمونة */
-        .modal-overlay {
+        /* النوافذ المنبثقة */
+        .modal {
             position: fixed;
             inset: 0;
-            background-color: rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.7);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 100;
-            padding: 16px;
         }
         .hidden { display: none !important; }
-        .modal-card {
-            background-color: #111625;
-            border: 1px solid #1e293b;
+        .modal-content {
+            background: #111625;
+            padding: 25px;
+            border-radius: 16px;
             width: 100%;
-            max-width: 400px;
-            border-radius: 24px;
-            padding: 24px;
-        }
-        .form-control {
-            margin-bottom: 12px;
-        }
-        .form-control label {
-            display: block;
-            font-size: 12px;
-            color: #94a3b8;
-            margin-bottom: 4px;
-        }
-        .form-control input, .form-control select {
-            width: 100%;
-            background-color: #0b111e;
+            max-width: 350px;
             border: 1px solid #1e293b;
-            border-radius: 12px;
-            padding: 8px 12px;
-            color: white;
-            font-size: 14px;
-            outline: none;
+        }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 12px; color: #94a3b8; margin-bottom: 4px; }
+        .form-group input, .form-group select {
+            width: 100%; padding: 8px; background: #0b111e; border: 1px solid #1e293b; color: white; border-radius: 8px; outline: none;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo-area">
-            <div class="logo-box">⚡</div>
-            <span class="logo-text">نظام الموظفين</span>
-        </div>
-
+        <div class="logo">⚡ نظام الموظفين ذكي</div>
         <nav id="top-navigation">
             <button onclick="switchPage('home', this)" class="nav-item-active">الرئيسية</button>
             <button onclick="switchPage('employees', this)">الموظفون</button>
             <button onclick="switchPage('calendar-page', this)">التقويم والإجازات</button>
             <button onclick="switchPage('attendance', this)">الحضور والغياب</button>
-            <button onclick="switchPage('salary', this)">الرواتب والمستندات</button>
+            <button onclick="switchPage('salary', this)">الرواتب</button>
         </nav>
-
-        <div class="user-profile">
-            <div class="avatar-box">مم</div>
-            <div style="text-align: right;">
-                <h4 style="font-size: 14px; color: white;">محمد بن مفتاح 👋</h4>
-                <p style="font-size: 10px; color: #64748b;">المدير المسؤول</p>
-            </div>
+        <div style="text-align: left;">
+            <span style="font-weight: bold;">محمد بن مفتاح 👋</span>
         </div>
     </header>
 
     <main>
         <div id="home" class="page-content active">
-            <div class="grid-2">
-                <div class="card">
-                    <div>
-                        <p style="font-size: 12px; color: #64748b; font-weight: bold;">ساعات العمل هذا الشهر</p>
-                        <h3 style="font-size: 24px; color: white; margin-top: 4px;">160 ساعة</h3>
-                    </div>
-                </div>
-                <div class="card">
-                    <div>
-                        <p style="font-size: 12px; color: #64748b; font-weight: bold;">المهام المعلقة</p>
-                        <h3 style="font-size: 24px; color: white; margin-top: 4px;">5 مهام</h3>
-                    </div>
-                </div>
-            </div>
+            <h2>مرحباً بك في اللوحة الرئيسية</h2>
+            <p style="color: #94a3b8; margin-top: 10px;">ساعات العمل هذا الشهر: 160 ساعة | المهام المعلقة: 5 مهام</p>
         </div>
 
         <div id="employees" class="page-content">
-            <div class="table-container">
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-                    <div>
-                        <h2 style="font-size: 18px; color: white;">قائمة إدارة الموظفين</h2>
-                        <p style="font-size: 12px; color: #64748b;">إضافة وحذف وتعديل الموظفين بشكل فوري ومحلي</p>
-                    </div>
-                    <button onclick="openAddModal()" class="btn-add">إضافة موظف جديد</button>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="text-align: center; width: 50px;">#</th>
-                            <th>الموظف</th>
-                            <th>القسم الوظيفي</th>
-                            <th style="text-align: center;">الحالة</th>
-                            <th style="text-align: center;">الإجراءات</th>
-                        </tr>
-                    </thead>
-                    <tbody id="employee-table-body">
-                        </tbody>
-                </table>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3>إدارة بيانات سجل الموظفين</h3>
+                <button onclick="openAddModal()" class="btn-main">+ إضافة موظف</button>
             </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>الاسم</th>
+                        <th>المسمى الوظيفي</th>
+                        <th>الحالة</th>
+                        <th>الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+            </table>
         </div>
 
         <div id="calendar-page" class="page-content">
-            <div class="table-container">
-                <h2 style="font-size: 18px; color: white;">تقويم الإجازات</h2>
-                <p style="font-size: 12px; color: #64748b; margin-bottom: 12px;">اضغط على أي مربع يوم لتعيين إجازة للموظف</p>
-                <div class="calendar-grid">
-                    <div class="cal-header">أحد</div><div class="cal-header">إثنين</div><div class="cal-header">ثلاثاء</div><div class="cal-header">أربعاء</div><div class="cal-header">خميس</div><div class="cal-header">جمعة</div><div class="cal-header">سبت</div>
-                </div>
-                <div id="calendar-grid" class="calendar-grid">
-                    </div>
+            <h3>تقويم توزيع الإجازات</h3>
+            <p style="color: #94a3b8; font-size: 13px;">اضغط على مربع اليوم لمنح إجازة فورية لموظف</p>
+            <div class="calendar-grid">
+                <div class="cal-header">أحد</div><div class="cal-header">إثنين</div><div class="cal-header">ثلاثاء</div><div class="cal-header">أربعاء</div><div class="cal-header">خميس</div><div class="cal-header">جمعة</div><div class="cal-header">سبت</div>
             </div>
+            <div id="calendar-container" class="calendar-grid"></div>
         </div>
 
         <div id="attendance" class="page-content">
-            <div class="table-container" style="text-align: center; max-width: 400px; margin: 0 auto;">
-                <h2 style="color: white; font-size: 18px; margin-bottom: 8px;">تسجيل الحضور اليومي</h2>
-                <button class="btn-add" style="width: 100%; padding: 12px; background: linear-gradient(to right, #8a3d85, #582b56);">بصمة الدخول</button>
-            </div>
+            <h3>تسجيل وبصمة الحضور اليومي</h3>
+            <button class="btn-main" style="margin-top: 15px; width: 100%; padding: 12px;">تسجيل البصمة الآن</button>
         </div>
 
         <div id="salary" class="page-content">
-            <div class="table-container" style="max-width: 400px; margin: 0 auto;">
-                <h2 style="color: white; font-size: 16px; border-bottom: 1px solid #1e293b; padding-bottom: 8px; margin-bottom: 12px;">كشف الرواتب</h2>
-                <div style="display: flex; justify-content: space-between; font-weight: bold; color: #c084fc;">
-                    <span>صافي المستحقات الحالي:</span>
-                    <span>6,000 د.إ</span>
-                </div>
-            </div>
+            <h3>المستندات المالية والرواتب</h3>
+            <p style="color: #4ade80; font-weight: bold; margin-top: 15px;">صافي المستحقات الحالي: 6,000 د.إ</p>
         </div>
     </main>
 
-    <div id="employeeModal" class="modal-overlay hidden">
-        <div class="modal-card">
-            <h3 id="modal-title" style="color: white; margin-bottom: 16px;">إضافة موظف جديد</h3>
-            <input type="hidden" id="edit-emp-id">
-            <div class="form-control">
-                <label>اسم الموظف الكامل</label>
-                <input type="text" id="empName">
+    <div id="employeeModal" class="modal hidden">
+        <div class="modal-content">
+            <h4 id="modal-title">إضافة موظف جديد</h4>
+            <input type="hidden" id="edit-id">
+            <div class="form-group"><label>الاسم الكامل</label><input type="text" id="empName"></div>
+            <div class="form-group"><label>الوظيفة</label><input type="text" id="empRole"></div>
+            <div class="form-group">
+                <label>الحالة</label>
+                <select id="empStatus"><option value="نشط">نشط</option><option value="إجازة">إجازة</option></select>
             </div>
-            <div class="form-control">
-                <label>القسم الوظيفي</label>
-                <input type="text" id="empRole">
-            </div>
-            <div class="form-control">
-                <label>الحالة الإدارية</label>
-                <select id="empStatus">
-                    <option value="نشط">نشط</option>
-                    <option value="إجازة">إجازة</option>
-                </select>
-            </div>
-            <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px;">
-                <button onclick="closeModal()" style="background-color: #1e293b; color: #cbd5e1; border: none; padding: 8px 16px; border-radius: 12px; cursor: pointer;">إلغاء</button>
-                <button onclick="saveEmployee()" class="btn-add">حفظ البيانات</button>
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px;">
+                <button onclick="closeModal()" style="padding: 8px; background: #334155; border:none; color:white; border-radius:6px; cursor:pointer;">إلغاء</button>
+                <button onclick="saveEmployee()" class="btn-main">حفظ</button>
             </div>
         </div>
     </div>
 
-    <div id="calendarModal" class="modal-overlay hidden">
-        <div class="modal-card" style="max-width: 320px;">
-            <h3 style="color: white; margin-bottom: 12px; font-size: 16px;">منح إجازة لليوم</h3>
-            <div class="form-control">
-                <label>إختر الموظف</label>
-                <select id="calendar-emp-select"></select>
-            </div>
-            <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px;">
-                <button onclick="closeCalendarModal()" style="background-color: #1e293b; color: #cbd5e1; border: none; padding: 6px 12px; border-radius: 12px; cursor: pointer; font-size: 12px;">إلغاء</button>
-                <button onclick="assignLeaveToDay()" class="btn-add" style="padding: 6px 12px; background-color: #8a3d85; font-size: 12px;">تأكيد</button>
+    <div id="calendarModal" class="modal hidden">
+        <div class="modal-content">
+            <h4>منح إجازة لليوم</h4>
+            <div class="form-group"><label>إختر الموظف</label><select id="calendar-select"></select></div>
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px;">
+                <button onclick="closeCalendarModal()" style="padding: 8px; background: #334155; border:none; color:white; border-radius:6px; cursor:pointer;">إلغاء</button>
+                <button onclick="assignLeave()" class="btn-main">تأكيد الإجازة</button>
             </div>
         </div>
     </div>
 
     <script>
-        // مصفوفة البيانات المحلية المستقرة تماماً
-        let employeesList = [
-            { id: 1, name: "أحمد المصعبي", role: "مهندس برمجيات أول", status: "نشط" },
-            { id: 2, name: "سارة العامري", role: "مصممة واجهات UI/UX", status: "نشط" },
-            { id: 3, name: "خالد الهاملي", role: "مدير التسويق الرقمي", status: "إجازة" }
+        let employees = [
+            { id: 1, name: "أحمد المصعبي", role: "مهندس برمجيات", status: "نشط" },
+            { id: 2, name: "سارة العامري", role: "مصممة واجهات", status: "نشط" }
         ];
+        let targetDayId = null;
 
-        let selectedDayId = null;
-
-        // دالة التنقل المحلية الصارمة والفورية عند الضغط
-        function switchPage(pageId, element) {
-            const buttons = document.querySelectorAll('#top-navigation button');
-            buttons.forEach(btn => btn.classList.remove('nav-item-active'));
-            element.classList.add('nav-item-active');
-
-            const pages = document.querySelectorAll('.page-content');
-            pages.forEach(page => page.classList.remove('active'));
-            
+        function switchPage(pageId, btn) {
+            document.querySelectorAll('#top-navigation button').forEach(b => b.classList.remove('nav-item-active'));
+            btn.classList.add('nav-item-active');
+            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
         }
 
         function renderTable() {
-            const tableBody = document.getElementById('employee-table-body');
-            tableBody.innerHTML = '';
-
-            employeesList.forEach((emp, index) => {
-                const statusClass = emp.status === 'نشط' ? 'badge-active' : 'badge-leave';
-                const row = `
+            const body = document.getElementById('table-body');
+            body.innerHTML = '';
+            employees.forEach((emp, index) => {
+                const cls = emp.status === 'نشط' ? 'badge-active' : 'badge-leave';
+                body.innerHTML += `
                     <tr>
-                        <td style="text-align: center; color: #64748b; font-weight: bold;">${index + 1}</td>
-                        <td style="font-weight: bold; color: white;">${emp.name}</td>
-                        <td style="color: #94a3b8; font-size: 12px;">${emp.role}</td>
-                        <td style="text-align: center;"><span class="badge ${statusClass}">${emp.status}</span></td>
-                        <td style="text-align: center;">
-                            <button onclick="openEditModal(${emp.id})" class="action-btn edit-btn">📝 تعديل</button>
-                            <button onclick="deleteEmployee(${emp.id})" class="action-btn delete-btn">❌ حذف</button>
+                        <td>${index + 1}</td>
+                        <td style="color:white; font-weight:bold;">${emp.name}</td>
+                        <td>${emp.role}</td>
+                        <td><span class="badge ${cls}">${emp.status}</span></td>
+                        <td>
+                            <button onclick="openEditModal(${emp.id})" style="color:#c084fc; background:none; border:none; cursor:pointer; margin-left:10px;">📝 تعديل</button>
+                            <button onclick="deleteEmployee(${emp.id})" style="color:#f87171; background:none; border:none; cursor:pointer;">❌ حذف</button>
                         </td>
-                    </tr>
-                `;
-                tableBody.insertAdjacentHTML('beforeend', row);
+                    </tr>`;
             });
-            updateCalendarSelect();
+            const select = document.getElementById('calendar-select');
+            select.innerHTML = employees.map(e => `<option value="${e.name}">${e.name}</option>`).join('');
         }
 
         function buildCalendar() {
-            const grid = document.getElementById('calendar-grid');
-            grid.innerHTML = '';
-            for (let i = 1; i <= 30; i++) {
-                const dayBox = document.createElement('div');
-                dayBox.className = "day-box";
-                dayBox.innerHTML = `<span style="font-size: 12px; font-weight: bold; color: #64748b;">${i}</span><div style="font-size: 10px; color: #c084fc; font-weight: bold; margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" id="day-leave-${i}"></div>`;
-                dayBox.onclick = function() {
-                    selectedDayId = `day-leave-${i}`;
-                    document.getElementById('calendarModal').classList.remove('hidden');
-                };
-                grid.appendChild(dayBox);
+            const container = document.getElementById('calendar-container');
+            container.innerHTML = '';
+            for(let i=1; i<=30; i++) {
+                container.innerHTML += `
+                    <div class="day-box" onclick="openCalModal('day-${i}')">
+                        <span style="font-size:12px; color:#64748b;">${i}</span>
+                        <div id="day-${i}" style="font-size:10px; color:#c084fc; font-weight:bold; margin-top:5px;"></div>
+                    </div>`;
             }
         }
 
-        function updateCalendarSelect() {
-            const select = document.getElementById('calendar-emp-select');
-            select.innerHTML = '';
-            employeesList.forEach(e => {
-                const opt = document.createElement('option');
-                opt.value = e.name; opt.textContent = e.name;
-                select.appendChild(opt);
-            });
-        }
-
         function openAddModal() {
-            document.getElementById('edit-emp-id').value = '';
+            document.getElementById('edit-id').value = '';
             document.getElementById('modal-title').innerText = "إضافة موظف جديد";
             document.getElementById('empName').value = '';
             document.getElementById('empRole').value = '';
@@ -470,9 +287,47 @@
         }
 
         function openEditModal(id) {
-            const emp = employeesList.find(e => e.id === id);
-            if (emp) {
-                document.getElementById('edit-emp-id').value = emp.id;
+            const emp = employees.find(e => e.id === id);
+            if(emp) {
+                document.getElementById('edit-id').value = emp.id;
                 document.getElementById('modal-title').innerText = "تعديل بيانات الموظف";
                 document.getElementById('empName').value = emp.name;
-                document.getElementById('empRole').value = emp.role
+                document.getElementById('empRole').value = emp.role;
+                document.getElementById('empStatus').value = emp.status;
+                document.getElementById('employeeModal').classList.remove('hidden');
+            }
+        }
+
+        function closeModal() { document.getElementById('employeeModal').classList.add('hidden'); }
+        function openCalModal(id) { targetDayId = id; document.getElementById('calendarModal').classList.remove('hidden'); }
+        function closeCalendarModal() { document.getElementById('calendarModal').classList.add('hidden'); }
+
+        function saveEmployee() {
+            const id = document.getElementById('edit-id').value;
+            const name = document.getElementById('empName').value.trim();
+            const role = document.getElementById('empRole').value.trim();
+            const status = document.getElementById('empStatus').value;
+
+            if(!name || !role) return alert('يرجى ملء الحقول!');
+
+            if(id) {
+                const emp = employees.find(e => e.id == id);
+                if(emp) { emp.name = name; emp.role = role; emp.status = status; }
+            } else {
+                employees.push({ id: Date.now(), name, role, status });
+            }
+            renderTable(); closeModal();
+        }
+
+        function deleteEmployee(id) { employees = employees.filter(e => e.id !== id); renderTable(); }
+        
+        function assignLeave() {
+            const name = document.getElementById('calendar-select').value;
+            if(name && targetDayId) document.getElementById(targetDayId).innerText = "🌴 " + name;
+            closeCalendarModal();
+        }
+
+        window.onload = function() { renderTable(); buildCalendar(); };
+    </script>
+</body>
+</html>
