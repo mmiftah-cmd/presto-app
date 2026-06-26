@@ -18,14 +18,14 @@
 
         /* انحناءات حركة شاشات آبل الذكية الفيزيائية */
         .ios-transition {
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         /* إخفاء واظهار النصوص بنعومة بالغة عند تمرير الماوس */
         .sidebar-text {
             opacity: 0;
             white-space: nowrap;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.2s ease;
             display: none;
         }
 
@@ -34,18 +34,18 @@
             display: inline-block;
         }
 
-        /* أنميشن ظهور محتوى لوحة التحكم بتأثير الـ Blur والتلاشي */
+        /* أنميشن ظهور محتوى لوحة التحكم بتأثير الـ Blur والتلاشي والانزلاق */
         .page-content {
             opacity: 0;
-            filter: blur(8px);
-            transform: scale(0.98) translateY(10px);
-            transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), filter 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            filter: blur(4px);
+            transform: translateY(10px);
+            transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), filter 0.4s cubic-bezier(0.25, 1, 0.5, 1), transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .page-content.active {
             opacity: 1;
             filter: blur(0);
-            transform: scale(1) translateY(0);
+            transform: translateY(0);
         }
     </style>
 </head>
@@ -69,23 +69,23 @@
                     <div id="active-bg" class="absolute right-0 top-0 w-full h-12 bg-gradient-to-r from-orange-500 to-amber-500 rounded-2xl ios-transition z-0 shadow-[0_8px_24px_rgba(249,115,22,0.4)]" style="transform: translateY(0px);"></div>
                     
                     <nav class="space-y-2 relative z-10">
-                        <button onclick="switchPage('home', this, 0)" class="w-full flex items-center space-x-reverse space-x-4 px-4 h-12 text-white ios-transition text-right font-bold cursor-pointer rounded-2xl overflow-hidden bg-transparent border-0 outline-none">
+                        <button onclick="switchPage('home', this)" class="w-full flex items-center space-x-reverse space-x-4 px-4 h-12 text-white ios-transition text-right font-bold cursor-pointer rounded-2xl overflow-hidden bg-transparent border-0 outline-none">
                             <i class="fa-solid fa-layer-group text-lg min-w-[28px] text-center"></i>
                             <span class="sidebar-text">الرئيسية</span>
                         </button>
-                        <button onclick="switchPage('employees', this, 1)" class="w-full flex items-center space-x-reverse space-x-4 px-4 h-12 text-slate-400 hover:text-white ios-transition text-right font-bold cursor-pointer rounded-2xl overflow-hidden bg-transparent border-0 outline-none">
+                        <button onclick="switchPage('employees', this)" class="w-full flex items-center space-x-reverse space-x-4 px-4 h-12 text-slate-400 hover:text-white ios-transition text-right font-bold cursor-pointer rounded-2xl overflow-hidden bg-transparent border-0 outline-none">
                             <i class="fa-solid fa-users text-lg min-w-[28px] text-center"></i>
                             <span class="sidebar-text">الموظفون</span>
                         </button>
-                        <button onclick="switchPage('attendance', this, 2)" class="w-full flex items-center space-x-reverse space-x-4 px-4 h-12 text-slate-400 hover:text-white ios-transition text-right font-bold cursor-pointer rounded-2xl overflow-hidden bg-transparent border-0 outline-none">
+                        <button onclick="switchPage('attendance', this)" class="w-full flex items-center space-x-reverse space-x-4 px-4 h-12 text-slate-400 hover:text-white ios-transition text-right font-bold cursor-pointer rounded-2xl overflow-hidden bg-transparent border-0 outline-none">
                             <i class="fa-solid fa-fingerprint text-lg min-w-[28px] text-center"></i>
                             <span class="sidebar-text">الحضور والغياب</span>
                         </button>
-                        <button onclick="switchPage('leave', this, 3)" class="w-full flex items-center space-x-reverse space-x-4 px-4 h-12 text-slate-400 hover:text-white ios-transition text-right font-bold cursor-pointer rounded-2xl overflow-hidden bg-transparent border-0 outline-none">
+                        <button onclick="switchPage('leave', this)" class="w-full flex items-center space-x-reverse space-x-4 px-4 h-12 text-slate-400 hover:text-white ios-transition text-right font-bold cursor-pointer rounded-2xl overflow-hidden bg-transparent border-0 outline-none">
                             <i class="fa-solid fa-calendar-minus text-lg min-w-[28px] text-center"></i>
                             <span class="sidebar-text">طلب إجازة</span>
                         </button>
-                        <button onclick="switchPage('salary', this, 4)" class="w-full flex items-center space-x-reverse space-x-4 px-4 h-12 text-slate-400 hover:text-white ios-transition text-right font-bold cursor-pointer rounded-2xl overflow-hidden bg-transparent border-0 outline-none">
+                        <button onclick="switchPage('salary', this)" class="w-full flex items-center space-x-reverse space-x-4 px-4 h-12 text-slate-400 hover:text-white ios-transition text-right font-bold cursor-pointer rounded-2xl overflow-hidden bg-transparent border-0 outline-none">
                             <i class="fa-solid fa-wallet text-lg min-w-[28px] text-center"></i>
                             <span class="sidebar-text">الرواتب والمستندات</span>
                         </button>
@@ -160,7 +160,7 @@
                                 </div>
                                 <div>
                                     <label class="block text-xs font-bold text-slate-500 mb-1">البريد الإلكتروني</label>
-                                    <input type="email" id="empEmail" required class="w-full border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-orange-500 outline-none ios-transition placeholder-right" placeholder="name@company.com">
+                                    <input type="email" id="empEmail" required class="w-full border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-orange-500 outline-none ios-transition text-right" placeholder="name@company.com">
                                 </div>
                                 <button type="submit" class="w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white py-3 rounded-xl font-bold shadow-lg shadow-orange-500/20 hover:scale-[1.02] active:scale-95 ios-transition cursor-pointer border-0 outline-none">تسجيل وتأكيد الموظف</button>
                             </form>
@@ -171,4 +171,95 @@
                             <div class="overflow-x-auto">
                                 <table class="w-full text-right text-sm">
                                     <thead class="bg-slate-50 text-slate-400 font-bold border-b border-slate-100">
-                                        <tr><th class="px-4
+                                        <tr><th class="px-4 py-3">الموظف</th><th class="px-4 py-3">الوظيفة</th><th class="px-4 py-3">البريد</th></tr>
+                                    </thead>
+                                    <tbody id="employeeTableBody" class="divide-y divide-slate-50 text-slate-700 font-semibold">
+                                        </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="attendance" class="page-content hidden space-y-6">
+                    <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.01)] flex justify-between items-center">
+                        <div>
+                            <h2 class="text-xl font-extrabold text-slate-800">بوابة إثبات الحضور والإنصراف</h2>
+                        </div>
+                        <button class="bg-gradient-to-r from-orange-500 to-amber-500 text-white px-8 py-3.5 rounded-2xl font-extrabold border-0 outline-none cursor-pointer shadow-lg shadow-orange-500/20">تسجيل بصمة الدخول</button>
+                    </div>
+                </div>
+
+                <div id="leave" class="page-content hidden space-y-6">
+                    <div class="max-w-2xl bg-white p-8 rounded-3xl border border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.01)]">
+                        <h2 class="text-xl font-extrabold text-slate-800 mb-6">تقديم طلب إجازة رقمي جديد</h2>
+                    </div>
+                </div>
+
+                <div id="salary" class="page-content hidden space-y-6">
+                    <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.01)] max-w-md">
+                        <h2 class="text-lg font-extrabold text-slate-800 border-b border-slate-100 pb-3 mb-4">كشف الراتب المستحق</h2>
+                        <div class="flex justify-between text-lg font-extrabold text-orange-500"><span>إجمالي مستحقاتك المالية:</span><span>6,000 د.إ</span></div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // دالة التنقل الديناميكية المعالجة لحسابات الإزاحة والأنميشن بشكل فيزيائي دقيق
+        function switchPage(pageId, element) {
+            // 1. التقاط مسافة توب الزر الفعلي من الـ offsetTop لضمان سلاسة حركة الكبسولة البرتقالية
+            const moveY = element.offsetTop; 
+            document.getElementById('active-bg').style.transform = `translateY(${moveY}px)`;
+
+            // 2. تحديث وتخفيف ألوان أزرار الأيقونات غير النشطة
+            const buttons = document.querySelectorAll('#sidebar-nav button');
+            buttons.forEach(btn => {
+                btn.classList.remove('text-white');
+                btn.classList.add('text-slate-400');
+            });
+            element.classList.remove('text-slate-400');
+            element.classList.add('text-white');
+
+            // 3. التبديل النظيف والآمن بين الأقسام
+            const pages = document.querySelectorAll('.page-content');
+            pages.forEach(page => {
+                if (page.id === pageId) {
+                    page.classList.remove('hidden');
+                    // مهلة بالملي ثانية ليتحفز تأثير الـ Fade & Slide
+                    setTimeout(() => { page.classList.add('active'); }, 30);
+                } else {
+                    page.classList.remove('active');
+                    page.classList.add('hidden');
+                }
+            });
+        }
+
+        // دالة تفاعلية لإضافة الموظفين إلى الجدول فوراً
+        function addEmployee(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('empName').value;
+            const role = document.getElementById('empRole').value;
+            const email = document.getElementById('empEmail').value;
+
+            const tableBody = document.getElementById('employeeTableBody');
+            
+            const newRow = document.createElement('tr');
+            newRow.className = 'bg-orange-50/20 border-b border-slate-50 ios-transition'; 
+            newRow.innerHTML = `
+                <td class="px-4 py-3 text-slate-900 font-bold">${name}</td>
+                <td class="px-4 py-3 text-orange-600">${role}</td>
+                <td class="px-4 py-3 text-slate-400">${email}</td>
+            `;
+
+            tableBody.appendChild(newRow);
+
+            // تفريغ الفورم بعد التسجيل بنجاح
+            document.getElementById('employeeForm').reset();
+        }
+    </script>
+</body>
+</html>
