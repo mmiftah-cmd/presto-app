@@ -126,12 +126,12 @@
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" class="w-full max-w-[240px] h-auto drop-shadow-[0_15px_30px_rgba(88,43,86,0.3)]">
                 <defs>
                     <linearGradient id="hairGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#2d2529"/>
-                        <stop offset="100%" stop-color="#42373d"/>
+                        <stop offset="0%" stop-color="#4a3b43"/>
+                        <stop offset="100%" stop-color="#211a1d"/>
                     </linearGradient>
                     <linearGradient id="skinGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stop-color="#b87c5d"/>
-                        <stop offset="100%" stop-color="#91583a"/>
+                        <stop offset="0%" stop-color="#c98a6b"/>
+                        <stop offset="100%" stop-color="#a86849"/>
                     </linearGradient>
                     <linearGradient id="macGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                         <stop offset="0%" stop-color="#ffffff"/>
@@ -144,11 +144,11 @@
                 <g transform="translate(15, 10)">
                     <path d="M240 120 L275 120 M240 140 L275 140 M240 160 L275 160" stroke="#8a3d85" stroke-width="3" stroke-linecap="round"/>
                     <rect x="220" y="114" width="12" height="12" rx="3" fill="none" stroke="#8a3d85" stroke-width="2"/>
-                    <path d="M223 120 L226 123 L230 116" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    <path d="M223 120 L226 123 L230 116" stroke="#8a3d85" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
                     <rect x="220" y="134" width="12" height="12" rx="3" fill="none" stroke="#8a3d85" stroke-width="2"/>
-                    <path d="M223 140 L226 143 L230 136" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    <path d="M223 140 L226 143 L230 136" stroke="#8a3d85" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
                     <rect x="220" y="154" width="12" height="12" rx="3" fill="none" stroke="#8a3d85" stroke-width="2"/>
-                    <path d="M223 160 L226 163 L230 156" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    <path d="M223 160 L226 163 L230 156" stroke="#8a3d85" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
                     <path d="M210 140 L170 155" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" stroke-dasharray="3"/>
                 </g>
 
@@ -159,4 +159,56 @@
                 </g>
 
                 <g transform="translate(45, 30)">
-                    <path d="M100
+                    <path d="M100 270 L210 270 L200 175 L110 175 Z" fill="#ffffff"/>
+                    <path d="M115 175 L122 230 M195 175 L188 230" stroke="#3b5998" stroke-width="14" stroke-linecap="round"/>
+                </g>
+
+                <g transform="translate(45, 30)">
+                    <rect x="142" y="135" width="26" height="40" fill="url(#skinGrad)" rx="5"/>
+                    <path d="M118 85 Q155 45 192 85 Q200 125 192 148 Q155 162 118 148 Q110 125 118 85 Z" fill="url(#skinGrad)"/>
+                    <circle cx="138" cy="105" r="5" fill="#111625"/>
+                    <circle cx="172" cy="105" r="5" fill="#111625"/>
+                    <path d="M110 80 Q155 35 200 80 Q212 110 200 138 Q185 115 180 92 Q155 96 130 92 Q125 115 110 138 Q98 110 110 80 Z" fill="url(#hairGrad)"/>
+                </g>
+
+                <g transform="translate(45, 30)">
+                    <rect x="85" y="185" width="140" height="90" rx="10" fill="url(#macGrad)" stroke="#cbd5e1" stroke-width="1.5"/>
+                    <path d="M150 228 A 4.5 4.5 0 1 1 160 228 A 4.5 4.5 0 1 1 150 228" fill="#94a3b8"/>
+                    <path d="M157 220 Q159 216 162 218" stroke="#94a3b8" stroke-width="1.5" fill="none"/>
+                    <path d="M70 275 L240 275 Q240 280 230 280 L80 280 Q70 280 70 275 Z" fill="#e2e8f0"/>
+                    <path d="M102 275 Q112 245 120 275 M190 275 Q200 245 208 275" stroke="url(#skinGrad)" stroke-width="11" stroke-linecap="round" fill="none"/>
+                </g>
+
+                <path d="M275 250 L277 254 L282 255 L277 256 L275 260 L273 256 L268 255 L273 254 Z" fill="#64748b"/>
+            </svg>
+            
+            <h4 class="text-sm font-bold text-white mt-4">مرحباً بك مجدداً!</h4>
+        </div>
+
+    </main>
+
+    <script>
+        function switchPage(pageId, element) {
+            const buttons = document.querySelectorAll('#top-navigation button');
+            buttons.forEach(btn => {
+                btn.classList.remove('nav-item-active', 'font-bold');
+                btn.classList.add('text-slate-400', 'font-semibold');
+            });
+
+            element.classList.remove('text-slate-400', 'font-semibold');
+            element.classList.add('nav-item-active', 'font-bold');
+
+            const pages = document.querySelectorAll('.page-content');
+            pages.forEach(page => {
+                if (page.id === pageId) {
+                    page.classList.remove('hidden');
+                    setTimeout(() => { page.classList.add('active'); }, 20);
+                } else {
+                    page.classList.remove('active');
+                    page.classList.add('hidden');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
